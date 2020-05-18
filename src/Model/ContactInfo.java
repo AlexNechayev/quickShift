@@ -7,6 +7,7 @@ public class ContactInfo {
     private char gender;
     private String address;
     private String emailAddress;
+    private String emailAddres;
 
     public ContactInfo(String name, int ID, char gender, String address, String emailAddress) {
         this.name = name;
