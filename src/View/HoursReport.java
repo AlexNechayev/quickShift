@@ -30,8 +30,7 @@ public class HoursReport extends JFrame {
 
         add(mainForm);
         this.setTitle("QuickShift : Hour report");
-
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocation(getWidth(),getHeight());
         this.setSize(800,300);
 
         //Calender:

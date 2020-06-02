@@ -13,8 +13,9 @@ public class Employee {
     private int departmentNumber;
     private String description;
     private ContactInfo contactInfo;
+    private Boolean mangerPosition;
 
-    public Employee(Date hireDate, String mangerName, int departmentNumber, String description, ContactInfo contactInfo,Login login)
+    public Employee(Date hireDate, String mangerName, int departmentNumber, String description, ContactInfo contactInfo,Login login,boolean mangerPosition)
     {
         this.login = login;
         this.hireDate = hireDate;
@@ -22,6 +23,7 @@ public class Employee {
         this.departmentNumber = departmentNumber;
         this.description = description;
         this.contactInfo = contactInfo;
+        this.mangerPosition = mangerPosition;
     }
 
     //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
@@ -114,9 +116,17 @@ public class Employee {
             prepStmt.setInt(1,id);
             prepStmt.setString(2,username);
             prepStmt.setString(3,password);
-
             prepStmt.executeUpdate();
             prepStmt.close();
+
+            if(this.mangerPosition){
+                query = "INSERT INTO manger_info (id) VALUES (?)";
+                prepStmt = con.prepareStatement(query);
+
+                prepStmt.setInt(1,id);
+                prepStmt.executeUpdate();
+                prepStmt.close();
+            }
 
 
         }catch (SQLException throwable){

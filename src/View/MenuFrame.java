@@ -13,11 +13,25 @@ public class MenuFrame extends JFrame{
     private JPanel mainMenu;
     private JButton addEmployeeBtn;
     private JLabel gratingLbl;
+    private JPanel shiftTable;
 
     public MenuFrame(){
-        this.add(mainMenu);
-        this.setSize(1000,600);
         this.setTitle("QuickShift");
+        this.setLocation(getWidth(),getHeight());
+        this.setSize(1000,600);
+        this.add(mainMenu);
+
+        shiftTable = new TestGrid();
+
+        mainBar.removeAll();
+        mainBar.repaint();
+        mainBar.revalidate();
+
+        mainBar.add(shiftTable);
+        mainBar.repaint();
+        mainBar.revalidate();
+
+
     }
 
     public void setGratingMessage (String fistName,String lastName){

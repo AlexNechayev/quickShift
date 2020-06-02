@@ -84,9 +84,11 @@ public class Controller {
             String mangerName = registerFrame.getMangerNameTxt();
             String description = registerFrame.getDescriptionTxt();
             int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
+            boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
-            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login);
+            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
             employee.insertNewEmployee();
+            registerFrame.closeForm();
         }
     }
 

@@ -11,5 +11,8 @@ public class Main {
         Model model = new Model();
         Controller controller = new Controller(mainView,model);
         mainView.setVisible(true);
+
+        //TestGrid tg = new TestGrid();
+
     }
 }
