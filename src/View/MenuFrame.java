@@ -1,6 +1,9 @@
 package View;
 
 
+import Model.Employee;
+import Model.Manger;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
@@ -15,21 +18,32 @@ public class MenuFrame extends JFrame{
     private JLabel gratingLbl;
     private JPanel shiftTable;
 
-    public MenuFrame(){
+    public MenuFrame() {
+        this.setTitle("QuickShift");
+        this.setLocation(getWidth(), getHeight());
+        this.setSize(1000, 600);
+        this.add(mainMenu);
+    }
+
+    public MenuFrame(Employee employee){
         this.setTitle("QuickShift");
         this.setLocation(getWidth(),getHeight());
         this.setSize(1000,600);
         this.add(mainMenu);
 
-        shiftTable = new TestGrid();
+        if(employee instanceof Manger){
+            this.addEmployeeBtn.setVisible(true);
+        }
 
-        mainBar.removeAll();
-        mainBar.repaint();
-        mainBar.revalidate();
-
-        mainBar.add(shiftTable);
-        mainBar.repaint();
-        mainBar.revalidate();
+//        shiftTable = new TestGrid();
+//
+//        mainBar.removeAll();
+//        mainBar.repaint();
+//        mainBar.revalidate();
+//
+//        mainBar.add(shiftTable);
+//        mainBar.repaint();
+//        mainBar.revalidate();
 
 
     }

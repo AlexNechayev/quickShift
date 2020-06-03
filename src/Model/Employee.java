@@ -134,6 +134,29 @@ public class Employee {
         }
     }
 
+    public boolean isManger(){
+        Connection con = ConnectionManager.getConnection();
+        int id = this.contactInfo.getId();
+        int checkedId = -1;
+
+        try{
+            String sql = "SELECT * FROM manger_info WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1,id);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+
+            checkedId = rs.getInt("id");
+            if(checkedId == this.contactInfo.getId()) return true;
+
+
+        }catch(SQLException e){
+            System.out.println("Unable to retrieve data from DB");
+            return false;
+        }
+        return true;
+    }
+
     public ContactInfo getContactInfo() {
         return contactInfo;
     }
@@ -141,6 +164,10 @@ public class Employee {
     public void setContactInfo(ContactInfo contactInfo) {
         this.contactInfo = contactInfo;
     }
+
+    public Login getLogin(){return login;}
+
+    public void setLogin(Login login){this.login = login;}
 
     public void updateClient() {
         Connection con = ConnectionManager.getConnection();
