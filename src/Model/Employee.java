@@ -13,8 +13,9 @@ public class Employee {
     private int departmentNumber;
     private String description;
     private ContactInfo contactInfo;
+    private Boolean mangerPosition;
 
-    public Employee(Date hireDate, String mangerName, int departmentNumber, String description, ContactInfo contactInfo,Login login)
+    public Employee(Date hireDate, String mangerName, int departmentNumber, String description, ContactInfo contactInfo,Login login,boolean mangerPosition)
     {
         this.login = login;
         this.hireDate = hireDate;
@@ -22,6 +23,7 @@ public class Employee {
         this.departmentNumber = departmentNumber;
         this.description = description;
         this.contactInfo = contactInfo;
+        this.mangerPosition = mangerPosition;
     }
 
     //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
@@ -114,14 +116,45 @@ public class Employee {
             prepStmt.setInt(1,id);
             prepStmt.setString(2,username);
             prepStmt.setString(3,password);
-
             prepStmt.executeUpdate();
             prepStmt.close();
+
+            if(this.mangerPosition){
+                query = "INSERT INTO manger_info (id) VALUES (?)";
+                prepStmt = con.prepareStatement(query);
+
+                prepStmt.setInt(1,id);
+                prepStmt.executeUpdate();
+                prepStmt.close();
+            }
 
 
         }catch (SQLException throwable){
             throwable.printStackTrace();
         }
+    }
+
+    public boolean isManger(){
+        Connection con = ConnectionManager.getConnection();
+        int id = this.contactInfo.getId();
+        int checkedId = -1;
+
+        try{
+            String sql = "SELECT * FROM manger_info WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1,id);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+
+            checkedId = rs.getInt("id");
+            if(checkedId == this.contactInfo.getId()) return true;
+
+
+        }catch(SQLException e){
+            System.out.println("Unable to retrieve data from DB");
+            return false;
+        }
+        return true;
     }
 
     public ContactInfo getContactInfo() {
@@ -131,6 +164,10 @@ public class Employee {
     public void setContactInfo(ContactInfo contactInfo) {
         this.contactInfo = contactInfo;
     }
+
+    public Login getLogin(){return login;}
+
+    public void setLogin(Login login){this.login = login;}
 
     public void updateClient() {
         Connection con = ConnectionManager.getConnection();
