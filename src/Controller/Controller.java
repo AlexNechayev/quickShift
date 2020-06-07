@@ -41,10 +41,10 @@ public class Controller {
 
                 try {
                     Employee employee = new Employee(new Login(username,password));
+                    if(employee.isManger()) employee = new Manger(employee);
                     if (employee.checkIfValid()){
-                        menuFrame = new MenuFrame();
+                        menuFrame = new MenuFrame(employee);
                         menuFrame.setVisible(true);
-                        //loginFrame.setVisible(false);
                         menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         menuFrame.reportHourBtnListener(new addReportHoursListener());
                         menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
@@ -84,9 +84,11 @@ public class Controller {
             String mangerName = registerFrame.getMangerNameTxt();
             String description = registerFrame.getDescriptionTxt();
             int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
+            boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
-            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login);
+            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
             employee.insertNewEmployee();
+            registerFrame.closeForm();
         }
     }
 

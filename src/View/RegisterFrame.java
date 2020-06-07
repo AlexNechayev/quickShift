@@ -4,6 +4,7 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -26,10 +27,12 @@ public class RegisterFrame extends JFrame {
     private JComboBox<Integer> departmentNumCBox;
 
     private JRadioButton departEnableJRad;
+
+    private JRadioButton mangerPositionJRad;
     private JButton addEmployeeBtn;
 
     private String[] gender = {"","Male","Female"};
-    private Integer[] departmentNum = {9001,9002,9003};
+    private Integer[] departmentNum = {null,9001,9002,9003};
 
 
     Calendar cld = Calendar.getInstance();
@@ -37,9 +40,10 @@ public class RegisterFrame extends JFrame {
     JDateChooser dateChooseBDay = new JDateChooser(cld.getTime());
 
     public RegisterFrame() {
-        this.add(registrationFrame);
         this.setTitle("Add employee");
+        this.setLocation(getWidth(),getHeight());
         this.setSize(660,560);
+        this.add(registrationFrame);
 
         this.dateChooseHireD.setDateFormatString("dd/MM/yyyy");
         this.dateChooseBDay.setDateFormatString("dd/MM/yyyy");
@@ -54,6 +58,7 @@ public class RegisterFrame extends JFrame {
         this.departmentNumCBox.addItem(departmentNum[0]);
         this.departmentNumCBox.addItem(departmentNum[1]);
         this.departmentNumCBox.addItem(departmentNum[2]);
+        this.departmentNumCBox.addItem(departmentNum[3]);
 
         departEnableJRad.addActionListener(e -> {
             if(departEnableJRad.isSelected()) departInfoJPan.setVisible(true);
@@ -112,6 +117,16 @@ public class RegisterFrame extends JFrame {
     public String getPhoneNumTxt() {
         return phoneNumTxt.getText();
     }
+
+    public boolean getMangerPositionJRad() {
+        return mangerPositionJRad.isSelected();
+    }
+
+    public void closeForm(){
+        this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
+    }
+
+
 
     public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){
         addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}

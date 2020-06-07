@@ -14,10 +14,11 @@ public class LoginFrame extends JFrame {
 
     public LoginFrame(){
 
-        add(mainFrame);
         this.setTitle("QuickShift : Login");
+        this.setLocation(getWidth(),getHeight());
         this.setSize(660,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        add(mainFrame);
     }
 
     public String getUsername(){
