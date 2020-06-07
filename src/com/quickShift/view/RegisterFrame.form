@@ -440,7 +440,7 @@
           <enabled value="true"/>
           <font name="Candara" size="22" style="1"/>
           <foreground color="-15254730"/>
-          <text value="Add employee"/>
+          <text value="Add employeeImpl"/>
         </properties>
       </component>
       <component id="2e207" class="javax.swing.JLabel">
@@ -450,7 +450,7 @@
         <properties>
           <font name="BN 3rd Place" size="48" style="0"/>
           <foreground color="-679142"/>
-          <text value="Add employee"/>
+          <text value="Add employeeImpl"/>
         </properties>
       </component>
     </children>

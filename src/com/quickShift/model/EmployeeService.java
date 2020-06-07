@@ -1,5 +1,4 @@
 package com.quickShift.model;
 
-public interface Employee {
-
+public class EmployeeService {
 }

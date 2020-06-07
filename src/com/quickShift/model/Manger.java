@@ -2,10 +2,10 @@ package com.quickShift.model;
 
 import java.util.Date;
 
-public class Manger extends Employee {
+public class Manger extends EmployeeImpl {
 
     //private ArrayList<Employee> employeeList;
-    public Manger(Employee e){
+    public Manger(EmployeeImpl e){
         super(e.getHireDate(),e.getMangerName(),e.getDepartmentNumber(),e.getDescription(),e.getContactInfo(),e.getLogin(),e.isManger());
     }
 

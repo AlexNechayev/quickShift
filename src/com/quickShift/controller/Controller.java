@@ -40,15 +40,15 @@ public class Controller {
                 String password = loginFrame.getPassword();
 
                 try {
-                    Employee employee = new Employee(new Login(username,password));
-                    if(employee.isManger()) employee = new Manger(employee);
-                    if (employee.checkIfValid()){
-                        menuFrame = new MenuFrame(employee);
+                    EmployeeImpl employeeImpl = new EmployeeImpl(new Login(username,password));
+                    if(employeeImpl.isManger()) employeeImpl = new Manger(employeeImpl);
+                    if (employeeImpl.checkIfValid()){
+                        menuFrame = new MenuFrame(employeeImpl);
                         menuFrame.setVisible(true);
                         menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         menuFrame.reportHourBtnListener(new addReportHoursListener());
                         menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
-                        menuFrame.setGratingMessage(employee.getContactInfo().getFirstName(),employee.getContactInfo().getLastName());
+                        menuFrame.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
 
                         loginFrame.setUserName("");
                         loginFrame.setPassword("");
@@ -86,8 +86,8 @@ public class Controller {
             int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
             boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
-            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-            employee.insertNewEmployee();
+            EmployeeImpl employeeImpl = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+            employeeImpl.insertNewEmployee();
             registerFrame.closeForm();
         }
     }

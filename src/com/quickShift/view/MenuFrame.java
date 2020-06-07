@@ -1,7 +1,7 @@
 package com.quickShift.view;
 
 
-import com.quickShift.model.Employee;
+import com.quickShift.model.EmployeeImpl;
 import com.quickShift.model.Manger;
 
 import javax.swing.*;
@@ -25,13 +25,13 @@ public class MenuFrame extends JFrame{
         this.add(mainMenu);
     }
 
-    public MenuFrame(Employee employee){
+    public MenuFrame(EmployeeImpl employeeImpl){
         this.setTitle("QuickShift");
         this.setLocation(getWidth(),getHeight());
         this.setSize(1000,600);
         this.add(mainMenu);
 
-        if(employee instanceof Manger){
+        if(employeeImpl instanceof Manger){
             this.addEmployeeBtn.setVisible(true);
         }
 

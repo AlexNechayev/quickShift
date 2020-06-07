@@ -50,7 +50,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Add employee"/>
+              <text value="Add employeeImpl"/>
               <visible value="false"/>
             </properties>
           </component>
