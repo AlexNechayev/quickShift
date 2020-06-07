@@ -14,6 +14,8 @@ public class Controller {
 
     private LoginFrame loginFrame;
     private Model model;
+    static EmployeeService employeeService = new EmployeeService();
+
     static RegisterFrame registerFrame = new RegisterFrame();
     static MenuFrame menuFrame = new MenuFrame();
     static HoursReport hoursReport = new HoursReport();
@@ -39,28 +41,22 @@ public class Controller {
                 String username = loginFrame.getUsername();
                 String password = loginFrame.getPassword();
 
-                try {
-                    EmployeeImpl employeeImpl = new EmployeeImpl(new Login(username,password));
-                    if(employeeImpl.isManger()) employeeImpl = new Manger(employeeImpl);
-                    if (employeeImpl.checkIfValid()){
-                        menuFrame = new MenuFrame(employeeImpl);
-                        menuFrame.setVisible(true);
-                        menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        menuFrame.reportHourBtnListener(new addReportHoursListener());
-                        menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
-                        menuFrame.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
+                EmployeeImpl employeeImpl = employeeService.loginEmployee(username,password);
+                if (employeeImpl != null){
+                    menuFrame = new MenuFrame(employeeImpl);
+                    menuFrame.setVisible(true);
+                    menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    menuFrame.reportHourBtnListener(new addReportHoursListener());
+                    menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
+                    menuFrame.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
 
-                        loginFrame.setUserName("");
-                        loginFrame.setPassword("");
-                    }else{
-                        loginFrame.showMessage("Incorrect username or password");
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    loginFrame.setUserName("");
+                    loginFrame.setPassword("");
+                }else{
+                    loginFrame.showMessage("Incorrect username or password");
                 }
             }
         }
-
         this.loginFrame.addLoginListener(new loginListener());
     }
 
@@ -87,7 +83,9 @@ public class Controller {
             boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
             EmployeeImpl employeeImpl = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-            employeeImpl.insertNewEmployee();
+
+            employeeService.addEmployee(employeeImpl);
+
             registerFrame.closeForm();
         }
     }
