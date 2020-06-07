@@ -69,6 +69,7 @@
             </constraints>
             <properties>
               <text value="Delete Employee"/>
+              <visible value="false"/>
             </properties>
           </component>
           <vspacer id="7cc0d">

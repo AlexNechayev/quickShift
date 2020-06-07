@@ -36,6 +36,7 @@ public class MenuFrame extends JFrame{
 
         if(employeeImpl instanceof Manger){
             this.addEmployeeBtn.setVisible(true);
+            this.deleteEmployeeBtn.setVisible(true);
         }
 
 //        shiftTable = new TestGrid();
