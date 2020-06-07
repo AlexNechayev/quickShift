@@ -1,7 +1,7 @@
-package Controller;
+package com.quickShift.controller;
 
-import View.*;
-import Model.*;
+import com.quickShift.view.*;
+import com.quickShift.model.*;
 
 
 import javax.swing.*;
@@ -102,32 +102,32 @@ public class Controller {
     }
 }
 
-//package Controller;
+//package com.company.Controller;
 //
-//import Model.ContactInfo;
-//import Model.Employee;
-//import Model.Model;
+//import com.company.Model.ContactInfo;
+//import com.company.Model.Employee;
+//import com.company.Model.com.company.Model;
 //
 //import javax.swing.*;
 //import java.util.regex.Pattern;
 //
 //import static javax.swing.JOptionPane.showMessageDialog;
 
-// The Controller coordinates interactions
-// between the View and Model
+// The com.company.Controller coordinates interactions
+// between the com.company.View and com.company.Model
 
 
 
 
-//public class Controller {
+//public class com.company.Controller {
 //
 //    private JFrame theView;
-//    private Model theModel;
+//    private com.company.Model theModel;
 //
 //    private ContactInfo m_ContactInfo;
 //    private Employee m_Employee;
 //
-//    public Controller(JFrame theView, Model model) {
+//    public com.company.Controller(JFrame theView, com.company.Model model) {
 //        this.theView = theView;
 //    }
 //

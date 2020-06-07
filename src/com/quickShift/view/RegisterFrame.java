@@ -1,4 +1,4 @@
-package View;
+package com.quickShift.view;
 
 import com.toedter.calendar.JDateChooser;
 

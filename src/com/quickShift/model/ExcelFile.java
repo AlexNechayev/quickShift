@@ -1,4 +1,4 @@
-package Model;
+package com.quickShift.model;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;

@@ -1,4 +1,4 @@
-package View;
+package com.quickShift.view;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -13,7 +13,6 @@ public class LoginFrame extends JFrame {
     private JButton loginBtn;
 
     public LoginFrame(){
-
         this.setTitle("QuickShift : Login");
         this.setLocation(getWidth(),getHeight());
         this.setSize(660,300);

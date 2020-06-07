@@ -1,8 +1,8 @@
-package View;
+package com.quickShift.view;
 
 
-import Model.Employee;
-import Model.Manger;
+import com.quickShift.model.Employee;
+import com.quickShift.model.Manger;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

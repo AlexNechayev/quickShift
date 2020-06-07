@@ -1,8 +1,8 @@
-package View;
+package com.quickShift.view;
 
 import com.toedter.calendar.JDateChooser;
 
-import Model.*;
+import com.quickShift.model.*;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package View;
+package com.quickShift.view;
 
 import javax.swing.*;
 import java.awt.*;
