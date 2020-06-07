@@ -12,6 +12,64 @@ public class EmployeeService implements Employee {
     }
 
     @Override
+    //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
+    public EmployeeImpl loginEmployee(String username,String password){
+        connection = ConnectionManager.getConnection();
+
+        String dbUsername = null;
+        String dbPassword = null;
+        int dbId;
+
+        try{
+            String sql = "SELECT * FROM login_info WHERE username = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1,username);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            dbUsername =  rs.getString("username");
+            dbPassword =  rs.getString("password");
+            if(username.equals(dbUsername) && password.equals(dbPassword)){
+                dbId = rs.getInt("id");
+                st.execute();
+                st.close();
+                sql = "SELECT * FROM user_info WHERE id = ?";
+                st = connection.prepareStatement(sql);
+                st.setInt(1,dbId);
+                rs = st.executeQuery();
+                rs.next();
+
+                ContactInfo contactInfo = new ContactInfo();
+                contactInfo.setId(dbId);
+                contactInfo.setFirstName(rs.getString("first_name"));
+                contactInfo.setLastName(rs.getString("last_name"));
+                contactInfo.setGender(rs.getString("gender"));
+                contactInfo.setAddress(rs.getString("address"));
+                contactInfo.setPhoneNumber(rs.getString("phone"));
+                contactInfo.setEmail(rs.getString("email"));
+                contactInfo.setBirthDayDate(rs.getDate("birthday"));
+
+                Login login = new Login();
+                login.setId(dbId);
+                login.setUsername(dbUsername);
+                login.setPassword(dbPassword);
+
+                boolean mangerPosition = rs.getBoolean("MangerPosition");
+                String description = rs.getString("description");
+                String mangerName = rs.getString("manger_name");
+                Date hireDate = rs.getDate("hire_date");
+                int departmentNumber = rs.getInt("department_number");
+
+                if(mangerPosition) return new Manger(hireDate,mangerName,departmentNumber,description,contactInfo,login,true);
+                else return new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,false);
+
+            }
+        }catch(SQLException ex){
+            System.out.println("Unable to login");
+        }
+        return null;
+    }
+
+    @Override
     //Adding a new employee which takes all the variables and insert it to the DB (SQL QUERY)
     public void addEmployee(EmployeeImpl e) {
         connection = ConnectionManager.getConnection();
@@ -71,7 +129,21 @@ public class EmployeeService implements Employee {
 
     @Override
     public void updateEmployee(EmployeeImpl e) {
+        Connection con = ConnectionManager.getConnection();
 
+        String username = e.getLogin().getUsername();
+        String password = e.getLogin().getPassword();
+
+        try {
+            String query = "UPDATE login_info SET username = ?, password = ? WHERE username = ?";
+            PreparedStatement prepStmt = con.prepareStatement(query);
+            prepStmt.setString(1,username);
+            prepStmt.setString(2,password);
+            prepStmt.setString(3,username);
+            prepStmt.executeUpdate();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     @Override
@@ -99,61 +171,37 @@ public class EmployeeService implements Employee {
     }
 
     @Override
-    //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
-    public EmployeeImpl loginEmployee(String username,String password){
+    public void deleteEmployee(String username) {
         connection = ConnectionManager.getConnection();
 
-        String dbUsername = null;
-        String dbPassword = null;
-        int dbId;
+        int id;
 
         try{
-            String sql = "SELECT * FROM login_info WHERE username = ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,username);
-            ResultSet rs = st.executeQuery();
+            String query = "SELECT * FROM login_info WHERE username = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1,username);
+            ResultSet rs = prepStmt.executeQuery();
             rs.next();
-            dbUsername =  rs.getString("username");
-            dbPassword =  rs.getString("password");
-            if(username.equals(dbUsername) && password.equals(dbPassword)){
-                dbId = rs.getInt("id");
-                st.execute();
-                st.close();
-                sql = "SELECT * FROM user_info WHERE id = ?";
-                st = connection.prepareStatement(sql);
-                st.setInt(1,dbId);
-                rs = st.executeQuery();
-                rs.next();
+            id =  rs.getInt("id");
+            prepStmt.execute();
+            prepStmt.close();
 
-                ContactInfo contactInfo = new ContactInfo();
-                contactInfo.setId(dbId);
-                contactInfo.setFirstName(rs.getString("first_name"));
-                contactInfo.setLastName(rs.getString("last_name"));
-                contactInfo.setGender(rs.getString("gender"));
-                contactInfo.setAddress(rs.getString("address"));
-                contactInfo.setPhoneNumber(rs.getString("phone"));
-                contactInfo.setEmail(rs.getString("email"));
-                contactInfo.setBirthDayDate(rs.getDate("birthday"));
+            query = "DELETE FROM user_info WHERE id = ?";
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setInt(1,id);
+            prepStmt.execute();
+            prepStmt.close();
 
-                Login login = new Login();
-                login.setId(dbId);
-                login.setUsername(dbUsername);
-                login.setPassword(dbPassword);
+            query = "DELETE FROM login_info WHERE id = ?";
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setInt(1,id);
+            prepStmt.execute();
+            prepStmt.close();
 
-                boolean mangerPosition = rs.getBoolean("MangerPosition");
-                String description = rs.getString("description");
-                String mangerName = rs.getString("manger_name");
-                Date hireDate = rs.getDate("hire_date");
-                int departmentNumber = rs.getInt("department_number");
-
-                if(mangerPosition) return new Manger(hireDate,mangerName,departmentNumber,description,contactInfo,login,true);
-                else return new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,false);
-
-            }
-        }catch(SQLException ex){
-            System.out.println("Unable to login");
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
         }
-        return null;
     }
 
     private static java.sql.Date convertUtilToSql(java.util.Date uDate) {

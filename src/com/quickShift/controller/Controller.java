@@ -48,6 +48,7 @@ public class Controller {
                     menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     menuFrame.reportHourBtnListener(new addReportHoursListener());
                     menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
+                    menuFrame.addDeleteEmployeeListener(new deleteEmployeeListener());
                     menuFrame.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
 
                     loginFrame.setUserName("");
@@ -87,6 +88,15 @@ public class Controller {
             employeeService.addEmployee(employeeImpl);
 
             registerFrame.closeForm();
+        }
+    }
+
+    static class deleteEmployeeListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String username = JOptionPane.showInputDialog("Enter username that you want to delete");
+            employeeService.deleteEmployee(username);
         }
     }
 
