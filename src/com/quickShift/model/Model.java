@@ -1,4 +1,4 @@
-package Model;
+package com.quickShift.model;
 
 public class Model {
     private ContactInfo contactInfo;

@@ -1,4 +1,4 @@
-package Model;
+package com.quickShift.model;
 
 import java.util.Date;
 

@@ -1,6 +1,5 @@
-package Model;
+package com.quickShift.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Manger extends Employee {
