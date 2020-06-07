@@ -5,7 +5,7 @@ import com.quickShift.model.*;
 import java.sql.*;
 
 public class EmployeeService implements Employee {
-    private Connection con;
+    private Connection connection;
 
     public EmployeeService(){
 
@@ -14,7 +14,7 @@ public class EmployeeService implements Employee {
     @Override
     //Adding a new employee which takes all the variables and insert it to the DB (SQL QUERY)
     public void addEmployee(EmployeeImpl e) {
-        con = ConnectionManager.getConnection();
+        connection = ConnectionManager.getConnection();
 
         int id = e.getLogin().getId();
         String username = e.getLogin().getUsername();
@@ -35,7 +35,7 @@ public class EmployeeService implements Employee {
 
         try{
             String query = "INSERT INTO user_info(id,first_name,last_name,gender,address,phone,email,birthday,hire_date,department_number,manger_name,description,mangerPosition) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement prepStmt = con.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query);
 
             prepStmt.setInt(1,id);
             prepStmt.setString(2,firstName);
@@ -55,7 +55,7 @@ public class EmployeeService implements Employee {
             prepStmt.close();
 
             query = "INSERT INTO login_info (id,username,password) VALUES (?,?,?)";
-            prepStmt = con.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
 
             prepStmt.setInt(1,id);
             prepStmt.setString(2,username);
@@ -76,13 +76,32 @@ public class EmployeeService implements Employee {
 
     @Override
     public void deleteEmployee(EmployeeImpl e) {
+        connection = ConnectionManager.getConnection();
 
+        int id = e.getContactInfo().getId();
+
+        try{
+            String query = "DELETE FROM user_info WHERE id = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt.setInt(1,id);
+            prepStmt.executeUpdate();
+            prepStmt.close();
+
+            query = "DELETE FROM login_info WHERE id = ?";
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setInt(1,id);
+            prepStmt.executeUpdate();
+            prepStmt.close();
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
     }
 
     @Override
     //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
     public EmployeeImpl loginEmployee(String username,String password){
-        Connection con = ConnectionManager.getConnection();
+        connection = ConnectionManager.getConnection();
 
         String dbUsername = null;
         String dbPassword = null;
@@ -90,7 +109,7 @@ public class EmployeeService implements Employee {
 
         try{
             String sql = "SELECT * FROM login_info WHERE username = ?";
-            PreparedStatement st = con.prepareStatement(sql);
+            PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1,username);
             ResultSet rs = st.executeQuery();
             rs.next();
@@ -101,7 +120,7 @@ public class EmployeeService implements Employee {
                 st.execute();
                 st.close();
                 sql = "SELECT * FROM user_info WHERE id = ?";
-                st = con.prepareStatement(sql);
+                st = connection.prepareStatement(sql);
                 st.setInt(1,dbId);
                 rs = st.executeQuery();
                 rs.next();

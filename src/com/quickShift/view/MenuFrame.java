@@ -16,6 +16,7 @@ public class MenuFrame extends JFrame{
     private JPanel mainMenu;
     private JButton addEmployeeBtn;
     private JLabel gratingLbl;
+    private JButton deleteEmployeeBtn;
     private JPanel shiftTable;
 
     public MenuFrame() {

@@ -26,11 +26,6 @@ public class EmployeeImpl {
         this.mangerPosition = mangerPosition;
     }
 
-
-    public void insertNewEmployee(){
-
-    }
-
     public boolean isManger(){
         Connection con = ConnectionManager.getConnection();
         int id = this.contactInfo.getId();
