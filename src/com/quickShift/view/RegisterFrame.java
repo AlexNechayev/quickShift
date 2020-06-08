@@ -1,5 +1,6 @@
 package com.quickShift.view;
 
+import com.quickShift.model.EmployeeImpl;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class RegisterFrame extends JFrame {
 
     private JRadioButton mangerPositionJRad;
     private JButton addEmployeeBtn;
+    private JLabel mainTitle;
 
     private String[] gender = {"","Male","Female"};
     private Integer[] departmentNum = {null,9001,9002,9003};
@@ -64,6 +66,55 @@ public class RegisterFrame extends JFrame {
             if(departEnableJRad.isSelected()) departInfoJPan.setVisible(true);
             else departInfoJPan.setVisible(false);
         });
+    }
+
+    public RegisterFrame(EmployeeImpl e){
+        this.setTitle("Update Info");
+        this.setLocation(getWidth(),getHeight());
+        this.setSize(660,560);
+        this.add(registrationFrame);
+        this.addEmployeeBtn.setText("Update");
+        this.mainTitle.setText("Update Employee");
+
+        this.usernameTxt.setText(e.getLogin().getUsername());
+        this.usernameTxt.setEnabled(false);
+        this.passwordTxt.setText(e.getLogin().getPassword());
+        this.fNameTxt.setText(e.getContactInfo().getFirstName());
+        this.fNameTxt.setEnabled(false);
+        this.lNameTxt.setText(e.getContactInfo().getLastName());
+        this.lNameTxt.setEnabled(false);
+        //this.genderCBox
+        this.genderCBox.setEnabled(false);
+        this.phoneNumTxt.setText(e.getContactInfo().getPhoneNumber());
+        this.emailTxt.setText(e.getContactInfo().getEmail());
+        this.addressTxt.setText(e.getContactInfo().getAddress());
+
+        this.dateChooseBDay.setDate(e.getContactInfo().getBirthDayDate());
+        this.dateChooseBDay.setDateFormatString("dd/MM/yyyy");
+        this.birthdayJPanel.add(dateChooseBDay);
+        this.birthdayJPanel.setEnabled(false);
+        this.dateChooseHireD.setDate(e.getHireDate());
+        this.dateChooseHireD.setDateFormatString("dd/MM/yyyy");
+        this.hireDateJPanel.add(dateChooseHireD);
+        this.hireDateJPanel.setEnabled(false);
+
+        this.departmentNumCBox.setSelectedItem(e.getDepartmentNumber());
+        this.mangerNameTxt.setText(e.getMangerName());
+        this.descriptionTxt.setText(e.getDescription());
+        this.mangerPositionJRad.setEnabled(e.getMangerPosition());
+        this.departEnableJRad.setVisible(false);
+
+        if(e.getMangerPosition()){
+            this.usernameTxt.setEnabled(true);
+            this.fNameTxt.setEnabled(true);
+            this.lNameTxt.setEnabled(true);
+            this.genderCBox.setEnabled(true);
+            this.birthdayJPanel.setEnabled(true);
+            this.hireDateJPanel.setEnabled(true);
+            this.departInfoJPan.setEnabled(true);
+            this.departInfoJPan.setVisible(true);
+        }
+
     }
 
     public String getFName(){

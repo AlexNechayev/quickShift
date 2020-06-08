@@ -18,6 +18,7 @@ public class MenuFrame extends JFrame{
     private JButton addEmployeeBtn;
     private JLabel gratingLbl;
     private JButton deleteEmployeeBtn;
+    private JButton updateInfoBtn;
     private JPanel shiftTable;
 
     public MenuFrame() {
@@ -61,4 +62,5 @@ public class MenuFrame extends JFrame{
 
     public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}
     public void addDeleteEmployeeListener (ActionListener listenForDeleteEmployee){deleteEmployeeBtn.addActionListener(listenForDeleteEmployee);}
+    public void addUpdateInfoListener (ActionListener listenForUpdateInfo){updateInfoBtn.addActionListener(listenForUpdateInfo);}
 }

@@ -15,6 +15,7 @@ public class Controller {
     private LoginFrame loginFrame;
     private Model model;
     static EmployeeService employeeService = new EmployeeService();
+    static EmployeeImpl employee;
 
     static RegisterFrame registerFrame = new RegisterFrame();
     static MenuFrame menuFrame = new MenuFrame();
@@ -41,15 +42,16 @@ public class Controller {
                 String username = loginFrame.getUsername();
                 String password = loginFrame.getPassword();
 
-                EmployeeImpl employeeImpl = employeeService.loginEmployee(username,password);
-                if (employeeImpl != null){
-                    menuFrame = new MenuFrame(employeeImpl);
+                employee = employeeService.loginEmployee(username,password);
+                if (employee != null){
+                    menuFrame = new MenuFrame(employee);
                     menuFrame.setVisible(true);
                     menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     menuFrame.reportHourBtnListener(new addReportHoursListener());
                     menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
                     menuFrame.addDeleteEmployeeListener(new deleteEmployeeListener());
-                    menuFrame.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
+                    menuFrame.addUpdateInfoListener(new updateInfoListener());
+                    menuFrame.setGratingMessage(employee.getContactInfo().getFirstName(), employee.getContactInfo().getLastName());
 
                     loginFrame.setUserName("");
                     loginFrame.setPassword("");
@@ -106,6 +108,15 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             hoursReport = new HoursReport();
             hoursReport.setVisible(true);
+        }
+    }
+
+    static class updateInfoListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            registerFrame = new RegisterFrame(employee);
+            registerFrame.setVisible(true);
         }
     }
 }
