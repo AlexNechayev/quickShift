@@ -24,6 +24,8 @@ public class Controller {
     public Controller(LoginFrame loginFrame, Model model){
         this.loginFrame = loginFrame;
         this.model = model;
+        //registerFrame.getEmployeeCBox().addItem("String");
+        //employeeService.employeeList()
 
 
         class addAddEmployeeListener implements ActionListener {
@@ -141,6 +143,7 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             registerFrame = new RegisterFrame(employee);
+            registerFrame.setEmployeeCBox(employeeService.employeeList());
             registerFrame.setVisible(true);
             registerFrame.addAddEmployeeListener(new updateEmployeeListener());
         }

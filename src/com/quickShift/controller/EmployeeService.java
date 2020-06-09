@@ -2,9 +2,10 @@ package com.quickShift.controller;
 
 import com.quickShift.model.*;
 
+import javax.swing.*;
 import java.sql.*;
 
-public class EmployeeService implements Employee {
+public class EmployeeService extends JFrame implements Employee {
     private Connection connection;
 
     public EmployeeService(){
@@ -219,6 +220,32 @@ public class EmployeeService implements Employee {
         }catch (SQLException throwable){
             throwable.printStackTrace();
         }
+    }
+
+    public JComboBox<String> employeeList(){
+        JComboBox<String> employeeListCBox = new JComboBox<String>();
+        connection = ConnectionManager.getConnection();
+
+
+        try{
+            String query = "SELECT * FROM user_info";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+
+            ResultSet rs = prepStmt.executeQuery();
+            while(rs.next()) {
+                employeeListCBox.addItem(rs.getString("first_name"));
+            }
+            prepStmt.execute();
+            prepStmt.close();
+
+            return employeeListCBox;
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
+
+        return null;
     }
 
     private static java.sql.Date convertUtilToSql(java.util.Date uDate) {

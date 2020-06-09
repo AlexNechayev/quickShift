@@ -1,5 +1,7 @@
 package com.quickShift.model;
 
+import javax.swing.*;
+
 public interface Employee {
     EmployeeImpl loginEmployee(String username, String password);
     void addEmployee(EmployeeImpl e);

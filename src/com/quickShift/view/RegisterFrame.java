@@ -32,8 +32,8 @@ public class RegisterFrame extends JFrame {
     private JRadioButton mangerPositionJRad;
     private JButton addEmployeeBtn;
     private JLabel mainTitle;
-    private JComboBox employeeCBox;
-    private JPanel emplSelJPan;
+    private JComboBox<String> employeeCBox;
+    private JPanel employeeSelectJPanel;
 
     private String[] gender = {"","Male","Female"};
     private Integer[] departmentNum = {null,9001,9002,9003};
@@ -125,7 +125,7 @@ public class RegisterFrame extends JFrame {
             this.departInfoJPan.setEnabled(true);
             this.departInfoJPan.setVisible(true);
             this.mangerPositionJRad.setSelected(true);
-            this.emplSelJPan.setVisible(true);
+            this.employeeSelectJPanel.setVisible(true);
         }
 
     }
@@ -198,6 +198,17 @@ public class RegisterFrame extends JFrame {
 
     public boolean getMangerPositionJRad() {
         return mangerPositionJRad.isSelected();
+    }
+
+    public void setEmployeeCBox(JComboBox<String> employeeCBox){
+        int i=0;
+        while(employeeCBox.getItemAt(i) != null){
+            this.employeeCBox.addItem(employeeCBox.getItemAt(i++));
+        }
+    }
+
+    public JComboBox<String> getEmployeeCBox() {
+        return employeeCBox;
     }
 
     public void closeForm(){
