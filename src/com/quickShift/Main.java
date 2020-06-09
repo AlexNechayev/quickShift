@@ -9,17 +9,17 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        LoginFrame loginFrame = new LoginFrame();
+        /*LoginFrame loginFrame = new LoginFrame();
         Model model = new Model();
         Controller controller = new Controller(loginFrame,model);
-        loginFrame.setVisible(true);
+        loginFrame.setVisible(true);*/
 
-        /*SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() { //Only for testing the ShiftCalenderPanel
             @Override
             public void run() {
-                new ShiftsTable();
+                new MenuFrame();
             }
-        });*/
+        });
 
     }
 }

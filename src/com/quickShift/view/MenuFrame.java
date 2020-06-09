@@ -26,6 +26,15 @@ public class MenuFrame extends JFrame{
         this.setLocation(getWidth(), getHeight());
         this.setSize(1000, 600);
         this.add(mainMenu);
+        setVisible(true); //Only for testing the ShiftCalenderPanel
+
+        mainBar.removeAll();
+        mainBar.repaint();
+        mainBar.revalidate();
+
+        mainBar.add(new ShiftCalenderPanel());
+        mainBar.repaint();
+        mainBar.revalidate();
 
     }
 
@@ -40,15 +49,15 @@ public class MenuFrame extends JFrame{
             this.deleteEmployeeBtn.setVisible(true);
         }
 
-//        shiftTable = new TestGrid();
-//
-//        mainBar.removeAll();
-//        mainBar.repaint();
-//        mainBar.revalidate();
-//
-//        mainBar.add(shiftTable);
-//        mainBar.repaint();
-//        mainBar.revalidate();
+        shiftTable = new TestGrid();
+
+        mainBar.removeAll();
+        mainBar.repaint();
+        mainBar.revalidate();
+
+        mainBar.add(new ShiftCalenderPanel());
+        mainBar.repaint();
+        mainBar.revalidate();
 
 
     }
