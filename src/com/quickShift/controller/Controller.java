@@ -93,6 +93,31 @@ public class Controller {
         }
     }
 
+    static class updateEmployeeListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            //make a logical and syntax checks
+            ////////////////////////////////////////////////////////////
+            Login login = new Login();
+            login.setUsername(registerFrame.getUsername());
+            login.setPassword(registerFrame.getPassword());
+            login.setId(employee.getLogin().getId());
+            ContactInfo contactInfo = new ContactInfo(registerFrame.getFName(),registerFrame.getLName(),login.getId(),registerFrame.getGender(),registerFrame.getAddressTxt(),registerFrame.getEmail(), registerFrame.getBDay(),registerFrame.getPhoneNumTxt());
+
+            Date hireDate = registerFrame.getHireDate();
+            String mangerName = registerFrame.getMangerNameTxt();
+            String description = registerFrame.getDescriptionTxt();
+            int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
+            boolean mangerPosition = registerFrame.getMangerPositionJRad();
+
+            employee = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+
+            employeeService.updateEmployee(employee);
+            registerFrame.closeForm();
+        }
+    }
+
     static class deleteEmployeeListener implements ActionListener{
 
         @Override
@@ -117,6 +142,7 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             registerFrame = new RegisterFrame(employee);
             registerFrame.setVisible(true);
+            registerFrame.addAddEmployeeListener(new updateEmployeeListener());
         }
     }
 }

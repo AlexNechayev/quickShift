@@ -76,6 +76,15 @@ public class RegisterFrame extends JFrame {
         this.addEmployeeBtn.setText("Update");
         this.mainTitle.setText("Update Employee");
 
+        this.genderCBox.addItem(gender[0]);
+        this.genderCBox.addItem(gender[1]);
+        this.genderCBox.addItem(gender[2]);
+
+        this.departmentNumCBox.addItem(departmentNum[0]);
+        this.departmentNumCBox.addItem(departmentNum[1]);
+        this.departmentNumCBox.addItem(departmentNum[2]);
+        this.departmentNumCBox.addItem(departmentNum[3]);
+
         this.usernameTxt.setText(e.getLogin().getUsername());
         this.usernameTxt.setEnabled(false);
         this.passwordTxt.setText(e.getLogin().getPassword());
@@ -83,7 +92,7 @@ public class RegisterFrame extends JFrame {
         this.fNameTxt.setEnabled(false);
         this.lNameTxt.setText(e.getContactInfo().getLastName());
         this.lNameTxt.setEnabled(false);
-        //this.genderCBox
+        this.genderCBox.setSelectedIndex(getGenderIndexByValue(e.getContactInfo().getGender()));
         this.genderCBox.setEnabled(false);
         this.phoneNumTxt.setText(e.getContactInfo().getPhoneNumber());
         this.emailTxt.setText(e.getContactInfo().getEmail());
@@ -98,7 +107,7 @@ public class RegisterFrame extends JFrame {
         this.hireDateJPanel.add(dateChooseHireD);
         this.hireDateJPanel.setEnabled(false);
 
-        this.departmentNumCBox.setSelectedItem(e.getDepartmentNumber());
+        this.departmentNumCBox.setSelectedIndex(getDepartmentNumberIndexByValue(e.getDepartmentNumber()));
         this.mangerNameTxt.setText(e.getMangerName());
         this.descriptionTxt.setText(e.getDescription());
         this.mangerPositionJRad.setEnabled(e.getMangerPosition());
@@ -113,6 +122,7 @@ public class RegisterFrame extends JFrame {
             this.hireDateJPanel.setEnabled(true);
             this.departInfoJPan.setEnabled(true);
             this.departInfoJPan.setVisible(true);
+            this.mangerPositionJRad.setSelected(true);
         }
 
     }
@@ -149,8 +159,22 @@ public class RegisterFrame extends JFrame {
         return Objects.requireNonNull(this.genderCBox.getSelectedItem()).toString();
     }
 
+    public int getGenderIndexByValue(String value){
+        for(int i=0;i<gender.length;i++){
+            if (gender[i].equals(value)) return i;
+        }
+        return 0;
+    }
+
     public String getDepartmentNumber(){
         return Objects.requireNonNull(this.departmentNumCBox.getSelectedItem()).toString();
+    }
+
+    public int getDepartmentNumberIndexByValue(int value){
+        for(int i=1;i<departmentNum.length;i++){
+            if (departmentNum[i]==value) return i;
+        }
+        return 0;
     }
 
     public String getMangerNameTxt() {

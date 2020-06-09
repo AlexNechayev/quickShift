@@ -59,8 +59,7 @@ public class EmployeeService implements Employee {
                 Date hireDate = rs.getDate("hire_date");
                 int departmentNumber = rs.getInt("department_number");
 
-                if(mangerPosition) return new Manger(hireDate,mangerName,departmentNumber,description,contactInfo,login,true);
-                else return new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,false);
+                return new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
             }
         }catch(SQLException ex){
@@ -131,16 +130,34 @@ public class EmployeeService implements Employee {
     public void updateEmployee(EmployeeImpl e) {
         Connection con = ConnectionManager.getConnection();
 
-        String username = e.getLogin().getUsername();
-        String password = e.getLogin().getPassword();
-
         try {
-            String query = "UPDATE login_info SET username = ?, password = ? WHERE username = ?";
+            String query = "UPDATE login_info SET username = ?, password = ? WHERE id = ?";
             PreparedStatement prepStmt = con.prepareStatement(query);
-            prepStmt.setString(1,username);
-            prepStmt.setString(2,password);
-            prepStmt.setString(3,username);
-            prepStmt.executeUpdate();
+            prepStmt.setString(1,e.getLogin().getUsername());
+            prepStmt.setString(2,e.getLogin().getPassword());
+            prepStmt.setInt(3,e.getLogin().getId());
+            prepStmt.execute();
+            prepStmt.close();
+
+            query = "UPDATE user_info SET first_name = ?, last_name = ?, gender = ?, address = ?, phone = ?, email = ?, birthday = ?, hire_date = ?, department_number = ?, manger_name = ?, description = ?, mangerPosition = ? WHERE id = ?";
+            prepStmt = con.prepareStatement(query);
+            prepStmt.setString(1,e.getContactInfo().getFirstName());
+            prepStmt.setString(2,e.getContactInfo().getLastName());
+            prepStmt.setString(3,e.getContactInfo().getGender());
+            prepStmt.setString(4,e.getContactInfo().getAddress());
+            prepStmt.setString(5,e.getContactInfo().getPhoneNumber());
+            prepStmt.setString(6,e.getContactInfo().getEmail());
+            prepStmt.setDate(7,convertUtilToSql(e.getContactInfo().getBirthDayDate()));
+            prepStmt.setDate(8,convertUtilToSql(e.getHireDate()));
+            prepStmt.setInt(9,e.getDepartmentNumber());
+            prepStmt.setString(10,e.getMangerName());
+            prepStmt.setString(11,e.getDescription());
+            prepStmt.setBoolean(12,e.getMangerPosition());
+            prepStmt.setInt(13,e.getLogin().getId());
+            prepStmt.execute();
+            prepStmt.close();
+
+
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

@@ -35,7 +35,7 @@ public class MenuFrame extends JFrame{
         this.setSize(1000,600);
         this.add(mainMenu);
 
-        if(employeeImpl instanceof Manger){
+        if(employeeImpl.getMangerPosition()){
             this.addEmployeeBtn.setVisible(true);
             this.deleteEmployeeBtn.setVisible(true);
         }
