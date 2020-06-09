@@ -5,6 +5,7 @@ import com.quickShift.model.EmployeeImpl;
 import com.quickShift.model.Manger;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
@@ -16,6 +17,8 @@ public class MenuFrame extends JFrame{
     private JPanel mainMenu;
     private JButton addEmployeeBtn;
     private JLabel gratingLbl;
+    private JButton deleteEmployeeBtn;
+    private JButton updateInfoBtn;
     private JPanel shiftTable;
 
     public MenuFrame() {
@@ -23,6 +26,7 @@ public class MenuFrame extends JFrame{
         this.setLocation(getWidth(), getHeight());
         this.setSize(1000, 600);
         this.add(mainMenu);
+
     }
 
     public MenuFrame(EmployeeImpl employeeImpl){
@@ -31,8 +35,9 @@ public class MenuFrame extends JFrame{
         this.setSize(1000,600);
         this.add(mainMenu);
 
-        if(employeeImpl instanceof Manger){
+        if(employeeImpl.getMangerPosition()){
             this.addEmployeeBtn.setVisible(true);
+            this.deleteEmployeeBtn.setVisible(true);
         }
 
 //        shiftTable = new TestGrid();
@@ -56,5 +61,6 @@ public class MenuFrame extends JFrame{
         reportHourBtn.addActionListener(listenForReportHourBtn);}
 
     public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}
-
+    public void addDeleteEmployeeListener (ActionListener listenForDeleteEmployee){deleteEmployeeBtn.addActionListener(listenForDeleteEmployee);}
+    public void addUpdateInfoListener (ActionListener listenForUpdateInfo){updateInfoBtn.addActionListener(listenForUpdateInfo);}
 }

@@ -14,6 +14,9 @@ public class Controller {
 
     private LoginFrame loginFrame;
     private Model model;
+    static EmployeeService employeeService = new EmployeeService();
+    static EmployeeImpl employee;
+
     static RegisterFrame registerFrame = new RegisterFrame();
     static MenuFrame menuFrame = new MenuFrame();
     static HoursReport hoursReport = new HoursReport();
@@ -21,6 +24,8 @@ public class Controller {
     public Controller(LoginFrame loginFrame, Model model){
         this.loginFrame = loginFrame;
         this.model = model;
+        //registerFrame.getEmployeeCBox().addItem("String");
+        //employeeService.employeeList()
 
 
         class addAddEmployeeListener implements ActionListener {
@@ -39,28 +44,24 @@ public class Controller {
                 String username = loginFrame.getUsername();
                 String password = loginFrame.getPassword();
 
-                try {
-                    EmployeeImpl employeeImpl = new EmployeeImpl(new Login(username,password));
-                    if(employeeImpl.isManger()) employeeImpl = new Manger(employeeImpl);
-                    if (employeeImpl.checkIfValid()){
-                        menuFrame = new MenuFrame(employeeImpl);
-                        menuFrame.setVisible(true);
-                        menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        menuFrame.reportHourBtnListener(new addReportHoursListener());
-                        menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
-                        menuFrame.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
+                employee = employeeService.loginEmployee(username,password);
+                if (employee != null){
+                    menuFrame = new MenuFrame(employee);
+                    menuFrame.setVisible(true);
+                    menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    menuFrame.reportHourBtnListener(new addReportHoursListener());
+                    menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
+                    menuFrame.addDeleteEmployeeListener(new deleteEmployeeListener());
+                    menuFrame.addUpdateInfoListener(new updateInfoListener());
+                    menuFrame.setGratingMessage(employee.getContactInfo().getFirstName(), employee.getContactInfo().getLastName());
 
-                        loginFrame.setUserName("");
-                        loginFrame.setPassword("");
-                    }else{
-                        loginFrame.showMessage("Incorrect username or password");
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    loginFrame.setUserName("");
+                    loginFrame.setPassword("");
+                }else{
+                    loginFrame.showMessage("Incorrect username or password");
                 }
             }
         }
-
         this.loginFrame.addLoginListener(new loginListener());
     }
 
@@ -87,8 +88,44 @@ public class Controller {
             boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
             EmployeeImpl employeeImpl = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-            employeeImpl.insertNewEmployee();
+
+            employeeService.addEmployee(employeeImpl);
+
             registerFrame.closeForm();
+        }
+    }
+
+    static class updateEmployeeListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            //make a logical and syntax checks
+            ////////////////////////////////////////////////////////////
+            Login login = new Login();
+            login.setUsername(registerFrame.getUsername());
+            login.setPassword(registerFrame.getPassword());
+            login.setId(employee.getLogin().getId());
+            ContactInfo contactInfo = new ContactInfo(registerFrame.getFName(),registerFrame.getLName(),login.getId(),registerFrame.getGender(),registerFrame.getAddressTxt(),registerFrame.getEmail(), registerFrame.getBDay(),registerFrame.getPhoneNumTxt());
+
+            Date hireDate = registerFrame.getHireDate();
+            String mangerName = registerFrame.getMangerNameTxt();
+            String description = registerFrame.getDescriptionTxt();
+            int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
+            boolean mangerPosition = registerFrame.getMangerPositionJRad();
+
+            employee = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+
+            employeeService.updateEmployee(employee);
+            registerFrame.closeForm();
+        }
+    }
+
+    static class deleteEmployeeListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String username = JOptionPane.showInputDialog("Enter username that you want to delete");
+            employeeService.deleteEmployee(username);
         }
     }
 
@@ -98,6 +135,17 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             hoursReport = new HoursReport();
             hoursReport.setVisible(true);
+        }
+    }
+
+    static class updateInfoListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            registerFrame = new RegisterFrame(employee);
+            registerFrame.setEmployeeCBox(employeeService.employeeList());
+            registerFrame.setVisible(true);
+            registerFrame.addAddEmployeeListener(new updateEmployeeListener());
         }
     }
 }
