@@ -24,9 +24,6 @@ public class Controller {
     public Controller(LoginFrame loginFrame, Model model){
         this.loginFrame = loginFrame;
         this.model = model;
-        //registerFrame.getEmployeeCBox().addItem("String");
-        //employeeService.employeeList()
-
 
         class addAddEmployeeListener implements ActionListener {
             @Override
@@ -87,9 +84,7 @@ public class Controller {
             boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
             EmployeeImpl employeeImpl = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-
             employeeService.addEmployee(employeeImpl);
-
             registerFrame.closeForm();
         }
     }
@@ -98,8 +93,6 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            //make a logical and syntax checks
-            ////////////////////////////////////////////////////////////
             Login login = new Login();
             login.setUsername(registerFrame.getUsername());
             login.setPassword(registerFrame.getPassword());
