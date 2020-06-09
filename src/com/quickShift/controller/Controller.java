@@ -69,8 +69,7 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            //make a logical and syntax checks
-            ////////////////////////////////////////////////////////////
+            //TODO: make a logical and syntax checks//
 
             Login login = null;
             try {
