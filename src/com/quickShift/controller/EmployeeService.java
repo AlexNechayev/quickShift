@@ -8,17 +8,16 @@ import java.sql.*;
 public class EmployeeService extends JFrame implements Employee {
     private Connection connection;
 
-    public EmployeeService(){
-
-    }
+    public EmployeeService(){}
 
     @Override
     //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
-    public EmployeeImpl loginEmployee(String username,String password){
+    public EmployeeImpl loginEmployee(String username,String password)
+    {
+        //need to delete checking code
         connection = ConnectionManager.getConnection();
 
-        String dbUsername = null;
-        String dbPassword = null;
+        String dbUsername,dbPassword;
         int dbId;
 
         try{
@@ -29,7 +28,9 @@ public class EmployeeService extends JFrame implements Employee {
             rs.next();
             dbUsername =  rs.getString("username");
             dbPassword =  rs.getString("password");
-            if(username.equals(dbUsername) && password.equals(dbPassword)){
+            //return
+            if(username.equals(dbUsername) && password.equals(dbPassword))
+            {
                 dbId = rs.getInt("id");
                 st.execute();
                 st.close();
@@ -67,6 +68,30 @@ public class EmployeeService extends JFrame implements Employee {
             System.out.println("Unable to login");
         }
         return null;
+    }
+
+    //sharon and oron method
+    public static boolean CheckLoginValidity(String i_UserName, String i_PassWord)
+    {
+        boolean checkResult = false;
+        Connection connection = ConnectionManager.getConnection();
+        String dbUsername, dbPassword;
+        int dbId;
+
+        try {
+            String sql = "SELECT * FROM login_info WHERE username = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, i_UserName);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            dbUsername = rs.getString("username");
+            dbPassword = rs.getString("password");
+            checkResult = i_UserName.equals(dbUsername) && i_PassWord.equals(dbPassword);
+        } catch (SQLException ex) {
+            System.out.println("Unable to login");
+        }
+
+        return checkResult;
     }
 
     @Override

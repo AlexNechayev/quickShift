@@ -13,7 +13,9 @@ import java.util.Date;
 public class Controller {
 
     private LoginFrame loginFrame;
+
     private Model model;
+
     static EmployeeService employeeService = new EmployeeService();
     static EmployeeImpl employee;
 
@@ -25,7 +27,7 @@ public class Controller {
         this.loginFrame = loginFrame;
         this.model = model;
 
-        class addAddEmployeeListener implements ActionListener {
+         class addAddEmployeeListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 registerFrame = new RegisterFrame();
@@ -37,11 +39,13 @@ public class Controller {
         class loginListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //happens at view
                 String username = loginFrame.getUsername();
                 String password = loginFrame.getPassword();
 
-                employee = employeeService.loginEmployee(username,password);
+                // check happens at controller
+
+                // object creation happens at view
                 if (employee != null){
                     menuFrame = new MenuFrame(employee);
                     menuFrame.setVisible(true);
@@ -54,12 +58,14 @@ public class Controller {
 
                     loginFrame.setUserName("");
                     loginFrame.setPassword("");
-                }else{
+                }
+                else {
                     loginFrame.showMessage("Incorrect username or password");
                 }
             }
         }
-        this.loginFrame.addLoginListener(new loginListener());
+        // we can delete that
+        //this.loginFrame.addLoginListener(new loginListener());
     }
 
     static class addEmployeeListener implements ActionListener{
@@ -71,7 +77,7 @@ public class Controller {
             String username = registerFrame.getUsername();
             String password = registerFrame.getPassword();
 
-
+            // check
             String firstName = registerFrame.getFName();
             String lastName = registerFrame.getLName();
             String gender = registerFrame.getGender();
@@ -132,7 +138,7 @@ public class Controller {
         }
     }
 
-    static class deleteEmployeeListener implements ActionListener{
+    public static class deleteEmployeeListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -141,7 +147,7 @@ public class Controller {
         }
     }
 
-    static class addReportHoursListener implements ActionListener{
+    public static class addReportHoursListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -150,7 +156,7 @@ public class Controller {
         }
     }
 
-    static class updateInfoListener implements ActionListener{
+    public static class updateInfoListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
