@@ -80,9 +80,9 @@ public class Controller {
             Date birthday = registerFrame.getBDay();
             String phone = registerFrame.getPhoneNumTxt();
 
-            employeeService.isUsernameAvailable(username);
-            employeeService.isEmailAvailable(email);
-            employeeService.isPhoneAvailable(phone);
+            //employeeService.isUsernameAvailable(username);
+            //employeeService.isEmailAvailable(email);
+            //employeeService.isPhoneAvailable(phone);
 
 
             //TODO: DP - Factory Method//
