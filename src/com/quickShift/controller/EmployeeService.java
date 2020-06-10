@@ -222,6 +222,75 @@ public class EmployeeService extends JFrame implements Employee {
         }
     }
 
+    @Override
+    public boolean isUsernameAvailable(String givenUsername) {
+        connection = ConnectionManager.getConnection();
+        String username = null;
+        try{
+            String query = "SELECT * FROM login_info WHERE username = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1,givenUsername);
+            ResultSet rs = prepStmt.executeQuery();
+            rs.next();
+            username = rs.getString("username");
+            prepStmt.execute();
+            prepStmt.close();
+
+            if(username != null) return false;
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isEmailAvailable(String givenEmail) {
+        connection = ConnectionManager.getConnection();
+        String email = null;
+        try{
+            String query = "SELECT * FROM user_info WHERE email = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1,givenEmail);
+            ResultSet rs = prepStmt.executeQuery();
+            rs.next();
+            email = rs.getString("email");
+            prepStmt.execute();
+            prepStmt.close();
+
+            if(email != null) return false;
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isPhoneAvailable(String givenPhone) {
+        connection = ConnectionManager.getConnection();
+        String phone = null;
+        try{
+            String query = "SELECT * FROM user_info WHERE phone = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1,givenPhone);
+            ResultSet rs = prepStmt.executeQuery();
+            rs.next();
+            phone = rs.getString("email");
+            prepStmt.execute();
+            prepStmt.close();
+
+            if(phone != null) return false;
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
+        return true;
+    }
+
     public JComboBox<String> employeeList(){
         JComboBox<String> employeeListCBox = new JComboBox<String>();
         connection = ConnectionManager.getConnection();
