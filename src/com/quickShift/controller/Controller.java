@@ -68,23 +68,43 @@ public class Controller {
 
             //TODO: make a logical and syntax checks//
 
-            Login login = null;
-            try {
-                login = new Login(registerFrame.getUsername(),registerFrame.getPassword());
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            assert login != null;
-            ContactInfo contactInfo = new ContactInfo(registerFrame.getFName(),registerFrame.getLName(),login.getId(),registerFrame.getGender(),registerFrame.getAddressTxt(),registerFrame.getEmail(), registerFrame.getBDay(),registerFrame.getPhoneNumTxt());
+            String username = registerFrame.getUsername();
+            String password = registerFrame.getPassword();
 
+
+            String firstName = registerFrame.getFName();
+            String lastName = registerFrame.getLName();
+            String gender = registerFrame.getGender();
+            String address = registerFrame.getAddressTxt();
+            String email = registerFrame.getEmail();
+            Date birthday = registerFrame.getBDay();
+            String phone = registerFrame.getPhoneNumTxt();
+
+            employeeService.isUsernameAvailable(username);
+            employeeService.isEmailAvailable(email);
+            employeeService.isPhoneAvailable(phone);
+
+
+            //TODO: DP - Factory Method//
             Date hireDate = registerFrame.getHireDate();
             String mangerName = registerFrame.getMangerNameTxt();
             String description = registerFrame.getDescriptionTxt();
             int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
             boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
-            EmployeeImpl employeeImpl = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-            employeeService.addEmployee(employeeImpl);
+
+            Login login = null;
+            try {
+                login = new Login(username,password);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            assert login != null;
+
+            ContactInfo contactInfo = new ContactInfo(firstName,lastName,login.getId(),gender,address,email,birthday,phone);
+            EmployeeImpl employee = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+
+            employeeService.addEmployee(employee);
             registerFrame.closeForm();
         }
     }
