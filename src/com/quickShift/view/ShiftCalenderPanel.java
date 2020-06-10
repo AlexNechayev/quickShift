@@ -30,7 +30,7 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
         //setMinimumSize(new Dimension(500, 500)); //Uncomment this if you want to set minimum size
         //setMaximumSize(new Dimension(500, 500));  //Uncomment this if you want to set maximum size
         setLayout(new GridLayout(4, 5, 0, 0));
-        //setBackground(Color.WHITE);
+        setBackground(new Color(210, 210, 180));
 
 
         JLabel sunday = new JLabel("Sunday"); sunday.setHorizontalAlignment(SwingConstants.CENTER); add(sunday);
