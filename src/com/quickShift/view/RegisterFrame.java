@@ -215,8 +215,6 @@ public class RegisterFrame extends JFrame {
         this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
     }
 
-
-
     public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){
         addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}
 }

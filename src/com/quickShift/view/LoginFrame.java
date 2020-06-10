@@ -18,7 +18,7 @@ public class LoginFrame extends JFrame {
     private JTextField usernameTextField;
     private JPasswordField passwordTextField;
     private JButton loginBtn;
-    private LoginController m_LoginController = LoginController.GetInstance();
+    private LoginController m_LoginController = LoginController.getInstance();
 
     public LoginFrame(){
         this.setTitle("QuickShift : Login");
@@ -30,8 +30,7 @@ public class LoginFrame extends JFrame {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                EmployeeImpl employeeFromController = m_LoginController.CreateEmployeeIfPossible(getUsername(), getPassword());
+                EmployeeImpl employeeFromController = m_LoginController.createEmployeeIfPossible(getUsername(), getPassword());
                 if (employeeFromController != null)
                 {
                     setVisible(false);

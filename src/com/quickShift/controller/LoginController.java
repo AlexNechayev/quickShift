@@ -2,73 +2,44 @@ package com.quickShift.controller;
 
 import com.quickShift.model.EmployeeImpl;
 import com.quickShift.model.Model;
-import com.quickShift.view.LoginFrame;
 
 public final class LoginController
 {
-    private static volatile LoginController m_LoginController  = null;
-    private Model m_Model;
-    private EmployeeService m_EmployeeService;
+    private static volatile LoginController loginController = null;
+    private Model model;
+    private EmployeeService employeeService;
 
-    public Model GetM_Model()
-    {
-        return m_Model;
-    }
-    public void SetM_Model(Model m_Model)
-    {
-        this.m_Model = m_Model;
+    public Model getModel() {
+        return this.model;
     }
 
-    private LoginController()
-    {
-        this.m_EmployeeService = new EmployeeService();
+    public void setModel(Model model) {
+        this.model = model;
     }
 
-    public static LoginController GetInstance()
-    {
-        if (m_LoginController == null)
-        {
-            synchronized(LoginController.class)
-            {
-                if (m_LoginController == null)
-                {
-                    m_LoginController = new LoginController();
-                }
+    private LoginController() {
+        this.employeeService = new EmployeeService();
+    }
+
+    public static LoginController getInstance() {
+        synchronized (LoginController.class) {
+            if (loginController == null) {
+                loginController = new LoginController();
             }
         }
 
-        return m_LoginController;
+        return loginController;
     }
 
-    public EmployeeImpl CreateEmployeeIfPossible(String i_UserName, String i_PassWord)
+    public EmployeeImpl createEmployeeIfPossible(String i_UserName, String i_PassWord)
     {
         EmployeeImpl employee = null;
 
-        if (EmployeeService.CheckLoginValidity(i_UserName,i_PassWord))
+        if (EmployeeService.checkLoginValidity(i_UserName,i_PassWord))
         {
-            employee = this.m_EmployeeService.loginEmployee(i_UserName,i_PassWord);
+            employee = this.employeeService.loginEmployee(i_UserName,i_PassWord);
         }
 
         return employee;
     }
 }
-/*
-public final class Singleton {
-
-    private static volatile Singleton instance = null;
-
-    private Singleton() {}
-
-    public static Singleton getInstance() {
-        if (instance == null) {
-            synchronized(Singleton.class) {
-                if (instance == null) {
-                    instance = new Singleton();
-                }
-            }
-        }
-
-        return instance;
-    }
-}
-* */

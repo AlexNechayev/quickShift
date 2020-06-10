@@ -16,7 +16,6 @@ public class EmployeeService extends JFrame implements Employee {
     {
         //need to delete checking code
         connection = ConnectionManager.getConnection();
-
         String dbUsername,dbPassword;
         int dbId;
 
@@ -71,7 +70,7 @@ public class EmployeeService extends JFrame implements Employee {
     }
 
     //sharon and oron method
-    public static boolean CheckLoginValidity(String i_UserName, String i_PassWord)
+    public static boolean checkLoginValidity(String i_UserName, String i_PassWord)
     {
         boolean checkResult = false;
         Connection connection = ConnectionManager.getConnection();
