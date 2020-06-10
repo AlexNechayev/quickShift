@@ -4,8 +4,7 @@ import com.quickShift.model.EmployeeImpl;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -68,6 +67,7 @@ public class RegisterFrame extends JFrame {
             if(departEnableJRad.isSelected()) departInfoJPan.setVisible(true);
             else departInfoJPan.setVisible(false);
         });
+
     }
 
     public RegisterFrame(EmployeeImpl e){
@@ -126,6 +126,9 @@ public class RegisterFrame extends JFrame {
             this.departInfoJPan.setVisible(true);
             this.mangerPositionJRad.setSelected(true);
             this.employeeSelectJPanel.setVisible(true);
+
+
+
         }
 
     }
@@ -215,8 +218,13 @@ public class RegisterFrame extends JFrame {
         this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
     }
 
-
-
     public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){
-        addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}
+        addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);
+    }
+
+    public void addItemChangeListener(ItemListener listenForItemChange){
+        employeeCBox.addItemListener(listenForItemChange);
+    }
+
+
 }

@@ -2,10 +2,8 @@ package com.quickShift.view;
 
 
 import com.quickShift.model.EmployeeImpl;
-import com.quickShift.model.Manger;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 

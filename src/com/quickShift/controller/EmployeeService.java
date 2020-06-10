@@ -300,8 +300,10 @@ public class EmployeeService extends JFrame implements Employee {
             String query = "SELECT * FROM user_info";
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt = connection.prepareStatement(query);
-
             ResultSet rs = prepStmt.executeQuery();
+
+            employeeListCBox.addItem("");
+
             while(rs.next()) {
                 employeeListCBox.addItem(rs.getString("first_name"));
             }
