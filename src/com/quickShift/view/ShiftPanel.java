@@ -12,7 +12,7 @@ public class ShiftPanel extends JPanel {
         super();
         setLayout(new GridLayout(3, 1));
         setPreferredSize(new Dimension(80, 50));
-        setBackground(Color.WHITE);
+        //setBackground(Color.GRAY);
         setBorder(BorderFactory.createLineBorder(Color.black, 1));
 
         employeeName = new JLabel();
