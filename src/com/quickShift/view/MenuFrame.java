@@ -1,9 +1,11 @@
 package com.quickShift.view;
 
 
+import com.quickShift.controller.Controller;
 import com.quickShift.model.Employee;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
@@ -32,6 +34,14 @@ public class MenuFrame extends JFrame{
         this.setLocation(getWidth(),getHeight());
         this.setSize(1000,600);
         this.add(mainMenu);
+
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.reportHourBtnListener(new Controller.addReportHoursListener());
+        //menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
+        this.addDeleteEmployeeListener(new Controller.deleteEmployeeListener());
+        this.addUpdateInfoListener(new Controller.updateInfoListener());
+        this.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
 
         if(employeeImpl.getMangerPosition()){
             this.addEmployeeBtn.setVisible(true);

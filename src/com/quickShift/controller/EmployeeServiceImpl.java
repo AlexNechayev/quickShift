@@ -19,8 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee employeeByLogin(String username, String password){
         connection = ConnectionManager.getConnection();
 
-        String dbUsername = null;
-        String dbPassword = null;
+        String dbUsername,dbPassword;
         int dbId;
 
         try{
@@ -130,6 +129,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+    //sharon and oron method
+    public static boolean CheckLoginValidity(String i_UserName, String i_PassWord)
+    {
+        boolean checkResult = false;
+        Connection connection = ConnectionManager.getConnection();
+        String dbUsername, dbPassword;
+
+        try {
+            String sql = "SELECT * FROM login_info WHERE username = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, i_UserName);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            dbUsername = rs.getString("username");
+            dbPassword = rs.getString("password");
+            checkResult = i_UserName.equals(dbUsername) && i_PassWord.equals(dbPassword);
+        } catch (SQLException ex) {
+            System.out.println("Unable to login");
+        }
+
+        return checkResult;
+    }
+
     @Override
     //Adding a new employee which takes all the variables and insert it to the DB (SQL QUERY)
     public void addEmployee(Employee e) {
@@ -168,8 +190,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             prepStmt.setInt(10,departmentNumber);
             prepStmt.setString(11,mangerName);
             prepStmt.setString(12,description);
-            if(mangerPosition) prepStmt.setBoolean(13,true);
-            else prepStmt.setBoolean(13,false);
+            prepStmt.setBoolean(13, mangerPosition);
             prepStmt.executeUpdate();
             prepStmt.close();
 

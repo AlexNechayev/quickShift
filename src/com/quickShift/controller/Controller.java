@@ -16,6 +16,7 @@ import java.util.Objects;
 public class Controller {
 
     private LoginFrame loginFrame;
+
     private Model model;
     static EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
     static Employee currentEmployee;
@@ -29,7 +30,7 @@ public class Controller {
         this.loginFrame = loginFrame;
         this.model = model;
 
-        class addAddEmployeeListener implements ActionListener {
+         class addAddEmployeeListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 registerFrame = new RegisterFrame();
@@ -41,13 +42,19 @@ public class Controller {
         class loginListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //happens at view
                 String username = loginFrame.getUsername();
                 String password = loginFrame.getPassword();
 
                 currentEmployee = employeeService.employeeByLogin(username,password);
                 if (currentEmployee != null){
                     menuFrame = new MenuFrame(currentEmployee);
+
+                //TODO check with Sharon and Oron
+                // check happens at controller
+                // object creation happens at view
+                //if (employee != null){
+
                     menuFrame.setVisible(true);
                     menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     menuFrame.reportHourBtnListener(new addReportHoursListener());
@@ -58,12 +65,14 @@ public class Controller {
 
                     loginFrame.setUserName("");
                     loginFrame.setPassword("");
-                }else{
+                }
+                else {
                     loginFrame.showMessage("Incorrect username or password");
                 }
             }
         }
-        this.loginFrame.addLoginListener(new loginListener());
+        // we can delete that
+        //this.loginFrame.addLoginListener(new loginListener());
     }
 
     static class addEmployeeListener implements ActionListener{
@@ -75,7 +84,7 @@ public class Controller {
             String username = registerFrame.getUsername();
             String password = registerFrame.getPassword();
 
-
+            // check
             String firstName = registerFrame.getFName();
             String lastName = registerFrame.getLName();
             String gender = registerFrame.getGender();
@@ -136,42 +145,27 @@ public class Controller {
             selectedEmployee = null;
             registerFrame.closeForm();
         }
-
     }
 
-    static class addItemChangedListener implements ItemListener{
-
-        @Override
-        public void itemStateChanged(ItemEvent e) {
-            if(e.getStateChange() == ItemEvent.SELECTED){
-                if(!(Objects.equals(registerFrame.getEmployeeCBox().getSelectedItem(), ""))){
-                    String fName = registerFrame.getEmployeeCBox().getSelectedItem().toString();
-                    selectedEmployee = employeeService.employeeByFirstName(fName);
-                    registerFrame.setValue(selectedEmployee);
-                }
-            }
-        }
-    }
-
-    static class deleteEmployeeListener implements ActionListener{
+    public static class deleteEmployeeListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
             String username = JOptionPane.showInputDialog("Enter username that you want to delete");
             employeeService.deleteEmployee(username);
         }
-
     }
-    static class addReportHoursListener implements ActionListener{
+
+    public static class addReportHoursListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
             hoursReport = new HoursReport();
             hoursReport.setVisible(true);
         }
-
     }
-    static class updateInfoListener implements ActionListener{
+
+    public static class updateInfoListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -181,10 +175,8 @@ public class Controller {
             registerFrame.addItemChangeListener(new addItemChangedListener());
             registerFrame.setVisible(true);
         }
-
     }
 }
-
 
 //package com.company.Controller;
 //
