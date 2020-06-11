@@ -44,6 +44,7 @@ public class RegisterFrame extends JFrame {
         this.setTitle("Add employee");
         this.setLocation(getWidth(),getHeight());
         this.setSize(660,560);
+        this.setVisible(true);
         this.add(registrationFrame);
 
         this.dateChooseHireD.setDateFormatString("dd/MM/yyyy");

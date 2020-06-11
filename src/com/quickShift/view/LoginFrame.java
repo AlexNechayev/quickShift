@@ -15,7 +15,7 @@ public class LoginFrame extends JFrame {
     private JTextField usernameTextField;
     private JPasswordField passwordTextField;
     private JButton loginBtn;
-    private LoginController m_LoginController = LoginController.GetInstance();
+    private LoginController loginController = LoginController.GetInstance();
 
     public LoginFrame(){
         this.setTitle("QuickShift : Login");
@@ -28,28 +28,30 @@ public class LoginFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Employee employeeFromController = m_LoginController.CreateEmployeeIfPossible(getUsername(), getPassword());
-                if (employeeFromController != null)
+                Employee employee = loginController.CreateEmployeeIfPossible(getUsername(), getPassword());
+                if (employee != null)
                 {
                     setVisible(false);
+                    setUserName("");
+                    setPassword("");
                     dispose();
-
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
+
+                        //TODO singleton ????
+
                         public void run() {
-                            new MenuFrame(employeeFromController);
+                            new MenuFrame(employee);
                         }
                     });
                 }
                 else
                 {
-                    showMessage("The user was not found!");
+                    showMessage("Incorrect username or password");
                 }
             }
         });
     }
-
-
 
     public String getUsername(){
         return this.usernameTextField.getText();

@@ -40,13 +40,13 @@ public final class LoginController
         return m_LoginController;
     }
 
-    public Employee CreateEmployeeIfPossible(String i_UserName, String i_PassWord)
+    public Employee CreateEmployeeIfPossible(String username, String password)
     {
         Employee employee = null;
 
-        if (EmployeeServiceImpl.CheckLoginValidity(i_UserName,i_PassWord))
+        if (EmployeeServiceImpl.CheckLoginValidity(username,password))
         {
-            employee = this.m_EmployeeService.employeeByLogin(i_UserName,i_PassWord);
+            employee = this.m_EmployeeService.employeeByLogin(username,password);
         }
 
         return employee;

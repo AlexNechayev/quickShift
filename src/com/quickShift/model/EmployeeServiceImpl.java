@@ -130,7 +130,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     //sharon and oron method
-    public static boolean CheckLoginValidity(String i_UserName, String i_PassWord)
+    public static boolean CheckLoginValidity(String username, String password)
     {
         boolean checkResult = false;
         Connection connection = ConnectionManager.getConnection();
@@ -139,12 +139,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             String sql = "SELECT * FROM login_info WHERE username = ?";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, i_UserName);
+            st.setString(1, username);
             ResultSet rs = st.executeQuery();
             rs.next();
             dbUsername = rs.getString("username");
             dbPassword = rs.getString("password");
-            checkResult = i_UserName.equals(dbUsername) && i_PassWord.equals(dbPassword);
+            checkResult = username.equals(dbUsername) && password.equals(dbPassword);
         } catch (SQLException ex) {
             System.out.println("Unable to login");
         }
