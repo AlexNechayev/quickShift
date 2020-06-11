@@ -1,4 +1,4 @@
-package com.quickShift.controller;
+package com.quickShift.model;
 
 import com.quickShift.model.*;
 
