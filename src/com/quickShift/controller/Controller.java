@@ -17,8 +17,8 @@ public class Controller {
 
     private LoginFrame loginFrame;
     private Model model;
-    static EmployeeService employeeService = new EmployeeService();
-    static EmployeeImpl employee;
+    static EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+    static Employee employee;
 
     static RegisterFrame registerFrame = new RegisterFrame();
     static MenuFrame menuFrame = new MenuFrame();
@@ -105,7 +105,7 @@ public class Controller {
             assert login != null;
 
             ContactInfo contactInfo = new ContactInfo(firstName,lastName,login.getId(),gender,address,email,birthday,phone);
-            EmployeeImpl employee = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
             employeeService.addEmployee(employee);
             registerFrame.closeForm();
@@ -128,7 +128,7 @@ public class Controller {
             int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
             boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
-            employee = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+            employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
             employeeService.updateEmployee(employee);
             registerFrame.closeForm();
@@ -158,7 +158,7 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             registerFrame = new RegisterFrame(employee);
-            registerFrame.setEmployeeCBox(employeeService.employeeList());
+            registerFrame.setEmployeeToCBox(employeeService.employeeList());
             registerFrame.setVisible(true);
             registerFrame.addAddEmployeeListener(new updateEmployeeListener());
             registerFrame.addItemChangeListener(new addItemChangedListener());
@@ -183,7 +183,7 @@ public class Controller {
 //package com.company.Controller;
 //
 //import com.company.Model.ContactInfo;
-//import com.company.Model.Employee;
+//import com.company.Model.EmployeeService;
 //import com.company.Model.com.company.Model;
 //
 //import javax.swing.*;
@@ -203,7 +203,7 @@ public class Controller {
 //    private com.company.Model theModel;
 //
 //    private ContactInfo m_ContactInfo;
-//    private Employee m_Employee;
+//    private EmployeeService m_Employee;
 //
 //    public com.company.Controller(JFrame theView, com.company.Model model) {
 //        this.theView = theView;
@@ -216,7 +216,7 @@ public class Controller {
 //                if (checkEmail(str[4])) {
 //                    if (str[6].matches("[0-9]+")) {
 //                        //m_ContactInfo = new ContactInfo(str[0], Integer.parseInt(str[1]), str[2], str[3], str[4]);
-//                        m_Employee = new Employee(str[8], str[5], Integer.parseInt(str[6]), str[7], m_ContactInfo);
+//                        m_Employee = new EmployeeService(str[8], str[5], Integer.parseInt(str[6]), str[7], m_ContactInfo);
 //                        /////////////////////// EXCEL //////////////////////////////////
 //                        return "שמירה בוצע בהצלחה";
 //                    } else

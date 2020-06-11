@@ -1,13 +1,11 @@
 package com.quickShift.view;
 
-import com.quickShift.model.EmployeeImpl;
+import com.quickShift.model.Employee;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class RegisterFrame extends JFrame {
     private JPanel registrationFrame;
@@ -70,13 +68,13 @@ public class RegisterFrame extends JFrame {
 
     }
 
-    public RegisterFrame(EmployeeImpl e){
+    public RegisterFrame(Employee e){
         this.setTitle("Update Info");
         this.setLocation(getWidth(),getHeight());
         this.setSize(660,560);
         this.add(registrationFrame);
         this.addEmployeeBtn.setText("Update");
-        this.mainTitle.setText("Update Employee");
+        this.mainTitle.setText("Update EmployeeService");
 
         this.genderCBox.addItem(gender[0]);
         this.genderCBox.addItem(gender[1]);
@@ -203,10 +201,9 @@ public class RegisterFrame extends JFrame {
         return mangerPositionJRad.isSelected();
     }
 
-    public void setEmployeeCBox(JComboBox<String> employeeCBox){
-        int i=0;
-        while(employeeCBox.getItemAt(i) != null){
-            this.employeeCBox.addItem(employeeCBox.getItemAt(i++));
+    public void setEmployeeToCBox(List<String> employeeList){
+        for(String employeeName:employeeList){
+            this.employeeCBox.addItem(employeeName);
         }
     }
 

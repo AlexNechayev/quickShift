@@ -4,17 +4,19 @@ import com.quickShift.model.*;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class EmployeeService extends JFrame implements Employee {
+public class EmployeeServiceImpl implements EmployeeService {
     private Connection connection;
 
-    public EmployeeService(){
+    public EmployeeServiceImpl(){
 
     }
 
     @Override
-    //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
-    public EmployeeImpl loginEmployee(String username,String password){
+    //EmployeeService constructor that receive Login as argument pull all the EmployeeService data from the DB (SQL QUERY)
+    public Employee loginEmployee(String username, String password){
         connection = ConnectionManager.getConnection();
 
         String dbUsername = null;
@@ -60,7 +62,7 @@ public class EmployeeService extends JFrame implements Employee {
                 Date hireDate = rs.getDate("hire_date");
                 int departmentNumber = rs.getInt("department_number");
 
-                return new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+                return new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
             }
         }catch(SQLException ex){
@@ -71,7 +73,7 @@ public class EmployeeService extends JFrame implements Employee {
 
     @Override
     //Adding a new employee which takes all the variables and insert it to the DB (SQL QUERY)
-    public void addEmployee(EmployeeImpl e) {
+    public void addEmployee(Employee e) {
         connection = ConnectionManager.getConnection();
 
         int id = e.getLogin().getId();
@@ -128,7 +130,7 @@ public class EmployeeService extends JFrame implements Employee {
     }
 
     @Override
-    public void updateEmployee(EmployeeImpl e) {
+    public void updateEmployee(Employee e) {
         Connection con = ConnectionManager.getConnection();
 
         try {
@@ -165,7 +167,7 @@ public class EmployeeService extends JFrame implements Employee {
     }
 
     @Override
-    public void deleteEmployee(EmployeeImpl e) {
+    public void deleteEmployee(Employee e) {
         connection = ConnectionManager.getConnection();
 
         int id = e.getContactInfo().getId();
@@ -291,8 +293,8 @@ public class EmployeeService extends JFrame implements Employee {
         return true;
     }
 
-    public JComboBox<String> employeeList(){
-        JComboBox<String> employeeListCBox = new JComboBox<String>();
+    public List<String> employeeList(){
+        List<String> employeeList = new ArrayList<String>();
         connection = ConnectionManager.getConnection();
 
 
@@ -302,20 +304,19 @@ public class EmployeeService extends JFrame implements Employee {
             prepStmt = connection.prepareStatement(query);
             ResultSet rs = prepStmt.executeQuery();
 
-            employeeListCBox.addItem("");
+            employeeList.add("");
 
             while(rs.next()) {
-                employeeListCBox.addItem(rs.getString("first_name"));
+                employeeList.add(rs.getString("first_name"));
             }
             prepStmt.execute();
             prepStmt.close();
 
-            return employeeListCBox;
+            return employeeList;
 
         }catch (SQLException throwable){
             throwable.printStackTrace();
         }
-
         return null;
     }
 
