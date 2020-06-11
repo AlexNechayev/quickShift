@@ -15,8 +15,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    //EmployeeService constructor that receive Login as argument pull all the EmployeeService data from the DB (SQL QUERY)
-    public Employee loginEmployee(String username, String password){
+    //EmployeeService constructor that receive Login as argument to pull all the Employee data from the DB (SQL QUERY)
+    public Employee employeeByLogin(String username, String password){
         connection = ConnectionManager.getConnection();
 
         String dbUsername = null;
@@ -61,6 +61,65 @@ public class EmployeeServiceImpl implements EmployeeService {
                 String mangerName = rs.getString("manger_name");
                 Date hireDate = rs.getDate("hire_date");
                 int departmentNumber = rs.getInt("department_number");
+
+                return new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+
+            }
+        }catch(SQLException ex){
+            System.out.println("Unable to login");
+        }
+        return null;
+    }
+
+    @Override
+    //EmployeeService constructor that receive first name as argument to pull all the Employee data from the DB (SQL QUERY)
+    public Employee employeeByFirstName(String fName){
+        connection = ConnectionManager.getConnection();
+
+        String dbFName = null;
+        int dbId;
+
+        try{
+            String sql = "SELECT * FROM user_info WHERE first_name = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1,fName);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            dbFName =  rs.getString("first_name");
+
+            if(dbFName.equals(fName)){
+                dbId = rs.getInt("id");
+
+                ContactInfo contactInfo = new ContactInfo();
+                contactInfo.setId(dbId);
+                contactInfo.setFirstName(rs.getString("first_name"));
+                contactInfo.setLastName(rs.getString("last_name"));
+                contactInfo.setGender(rs.getString("gender"));
+                contactInfo.setAddress(rs.getString("address"));
+                contactInfo.setPhoneNumber(rs.getString("phone"));
+                contactInfo.setEmail(rs.getString("email"));
+                contactInfo.setBirthDayDate(rs.getDate("birthday"));
+                boolean mangerPosition = rs.getBoolean("MangerPosition");
+                String description = rs.getString("description");
+                String mangerName = rs.getString("manger_name");
+                Date hireDate = rs.getDate("hire_date");
+                int departmentNumber = rs.getInt("department_number");
+
+                st.execute();
+                st.close();
+
+                sql = "SELECT * FROM login_info WHERE id = ?";
+                st = connection.prepareStatement(sql);
+                st.setInt(1,dbId);
+                rs = st.executeQuery();
+                rs.next();
+
+
+                Login login = new Login();
+                login.setId(dbId);
+                login.setUsername(rs.getString("username"));
+                login.setPassword(rs.getString("password"));
+
 
                 return new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
@@ -293,6 +352,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return true;
     }
 
+    @Override
     public List<String> employeeList(){
         List<String> employeeList = new ArrayList<String>();
         connection = ConnectionManager.getConnection();

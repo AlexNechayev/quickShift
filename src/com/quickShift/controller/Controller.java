@@ -18,7 +18,8 @@ public class Controller {
     private LoginFrame loginFrame;
     private Model model;
     static EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-    static Employee employee;
+    static Employee currentEmployee;
+    static Employee selectedEmployee;
 
     static RegisterFrame registerFrame = new RegisterFrame();
     static MenuFrame menuFrame = new MenuFrame();
@@ -44,16 +45,16 @@ public class Controller {
                 String username = loginFrame.getUsername();
                 String password = loginFrame.getPassword();
 
-                employee = employeeService.loginEmployee(username,password);
-                if (employee != null){
-                    menuFrame = new MenuFrame(employee);
+                currentEmployee = employeeService.employeeByLogin(username,password);
+                if (currentEmployee != null){
+                    menuFrame = new MenuFrame(currentEmployee);
                     menuFrame.setVisible(true);
                     menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     menuFrame.reportHourBtnListener(new addReportHoursListener());
                     menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
                     menuFrame.addDeleteEmployeeListener(new deleteEmployeeListener());
                     menuFrame.addUpdateInfoListener(new updateInfoListener());
-                    menuFrame.setGratingMessage(employee.getContactInfo().getFirstName(), employee.getContactInfo().getLastName());
+                    menuFrame.setGratingMessage(currentEmployee.getContactInfo().getFirstName(), currentEmployee.getContactInfo().getLastName());
 
                     loginFrame.setUserName("");
                     loginFrame.setPassword("");
@@ -115,11 +116,11 @@ public class Controller {
     static class updateEmployeeListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if(selectedEmployee == null) selectedEmployee = currentEmployee;
             Login login = new Login();
             login.setUsername(registerFrame.getUsername());
             login.setPassword(registerFrame.getPassword());
-            login.setId(employee.getLogin().getId());
+            login.setId(selectedEmployee.getLogin().getId());
             ContactInfo contactInfo = new ContactInfo(registerFrame.getFName(),registerFrame.getLName(),login.getId(),registerFrame.getGender(),registerFrame.getAddressTxt(),registerFrame.getEmail(), registerFrame.getBDay(),registerFrame.getPhoneNumTxt());
 
             Date hireDate = registerFrame.getHireDate();
@@ -128,10 +129,27 @@ public class Controller {
             int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
             boolean mangerPosition = registerFrame.getMangerPositionJRad();
 
-            employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+            selectedEmployee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
-            employeeService.updateEmployee(employee);
+            employeeService.updateEmployee(selectedEmployee);
+
+            selectedEmployee = null;
             registerFrame.closeForm();
+        }
+
+    }
+
+    static class addItemChangedListener implements ItemListener{
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                if(!(Objects.equals(registerFrame.getEmployeeCBox().getSelectedItem(), ""))){
+                    String fName = registerFrame.getEmployeeCBox().getSelectedItem().toString();
+                    selectedEmployee = employeeService.employeeByFirstName(fName);
+                    registerFrame.setValue(selectedEmployee);
+                }
+            }
         }
     }
 
@@ -142,8 +160,8 @@ public class Controller {
             String username = JOptionPane.showInputDialog("Enter username that you want to delete");
             employeeService.deleteEmployee(username);
         }
-    }
 
+    }
     static class addReportHoursListener implements ActionListener{
 
         @Override
@@ -151,31 +169,19 @@ public class Controller {
             hoursReport = new HoursReport();
             hoursReport.setVisible(true);
         }
-    }
 
+    }
     static class updateInfoListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            registerFrame = new RegisterFrame(employee);
+            registerFrame = new RegisterFrame(currentEmployee);
             registerFrame.setEmployeeToCBox(employeeService.employeeList());
-            registerFrame.setVisible(true);
             registerFrame.addAddEmployeeListener(new updateEmployeeListener());
             registerFrame.addItemChangeListener(new addItemChangedListener());
+            registerFrame.setVisible(true);
         }
-    }
 
-    static class addItemChangedListener implements ItemListener{
-
-        @Override
-        public void itemStateChanged(ItemEvent e) {
-            if(e.getStateChange() == ItemEvent.SELECTED){
-                if(!(Objects.equals(registerFrame.getEmployeeCBox().getSelectedItem(), ""))){
-                    //TODO write method that gets all the values from the db (searched by name) and set it to the update form
-                    System.out.println(Objects.requireNonNull(registerFrame.getEmployeeCBox().getSelectedItem()).toString());
-                }
-            }
-        }
     }
 }
 

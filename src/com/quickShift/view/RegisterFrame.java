@@ -124,11 +124,44 @@ public class RegisterFrame extends JFrame {
             this.departInfoJPan.setVisible(true);
             this.mangerPositionJRad.setSelected(true);
             this.employeeSelectJPanel.setVisible(true);
-
-
-
         }
 
+    }
+
+    public void setValue(Employee e){
+        this.usernameTxt.setText(e.getLogin().getUsername());
+        this.passwordTxt.setText(e.getLogin().getPassword());
+        this.fNameTxt.setText(e.getContactInfo().getFirstName());
+        this.lNameTxt.setText(e.getContactInfo().getLastName());
+        this.genderCBox.setSelectedIndex(getGenderIndexByValue(e.getContactInfo().getGender()));
+        this.phoneNumTxt.setText(e.getContactInfo().getPhoneNumber());
+        this.emailTxt.setText(e.getContactInfo().getEmail());
+        this.addressTxt.setText(e.getContactInfo().getAddress());
+
+        this.dateChooseBDay.setDate(e.getContactInfo().getBirthDayDate());
+        this.dateChooseBDay.setDateFormatString("dd/MM/yyyy");
+        this.birthdayJPanel.add(dateChooseBDay);
+        this.dateChooseHireD.setDate(e.getHireDate());
+        this.dateChooseHireD.setDateFormatString("dd/MM/yyyy");
+        this.hireDateJPanel.add(dateChooseHireD);
+
+        this.departmentNumCBox.setSelectedIndex(getDepartmentNumberIndexByValue(e.getDepartmentNumber()));
+        this.mangerNameTxt.setText(e.getMangerName());
+        this.descriptionTxt.setText(e.getDescription());
+        this.mangerPositionJRad.setSelected(e.getMangerPosition());
+
+//        if(e.getMangerPosition()){
+//            this.usernameTxt.setEnabled(true);
+//            this.fNameTxt.setEnabled(true);
+//            this.lNameTxt.setEnabled(true);
+//            this.genderCBox.setEnabled(true);
+//            this.birthdayJPanel.setEnabled(true);
+//            this.hireDateJPanel.setEnabled(true);
+//            this.departInfoJPan.setEnabled(true);
+//            this.departInfoJPan.setVisible(true);
+//            this.mangerPositionJRad.setSelected(true);
+//            this.employeeSelectJPanel.setVisible(true);
+//        }
     }
 
     public String getFName(){
