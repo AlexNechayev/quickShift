@@ -7,12 +7,10 @@ import com.quickShift.view.*;
 public class Main {
 
     public static void main(String[] args) {
-        /*LoginFrame loginFrame = new LoginFrame();
+        LoginFrame loginFrame = new LoginFrame();
         Model model = new Model();
         Controller controller = new Controller(loginFrame,model);
-        loginFrame.setVisible(true);*/
-        RegisterFrame registerFrame = new RegisterFrame();
-        registerFrame.setVisible(true);
+        loginFrame.setVisible(true);
 
         //TestGrid tg = new TestGrid();
 
