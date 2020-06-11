@@ -176,6 +176,20 @@ public class Controller {
             registerFrame.setVisible(true);
         }
     }
+
+    static class addItemChangedListener implements ItemListener{
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                if(!(Objects.equals(registerFrame.getEmployeeCBox().getSelectedItem(), ""))){
+                    String fName = registerFrame.getEmployeeCBox().getSelectedItem().toString();
+                    selectedEmployee = employeeService.employeeByFirstName(fName);
+                    registerFrame.setValue(selectedEmployee);
+                }
+            }
+        }
+    }
 }
 
 //package com.company.Controller;

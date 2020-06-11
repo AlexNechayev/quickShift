@@ -1,6 +1,6 @@
 package com.quickShift.controller;
 
-import com.quickShift.model.EmployeeImpl;
+import com.quickShift.model.Employee;
 import com.quickShift.model.Model;
 import com.quickShift.view.LoginFrame;
 
@@ -8,7 +8,7 @@ public final class LoginController
 {
     private static volatile LoginController m_LoginController  = null;
     private Model m_Model;
-    private EmployeeService m_EmployeeService;
+    private EmployeeServiceImpl m_EmployeeService;
 
     public Model GetM_Model()
     {
@@ -21,7 +21,7 @@ public final class LoginController
 
     private LoginController()
     {
-        this.m_EmployeeService = new EmployeeService();
+        this.m_EmployeeService = new EmployeeServiceImpl();
     }
 
     public static LoginController GetInstance()
@@ -40,13 +40,13 @@ public final class LoginController
         return m_LoginController;
     }
 
-    public EmployeeImpl CreateEmployeeIfPossible(String i_UserName, String i_PassWord)
+    public Employee CreateEmployeeIfPossible(String i_UserName, String i_PassWord)
     {
-        EmployeeImpl employee = null;
+        Employee employee = null;
 
-        if (EmployeeService.CheckLoginValidity(i_UserName,i_PassWord))
+        if (EmployeeServiceImpl.CheckLoginValidity(i_UserName,i_PassWord))
         {
-            employee = this.m_EmployeeService.loginEmployee(i_UserName,i_PassWord);
+            employee = this.m_EmployeeService.employeeByLogin(i_UserName,i_PassWord);
         }
 
         return employee;
