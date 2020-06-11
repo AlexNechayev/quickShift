@@ -70,9 +70,10 @@ public class Controller {
                     loginFrame.showMessage("Incorrect username or password");
                 }
             }
+
         }
         // we can delete that
-        //this.loginFrame.addLoginListener(new loginListener());
+        this.loginFrame.addLoginListener(new loginListener());
     }
 
     static class addEmployeeListener implements ActionListener{
