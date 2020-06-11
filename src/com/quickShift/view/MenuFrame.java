@@ -32,6 +32,11 @@ public class MenuFrame extends JFrame{
         this.add(mainMenu);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        // centralize jframe code
+        this.pack();
+        this.setLocationRelativeTo(null);
+
         //this.reportHourBtnListener(new Controller.addReportHoursListener());
         //menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
         //this.addDeleteEmployeeListener(new Controller.deleteEmployeeListener());

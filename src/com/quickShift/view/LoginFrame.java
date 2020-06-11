@@ -24,6 +24,10 @@ public class LoginFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(mainFrame);
 
+        // centralize jframe code
+        this.pack();
+        this.setLocationRelativeTo(null);
+
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

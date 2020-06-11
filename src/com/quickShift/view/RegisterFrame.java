@@ -1,11 +1,14 @@
 package com.quickShift.view;
 
+import com.quickShift.controller.RegisterController;
 import com.quickShift.model.Employee;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 
 public class RegisterFrame extends JFrame {
     private JPanel registrationFrame;
@@ -35,6 +38,7 @@ public class RegisterFrame extends JFrame {
     private String[] gender = {"","Male","Female"};
     private Integer[] departmentNum = {null,9001,9002,9003};
 
+    private RegisterController registerController = RegisterController.getInstance();
 
     Calendar cld = Calendar.getInstance();
     JDateChooser dateChooseHireD = new JDateChooser(cld.getTime());
@@ -46,6 +50,10 @@ public class RegisterFrame extends JFrame {
         this.setSize(660,560);
         this.setVisible(true);
         this.add(registrationFrame);
+
+        // centralize jframe code
+        this.pack();
+        this.setLocationRelativeTo(null);
 
         this.dateChooseHireD.setDateFormatString("dd/MM/yyyy");
         this.dateChooseBDay.setDateFormatString("dd/MM/yyyy");
@@ -67,6 +75,46 @@ public class RegisterFrame extends JFrame {
             else departInfoJPan.setVisible(false);
         });
 
+        addEmployeeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] strArr = convertUIDataToStringArray();
+
+                if (registerController.checkIfAllInformationWasEntered(strArr))
+                {
+                    if (registerController.checkPassword(getPassword()))
+                    {
+                        if (registerController.checkEmail(getEmail()))
+                        {
+                            if (registerController.checkPhoneNumber(getPhoneNumTxt()))
+                            {
+                                registerController.createNewEmployee(strArr);
+                                JOptionPane.showMessageDialog(null, "The new employee details were successfully saved", "successful operation", JOptionPane.INFORMATION_MESSAGE);
+                                //TODO: go back to initial JFrame, and close this RegisterFrame
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid phone number", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid email", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Please enter all the information", "Information missing", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
     }
 
     public RegisterFrame(Employee e){
@@ -76,6 +124,10 @@ public class RegisterFrame extends JFrame {
         this.add(registrationFrame);
         this.addEmployeeBtn.setText("Update");
         this.mainTitle.setText("Update EmployeeService");
+
+        // centralize jframe code
+        this.pack();
+        this.setLocationRelativeTo(null);
 
         this.genderCBox.addItem(gender[0]);
         this.genderCBox.addItem(gender[1]);
@@ -165,6 +217,30 @@ public class RegisterFrame extends JFrame {
 //        }
     }
 
+    public String[] convertUIDataToStringArray() {
+        int arrLength = departEnableJRad.isSelected() ? 14 : 9;
+        String[] stringArr = new String[arrLength];
+
+        stringArr[0] = getUsername();
+        stringArr[1] = getPassword();
+        stringArr[2] = getFName();
+        stringArr[3] = getLName();
+        stringArr[4] = getBDay().toString();
+        stringArr[5] = getGender();
+        stringArr[6] = getAddressTxt();
+        stringArr[7] = getPhoneNumTxt();
+        stringArr[8] = getEmail();
+        if (departEnableJRad.isSelected()) {
+            stringArr[9] = getDepartmentNumber();
+            stringArr[10] = getHireDate().toString();
+            stringArr[11] = getMangerNameTxt();
+            stringArr[12] = getDescriptionTxt();
+            stringArr[13] = getMangerPositionJRad()?"true":"false";
+        }
+
+        return stringArr;
+    }
+
     public String getFName(){
         return this.fNameTxt.getText();
     }
@@ -190,6 +266,7 @@ public class RegisterFrame extends JFrame {
     }
 
     public String getEmail(){
+        String s = emailTxt.getText();
         return this.emailTxt.getText();
     }
 
@@ -205,7 +282,17 @@ public class RegisterFrame extends JFrame {
     }
 
     public String getDepartmentNumber(){
-        return Objects.requireNonNull(this.departmentNumCBox.getSelectedItem()).toString();
+        String valueToReturn;
+
+        if (this.departmentNumCBox.getSelectedItem() == null)
+        {
+            valueToReturn = "";
+        }
+        else
+        {
+            valueToReturn = Objects.requireNonNull(this.departmentNumCBox.getSelectedItem()).toString();
+        }
+        return valueToReturn;
     }
 
     public int getDepartmentNumberIndexByValue(int value){
@@ -249,13 +336,7 @@ public class RegisterFrame extends JFrame {
         this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
     }
 
-    public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){
-        addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);
-    }
-
     public void addItemChangeListener(ItemListener listenForItemChange){
         employeeCBox.addItemListener(listenForItemChange);
     }
-
-
 }
