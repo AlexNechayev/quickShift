@@ -6,47 +6,40 @@ import com.quickShift.model.Model;
 
 public final class LoginController
 {
-    private static volatile LoginController m_LoginController  = null;
-    private Model m_Model;
-    private EmployeeServiceImpl m_EmployeeService;
+    private static volatile LoginController loginController = null;
+    private Model model;
+    private EmployeeServiceImpl employeeService;
 
-    public Model GetM_Model()
-    {
-        return m_Model;
-    }
-    public void SetM_Model(Model m_Model)
-    {
-        this.m_Model = m_Model;
+    public Model getModel() {
+        return this.model;
     }
 
-    private LoginController()
-    {
-        this.m_EmployeeService = new EmployeeServiceImpl();
+    public void setModel(Model model) {
+        this.model = model;
     }
 
-    public static LoginController GetInstance()
-    {
-        if (m_LoginController == null)
-        {
-            synchronized(LoginController.class)
-            {
-                if (m_LoginController == null)
-                {
-                    m_LoginController = new LoginController();
-                }
+
+    private LoginController() {
+        this.employeeService = new EmployeeServiceImpl();
+    }
+
+    public static LoginController getInstance() {
+        synchronized (LoginController.class) {
+            if (loginController == null) {
+                loginController = new LoginController();
             }
         }
 
-        return m_LoginController;
+        return loginController;
     }
 
-    public Employee CreateEmployeeIfPossible(String username, String password)
+    public Employee createEmployeeIfPossible(String username, String password)
     {
         Employee employee = null;
 
-        if (EmployeeServiceImpl.CheckLoginValidity(username,password))
+        if (EmployeeServiceImpl.checkLoginValidity(username,password))
         {
-            employee = this.m_EmployeeService.employeeByLogin(username,password);
+            employee = this.employeeService.employeeByLogin(username,password);
         }
 
         return employee;

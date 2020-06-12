@@ -38,7 +38,6 @@ public class RegisterFrame extends JFrame {
     private String[] gender = {"","Male","Female"};
     private Integer[] departmentNum = {null,9001,9002,9003};
 
-    private RegisterController registerController = RegisterController.getInstance();
 
     Calendar cld = Calendar.getInstance();
     JDateChooser dateChooseHireD = new JDateChooser(cld.getTime());

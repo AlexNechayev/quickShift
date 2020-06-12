@@ -1,7 +1,10 @@
 package com.quickShift.view;
 
+
+import com.quickShift.controller.Controller;
 import com.quickShift.controller.LoginController;
-import com.quickShift.model.Employee;
+import com.quickShift.model.EmployeeImpl;
+import com.quickShift.model.Login;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -39,6 +42,7 @@ public class LoginFrame extends JFrame {
                     setUserName("");
                     setPassword("");
                     dispose();
+
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
 
@@ -56,6 +60,8 @@ public class LoginFrame extends JFrame {
             }
         });
     }
+
+
 
     public String getUsername(){
         return this.usernameTextField.getText();
