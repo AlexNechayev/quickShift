@@ -20,7 +20,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
     private RegisterController registerController = RegisterController.getInstance();
     private AddEmployeeController addEmployeeController = AddEmployeeController.getInstance();
 
-    private Dimension dimension = new Dimension(600,560);
+    private Dimension dimension = new Dimension(660,560);
 
     private JPanel registrationFrame;
     private JPanel departInfoJPan;
@@ -168,6 +168,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.addEmployeeBtn.setText("Update");
         this.addEmployeeBtn.setName("update");
         this.mainTitle.setText("Update EmployeeService");
+        this.setVisible(true);
 
         // centralize jframe code
         this.pack();

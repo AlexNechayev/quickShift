@@ -26,7 +26,7 @@ public class MenuFrame extends JFrame{
 
 
 
-    public MenuFrame(Employee employeeImpl){
+    public MenuFrame(Employee employee){
         this.setTitle("QuickShift");
         this.setLocation(getWidth(),getHeight());
         this.setPreferredSize(new Dimension(1000,600));
@@ -42,9 +42,9 @@ public class MenuFrame extends JFrame{
         //menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
         //this.addDeleteEmployeeListener(new Controller.deleteEmployeeListener());
         //this.addUpdateInfoListener(new Controller.updateInfoListener());
-        this.setGratingMessage(employeeImpl.getContactInfo().getFirstName(), employeeImpl.getContactInfo().getLastName());
+        this.setGratingMessage(employee.getContactInfo().getFirstName(), employee.getContactInfo().getLastName());
 
-        if(employeeImpl.getMangerPosition()){
+        if(employee.getMangerPosition()){
             this.addEmployeeBtn.setVisible(true);
             this.deleteEmployeeBtn.setVisible(true);
         }
@@ -101,7 +101,15 @@ public class MenuFrame extends JFrame{
         updateInfoBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
 
+                    //TODO singleton ????
+
+                    public void run() {
+                        new RegisterFrame(employee);
+                    }
+                });
             }
         });
         reportHourBtn.addActionListener(new ActionListener() {

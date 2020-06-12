@@ -23,11 +23,6 @@ public final class AddEmployeeController {
         return addEmployeeController;
     }
 
-    public void addEmployee(){
-
-    }
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Model getModel() {
