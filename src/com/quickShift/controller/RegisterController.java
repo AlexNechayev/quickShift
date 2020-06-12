@@ -54,11 +54,8 @@ public final class RegisterController
         return phoneNumberToCheck.matches("[0-9]+") && phoneNumberToCheck.length() == 10;
     }
 
-    public void createNewEmployee(Object[] infoArr) throws SQLException {
+    public void createNewEmployee(Employee employee) throws SQLException {
         //TODO: create model code that convert input String Array into sql data
-        Login login = new Login(infoArr[0].toString(),infoArr[1].toString());
-        ContactInfo contactInfo = new ContactInfo(infoArr.toString())
-        Employee employee = new Employee(infoArr[]);
-        employeeService.addEmployee();
+        employeeService.addEmployee(employee);
     }
 }

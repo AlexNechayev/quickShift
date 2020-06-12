@@ -96,13 +96,12 @@ public class RegisterFrame extends JFrame {
                 String address = getAddressTxt();
                 String phoneNum = getPhoneNumTxt();
                 String email = getEmail();
-                if (departEnableJRad.isSelected()) {
-                    String departmentNumber = getDepartmentNumber();
-                    Date hireDate = getHireDate();
-                    String mangerName = getMangerNameTxt();
-                    String description = getDescriptionTxt();
-                    boolean mangerPosition = getMangerPositionJRad();
-                }
+                int departmentNumber = Integer.parseInt(getDepartmentNumber());
+                Date hireDate = getHireDate();
+                String mangerName = getMangerNameTxt();
+                String description = getDescriptionTxt();
+                boolean mangerPosition = getMangerPositionJRad();
+
 
                 //if (registerController.checkIfAllInformationWasEntered(strArr)){}
                 if (registerController.checkPassword(getPassword()))
@@ -111,18 +110,21 @@ public class RegisterFrame extends JFrame {
                     {
                         if (registerController.checkPhoneNumber(getPhoneNumTxt()))
                         {
-
+                            Login login = null;
                             try {
-                                Login login = new Login(username,password);
+
+                                login = new Login(username,password);
+                                ContactInfo contactInfo = new ContactInfo(fName,lName,login.getId(),gender,address,email,bDay,phoneNum);
+                                Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+
+                                registerController.createNewEmployee(employee);
+
+                                JOptionPane.showMessageDialog(null, "The new employee details were successfully saved", "successful operation", JOptionPane.INFORMATION_MESSAGE);
+
+                                //TODO: go back to initial JFrame, and close this RegisterFrame
                             } catch (SQLException ex) {
                                 ex.printStackTrace();
                             }
-                            ContactInfo contactInfo = new ContactInfo(fName,lName,);
-                            Employee employee = new Employee();
-                            registerController.createNewEmployee(strArr);
-
-                            JOptionPane.showMessageDialog(null, "The new employee details were successfully saved", "successful operation", JOptionPane.INFORMATION_MESSAGE);
-                            //TODO: go back to initial JFrame, and close this RegisterFrame
                         }
                         else
                         {
