@@ -130,7 +130,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     //sharon and oron method
-    public static boolean CheckLoginValidity(String username, String password)
+    public static boolean checkLoginValidity(String username, String password)
     {
         boolean checkResult = false;
         Connection connection = ConnectionManager.getConnection();

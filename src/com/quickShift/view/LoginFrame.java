@@ -1,10 +1,7 @@
 package com.quickShift.view;
 
-
-import com.quickShift.controller.Controller;
 import com.quickShift.controller.LoginController;
-import com.quickShift.model.EmployeeImpl;
-import com.quickShift.model.Login;
+import com.quickShift.model.Employee;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +15,7 @@ public class LoginFrame extends JFrame {
     private JTextField usernameTextField;
     private JPasswordField passwordTextField;
     private JButton loginBtn;
-    private LoginController loginController = LoginController.GetInstance();
+    private LoginController loginController = LoginController.getInstance();
 
     public LoginFrame(){
         this.setTitle("QuickShift : Login");
@@ -35,7 +32,7 @@ public class LoginFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Employee employee = loginController.CreateEmployeeIfPossible(getUsername(), getPassword());
+                Employee employee = loginController.createEmployeeIfPossible(getUsername(), getPassword());
                 if (employee != null)
                 {
                     setVisible(false);

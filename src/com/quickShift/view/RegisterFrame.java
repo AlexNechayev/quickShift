@@ -1,16 +1,25 @@
 package com.quickShift.view;
 
+import com.quickShift.controller.AddEmployeeController;
 import com.quickShift.controller.RegisterController;
+import com.quickShift.model.ContactInfo;
 import com.quickShift.model.Employee;
+import com.quickShift.model.Login;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
 public class RegisterFrame extends JFrame {
+
+    private RegisterController registerController = RegisterController.getInstance();
+    private AddEmployeeController addEmployeeController = AddEmployeeController.getInstance();
+
     private JPanel registrationFrame;
     private JPanel departInfoJPan;
     private JTextField usernameTxt;
@@ -77,40 +86,63 @@ public class RegisterFrame extends JFrame {
         addEmployeeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] strArr = convertUIDataToStringArray();
 
-                if (registerController.checkIfAllInformationWasEntered(strArr))
+                String username = getUsername();
+                String password = getPassword();
+                String fName = getFName();
+                String lName = getLName();
+                Date bDay = getBDay();
+                String gender = getGender();
+                String address = getAddressTxt();
+                String phoneNum = getPhoneNumTxt();
+                String email = getEmail();
+                if (departEnableJRad.isSelected()) {
+                    String departmentNumber = getDepartmentNumber();
+                    Date hireDate = getHireDate();
+                    String mangerName = getMangerNameTxt();
+                    String description = getDescriptionTxt();
+                    boolean mangerPosition = getMangerPositionJRad();
+                }
+
+                //if (registerController.checkIfAllInformationWasEntered(strArr)){}
+                if (registerController.checkPassword(getPassword()))
                 {
-                    if (registerController.checkPassword(getPassword()))
+                    if (registerController.checkEmail(getEmail()))
                     {
-                        if (registerController.checkEmail(getEmail()))
+                        if (registerController.checkPhoneNumber(getPhoneNumTxt()))
                         {
-                            if (registerController.checkPhoneNumber(getPhoneNumTxt()))
-                            {
-                                registerController.createNewEmployee(strArr);
-                                JOptionPane.showMessageDialog(null, "The new employee details were successfully saved", "successful operation", JOptionPane.INFORMATION_MESSAGE);
-                                //TODO: go back to initial JFrame, and close this RegisterFrame
+
+                            try {
+                                Login login = new Login(username,password);
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
                             }
-                            else
-                            {
-                                JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid phone number", JOptionPane.ERROR_MESSAGE);
-                            }
+                            ContactInfo contactInfo = new ContactInfo(fName,lName,);
+                            Employee employee = new Employee();
+                            registerController.createNewEmployee(strArr);
+
+                            JOptionPane.showMessageDialog(null, "The new employee details were successfully saved", "successful operation", JOptionPane.INFORMATION_MESSAGE);
+                            //TODO: go back to initial JFrame, and close this RegisterFrame
                         }
                         else
                         {
-                            JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid email", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid phone number", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid email", JOptionPane.ERROR_MESSAGE);
                     }
-
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Please enter all the information", "Information missing", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
                 }
+
+//                else
+//                {
+//                    JOptionPane.showMessageDialog(null, "Please enter all the information", "Information missing", JOptionPane.ERROR_MESSAGE);
+//                }
 
             }
         });
@@ -216,28 +248,28 @@ public class RegisterFrame extends JFrame {
 //        }
     }
 
-    public String[] convertUIDataToStringArray() {
+    public Object[] convertUIDataToStringArray() {
         int arrLength = departEnableJRad.isSelected() ? 14 : 9;
-        String[] stringArr = new String[arrLength];
+        Object[] objectsArr = new Object[arrLength];
 
-        stringArr[0] = getUsername();
-        stringArr[1] = getPassword();
-        stringArr[2] = getFName();
-        stringArr[3] = getLName();
-        stringArr[4] = getBDay().toString();
-        stringArr[5] = getGender();
-        stringArr[6] = getAddressTxt();
-        stringArr[7] = getPhoneNumTxt();
-        stringArr[8] = getEmail();
+        objectsArr[0] = getUsername();
+        objectsArr[1] = getPassword();
+        objectsArr[2] = getFName();
+        objectsArr[3] = getLName();
+        objectsArr[4] = getBDay();
+        objectsArr[5] = getGender();
+        objectsArr[6] = getAddressTxt();
+        objectsArr[7] = getPhoneNumTxt();
+        objectsArr[8] = getEmail();
         if (departEnableJRad.isSelected()) {
-            stringArr[9] = getDepartmentNumber();
-            stringArr[10] = getHireDate().toString();
-            stringArr[11] = getMangerNameTxt();
-            stringArr[12] = getDescriptionTxt();
-            stringArr[13] = getMangerPositionJRad()?"true":"false";
+            objectsArr[9] = getDepartmentNumber();
+            objectsArr[10] = getHireDate().toString();
+            objectsArr[11] = getMangerNameTxt();
+            objectsArr[12] = getDescriptionTxt();
+            objectsArr[13] = getMangerPositionJRad()?"true":"false";
         }
 
-        return stringArr;
+        return objectsArr;
     }
 
     public String getFName(){

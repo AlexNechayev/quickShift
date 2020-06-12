@@ -1,17 +1,24 @@
 package com.quickShift.controller;
 
+import com.quickShift.model.ContactInfo;
+import com.quickShift.model.Employee;
+import com.quickShift.model.EmployeeServiceImpl;
+import com.quickShift.model.Login;
+
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 public final class RegisterController
 {
-    public static volatile  RegisterController registerController = null;
+    private static volatile  RegisterController registerController = null;
+    private EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
     // do we need to include a model member???
 
     private RegisterController() {}
 
     public static RegisterController getInstance() {
         if (registerController == null) {
-            synchronized (DeleteController.class) {
+            synchronized (RegisterController.class) {
                 if (registerController == null) {
                     registerController = new RegisterController();
                 }
@@ -28,28 +35,30 @@ public final class RegisterController
                 checkResult = false;
             }
         }
-
         return checkResult;
     }
 
-    public boolean checkEmail(String i_EmailToCheck) {
+    public boolean checkEmail(String emailToCheck) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(i_EmailToCheck).matches();
+        return pattern.matcher(emailToCheck).matches();
     }
 
-    public boolean checkPassword(String i_PasswordToCheck)
+    public boolean checkPassword(String passwordToCheck)
     {
-        return i_PasswordToCheck.length() >=6;
+        return passwordToCheck.length() >=6;
     }
 
-    public boolean checkPhoneNumber(String i_PhoneNumberToCheck)
+    public boolean checkPhoneNumber(String phoneNumberToCheck)
     {
-        return i_PhoneNumberToCheck.matches("[0-9]+") && i_PhoneNumberToCheck.length() == 10;
+        return phoneNumberToCheck.matches("[0-9]+") && phoneNumberToCheck.length() == 10;
     }
 
-    public void createNewEmployee(String[] i_DetailsStringArray)
-    {
+    public void createNewEmployee(Object[] infoArr) throws SQLException {
         //TODO: create model code that convert input String Array into sql data
+        Login login = new Login(infoArr[0].toString(),infoArr[1].toString());
+        ContactInfo contactInfo = new ContactInfo(infoArr.toString())
+        Employee employee = new Employee(infoArr[]);
+        employeeService.addEmployee();
     }
 }
