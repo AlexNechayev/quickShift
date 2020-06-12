@@ -27,16 +27,6 @@ public final class RegisterController
         return registerController;
     }
 
-    public boolean checkIfAllInformationWasEntered(String[] i_StringArray) {
-        boolean checkResult = true;
-
-        for (int i = 0; i < i_StringArray.length; i++) {
-            if (i_StringArray[i].isEmpty()) {
-                checkResult = false;
-            }
-        }
-        return checkResult;
-    }
 
     public boolean checkEmail(String emailToCheck) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -55,7 +45,10 @@ public final class RegisterController
     }
 
     public void createNewEmployee(Employee employee) throws SQLException {
-        //TODO: create model code that convert input String Array into sql data
         employeeService.addEmployee(employee);
+    }
+
+    public void updateCurrentEmployee(Employee employee) throws SQLException{
+        employeeService.updateEmployee(employee);
     }
 }

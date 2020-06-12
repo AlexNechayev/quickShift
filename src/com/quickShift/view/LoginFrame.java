@@ -4,6 +4,7 @@ import com.quickShift.controller.LoginController;
 import com.quickShift.model.Employee;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,7 +21,7 @@ public class LoginFrame extends JFrame {
     public LoginFrame(){
         this.setTitle("QuickShift : Login");
         this.setLocation(getWidth(),getHeight());
-        this.setSize(660,300);
+        this.setPreferredSize(new Dimension(660,300));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(mainFrame);
 

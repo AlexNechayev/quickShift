@@ -6,6 +6,7 @@ import com.quickShift.controller.DeleteController;
 import com.quickShift.model.Employee;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,7 +29,7 @@ public class MenuFrame extends JFrame{
     public MenuFrame(Employee employeeImpl){
         this.setTitle("QuickShift");
         this.setLocation(getWidth(),getHeight());
-        this.setSize(1000,600);
+        this.setPreferredSize(new Dimension(1000,600));
         this.add(mainMenu);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

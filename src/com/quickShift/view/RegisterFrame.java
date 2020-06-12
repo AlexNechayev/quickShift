@@ -15,10 +15,12 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
-public class RegisterFrame extends JFrame {
+public class RegisterFrame extends JFrame implements ActionListener{
 
     private RegisterController registerController = RegisterController.getInstance();
     private AddEmployeeController addEmployeeController = AddEmployeeController.getInstance();
+
+    private Dimension dimension = new Dimension(600,560);
 
     private JPanel registrationFrame;
     private JPanel departInfoJPan;
@@ -52,10 +54,82 @@ public class RegisterFrame extends JFrame {
     JDateChooser dateChooseHireD = new JDateChooser(cld.getTime());
     JDateChooser dateChooseBDay = new JDateChooser(cld.getTime());
 
-    public RegisterFrame() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Login login = null;
+        String username = getUsername();
+        String password = getPassword();
+        String fName = getFName();
+        String lName = getLName();
+        Date bDay = getBDay();
+        String gender = getGender();
+        String address = getAddressTxt();
+        String phoneNum = getPhoneNumTxt();
+        String email = getEmail();
+        int departmentNumber = getDepartmentNumber().equals("")?0:Integer.parseInt(getDepartmentNumber());
+        Date hireDate = getHireDate();
+        String mangerName = getMangerNameTxt();
+        String description = getDescriptionTxt();
+        boolean mangerPosition = getMangerPositionJRad();
+
+        //TODO add a cross validation to all values
+        //e.g.:
+        if(username.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter a Username", "Invalid Username", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if (registerController.checkPassword(getPassword()))
+            {
+                if (registerController.checkEmail(getEmail()))
+                {
+                    if (registerController.checkPhoneNumber(getPhoneNumTxt()))
+                    {
+                        try {
+
+                            login = new Login(username,password);
+                            ContactInfo contactInfo = new ContactInfo(fName,lName,login.getId(),gender,address,email,bDay,phoneNum);
+                            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+
+                            if(addEmployeeBtn.getName().equals("update")){
+                                 registerController.updateCurrentEmployee(employee);
+                                JOptionPane.showMessageDialog(null, "The employee details were successfully updated", "successful operation", JOptionPane.INFORMATION_MESSAGE);
+                            }else if(addEmployeeBtn.getName().equals("addEmployee")){
+                                registerController.createNewEmployee(employee);
+                                JOptionPane.showMessageDialog(null, "The new employee was successfully added", "successful operation", JOptionPane.INFORMATION_MESSAGE);
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Something went wrong", "error operation", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                            this.closeForm();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid phone number", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid email", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+            }
+
+//                else
+//                {
+//                    JOptionPane.showMessageDialog(null, "Please enter all the information", "Information missing", JOptionPane.ERROR_MESSAGE);
+//                }
+        }
+    }
+
+    public RegisterFrame() {  // Create new Employee
         this.setTitle("Add employee");
-        this.setLocation(getWidth(),getHeight());
-        this.setSize(660,560);
+        this.addEmployeeBtn.setName("addEmployee");
+        this.setLocation(getWidth(), getHeight());
+        this.setPreferredSize(dimension);
         this.setVisible(true);
         this.add(registrationFrame);
 
@@ -79,83 +153,20 @@ public class RegisterFrame extends JFrame {
         this.departmentNumCBox.addItem(departmentNum[3]);
 
         departEnableJRad.addActionListener(e -> {
-            if(departEnableJRad.isSelected()) departInfoJPan.setVisible(true);
+            if (departEnableJRad.isSelected()) departInfoJPan.setVisible(true);
             else departInfoJPan.setVisible(false);
         });
 
-        addEmployeeBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String username = getUsername();
-                String password = getPassword();
-                String fName = getFName();
-                String lName = getLName();
-                Date bDay = getBDay();
-                String gender = getGender();
-                String address = getAddressTxt();
-                String phoneNum = getPhoneNumTxt();
-                String email = getEmail();
-                int departmentNumber = Integer.parseInt(getDepartmentNumber());
-                Date hireDate = getHireDate();
-                String mangerName = getMangerNameTxt();
-                String description = getDescriptionTxt();
-                boolean mangerPosition = getMangerPositionJRad();
-
-
-                //if (registerController.checkIfAllInformationWasEntered(strArr)){}
-                if (registerController.checkPassword(getPassword()))
-                {
-                    if (registerController.checkEmail(getEmail()))
-                    {
-                        if (registerController.checkPhoneNumber(getPhoneNumTxt()))
-                        {
-                            Login login = null;
-                            try {
-
-                                login = new Login(username,password);
-                                ContactInfo contactInfo = new ContactInfo(fName,lName,login.getId(),gender,address,email,bDay,phoneNum);
-                                Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-
-                                registerController.createNewEmployee(employee);
-
-                                JOptionPane.showMessageDialog(null, "The new employee details were successfully saved", "successful operation", JOptionPane.INFORMATION_MESSAGE);
-
-                                //TODO: go back to initial JFrame, and close this RegisterFrame
-                            } catch (SQLException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                        else
-                        {
-                            JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid phone number", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid email", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
-                }
-
-//                else
-//                {
-//                    JOptionPane.showMessageDialog(null, "Please enter all the information", "Information missing", JOptionPane.ERROR_MESSAGE);
-//                }
-
-            }
-        });
+        addEmployeeBtn.addActionListener(this);
     }
 
-    public RegisterFrame(Employee e){
+    public RegisterFrame(Employee e){ //Update Employee info
         this.setTitle("Update Info");
         this.setLocation(getWidth(),getHeight());
-        this.setSize(660,560);
+        this.setPreferredSize(dimension);
         this.add(registrationFrame);
         this.addEmployeeBtn.setText("Update");
+        this.addEmployeeBtn.setName("update");
         this.mainTitle.setText("Update EmployeeService");
 
         // centralize jframe code
@@ -210,8 +221,9 @@ public class RegisterFrame extends JFrame {
             this.departInfoJPan.setVisible(true);
             this.mangerPositionJRad.setSelected(true);
             this.employeeSelectJPanel.setVisible(true);
-        }
 
+        }
+        addEmployeeBtn.addActionListener(this);
     }
 
     public void setValue(Employee e){
@@ -248,30 +260,6 @@ public class RegisterFrame extends JFrame {
 //            this.mangerPositionJRad.setSelected(true);
 //            this.employeeSelectJPanel.setVisible(true);
 //        }
-    }
-
-    public Object[] convertUIDataToStringArray() {
-        int arrLength = departEnableJRad.isSelected() ? 14 : 9;
-        Object[] objectsArr = new Object[arrLength];
-
-        objectsArr[0] = getUsername();
-        objectsArr[1] = getPassword();
-        objectsArr[2] = getFName();
-        objectsArr[3] = getLName();
-        objectsArr[4] = getBDay();
-        objectsArr[5] = getGender();
-        objectsArr[6] = getAddressTxt();
-        objectsArr[7] = getPhoneNumTxt();
-        objectsArr[8] = getEmail();
-        if (departEnableJRad.isSelected()) {
-            objectsArr[9] = getDepartmentNumber();
-            objectsArr[10] = getHireDate().toString();
-            objectsArr[11] = getMangerNameTxt();
-            objectsArr[12] = getDescriptionTxt();
-            objectsArr[13] = getMangerPositionJRad()?"true":"false";
-        }
-
-        return objectsArr;
     }
 
     public String getFName(){
@@ -372,4 +360,6 @@ public class RegisterFrame extends JFrame {
     public void addItemChangeListener(ItemListener listenForItemChange){
         employeeCBox.addItemListener(listenForItemChange);
     }
+
+
 }
