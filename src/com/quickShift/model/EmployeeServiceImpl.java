@@ -377,8 +377,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<Employee> employeeList = new ArrayList<Employee>();
         connection = ConnectionManager.getConnection();
-        Login login = new Login();
-        ContactInfo contactInfo = new ContactInfo();
         String mangerName = null;
         String description = null;
         int departmentNumber = 0;
@@ -393,6 +391,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             ResultSet rs = prepStmt.executeQuery();
 
             while(rs.next()) {
+
+                Login login = new Login();
+                ContactInfo contactInfo = new ContactInfo();
+
                 id = (rs.getInt("id"));
                 login.setId(id);
                 login.setUsername(rs.getString("username"));

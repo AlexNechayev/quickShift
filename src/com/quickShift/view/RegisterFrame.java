@@ -350,7 +350,8 @@ public class RegisterFrame extends JFrame implements ActionListener{
     public void setEmployeeToCBox(){
         this.employeeCBox.addItem("");
         for(Employee employee:employeeList){
-            this.employeeCBox.addItem(employee.getContactInfo().getFirstName());
+            String employeeTitleSelect = employee.getLogin().getId()+": "+employee.getContactInfo().getFirstName()+" "+employee.getContactInfo().getLastName();
+            this.employeeCBox.addItem(employeeTitleSelect);
         }
     }
 
@@ -363,6 +364,9 @@ public class RegisterFrame extends JFrame implements ActionListener{
     }
 
     public void addItemChangeListener(ItemListener listenForItemChange){
+
+
+
         employeeCBox.addItemListener(listenForItemChange);
     }
 
