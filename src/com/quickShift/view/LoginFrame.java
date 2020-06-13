@@ -22,6 +22,8 @@ public class LoginFrame extends JFrame {
         this.setTitle("QuickShift : Login");
         this.setLocation(getWidth(),getHeight());
         this.setPreferredSize(new Dimension(660,300));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/com/quickShift/view/images/icon.png"));
+        setIconImage(icon.getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(mainFrame);
 

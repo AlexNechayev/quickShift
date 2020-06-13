@@ -16,6 +16,8 @@ public class ShiftEditor extends JFrame {
         setLocation(getWidth(), getHeight());
         setMinimumSize(new Dimension(200, 100));
         setPreferredSize(new Dimension(200, 200));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/com/quickShift/view/images/icon.png"));
+        setIconImage(icon.getImage());
         setLayout(new GridBagLayout());
         pack();
         setLocationRelativeTo(null);

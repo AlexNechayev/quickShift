@@ -130,6 +130,8 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.addEmployeeBtn.setName("addEmployee");
         this.setLocation(getWidth(), getHeight());
         this.setPreferredSize(dimension);
+        ImageIcon icon = new ImageIcon(getClass().getResource("/com/quickShift/view/images/icon.png"));
+        setIconImage(icon.getImage());
         this.setVisible(true);
         this.add(registrationFrame);
 
@@ -164,6 +166,8 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.setTitle("Update Info");
         this.setLocation(getWidth(),getHeight());
         this.setPreferredSize(dimension);
+        ImageIcon icon = new ImageIcon(getClass().getResource("/com/quickShift/view/images/icon.png"));
+        setIconImage(icon.getImage());
         this.add(registrationFrame);
         this.addEmployeeBtn.setText("Update");
         this.addEmployeeBtn.setName("update");
