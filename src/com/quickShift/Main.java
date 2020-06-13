@@ -11,6 +11,5 @@ public class Main {
         loginFrame.setVisible(true);
         Model model = new Model();
         Controller controller = new Controller(loginFrame,model);
-
     }
 }
