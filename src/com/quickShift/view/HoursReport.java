@@ -33,6 +33,10 @@ public class HoursReport extends JFrame {
         this.setLocation(getWidth(),getHeight());
         this.setSize(800,300);
 
+        // centralize jframe code
+        this.pack();
+        this.setLocationRelativeTo(null);
+
         //Calender:
         this.dateChoose.setDateFormatString("dd/MM/yyyy");
         this.jDatePanel.add(dateChoose);

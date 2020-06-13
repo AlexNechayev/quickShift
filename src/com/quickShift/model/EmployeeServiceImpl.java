@@ -1,24 +1,25 @@
-package com.quickShift.controller;
+package com.quickShift.model;
 
 import com.quickShift.model.*;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class EmployeeService extends JFrame implements Employee {
+public class EmployeeServiceImpl implements EmployeeService {
     private Connection connection;
 
-    public EmployeeService(){
+    public EmployeeServiceImpl(){
 
     }
 
     @Override
-    //Employee constructor that receive Login as argument pull all the Employee data from the DB (SQL QUERY)
-    public EmployeeImpl loginEmployee(String username,String password){
+    //EmployeeService constructor that receive Login as argument to pull all the Employee data from the DB (SQL QUERY)
+    public Employee employeeByLogin(String username, String password){
         connection = ConnectionManager.getConnection();
 
-        String dbUsername = null;
-        String dbPassword = null;
+        String dbUsername,dbPassword;
         int dbId;
 
         try{
@@ -60,7 +61,7 @@ public class EmployeeService extends JFrame implements Employee {
                 Date hireDate = rs.getDate("hire_date");
                 int departmentNumber = rs.getInt("department_number");
 
-                return new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+                return new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
             }
         }catch(SQLException ex){
@@ -70,8 +71,90 @@ public class EmployeeService extends JFrame implements Employee {
     }
 
     @Override
+    //EmployeeService constructor that receive first name as argument to pull all the Employee data from the DB (SQL QUERY)
+    public Employee employeeByFirstName(String fName){
+        connection = ConnectionManager.getConnection();
+
+        String dbFName = null;
+        int dbId;
+
+        try{
+            String sql = "SELECT * FROM user_info WHERE first_name = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1,fName);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            dbFName =  rs.getString("first_name");
+
+            if(dbFName.equals(fName)){
+                dbId = rs.getInt("id");
+
+                ContactInfo contactInfo = new ContactInfo();
+                contactInfo.setId(dbId);
+                contactInfo.setFirstName(rs.getString("first_name"));
+                contactInfo.setLastName(rs.getString("last_name"));
+                contactInfo.setGender(rs.getString("gender"));
+                contactInfo.setAddress(rs.getString("address"));
+                contactInfo.setPhoneNumber(rs.getString("phone"));
+                contactInfo.setEmail(rs.getString("email"));
+                contactInfo.setBirthDayDate(rs.getDate("birthday"));
+                boolean mangerPosition = rs.getBoolean("MangerPosition");
+                String description = rs.getString("description");
+                String mangerName = rs.getString("manger_name");
+                Date hireDate = rs.getDate("hire_date");
+                int departmentNumber = rs.getInt("department_number");
+
+                st.execute();
+                st.close();
+
+                sql = "SELECT * FROM login_info WHERE id = ?";
+                st = connection.prepareStatement(sql);
+                st.setInt(1,dbId);
+                rs = st.executeQuery();
+                rs.next();
+
+
+                Login login = new Login();
+                login.setId(dbId);
+                login.setUsername(rs.getString("username"));
+                login.setPassword(rs.getString("password"));
+
+
+                return new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+
+            }
+        }catch(SQLException ex){
+            System.out.println("Unable to login");
+        }
+        return null;
+    }
+
+    //sharon and oron method
+    public static boolean checkLoginValidity(String username, String password)
+    {
+        boolean checkResult = false;
+        Connection connection = ConnectionManager.getConnection();
+        String dbUsername, dbPassword;
+
+        try {
+            String sql = "SELECT * FROM login_info WHERE username = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            dbUsername = rs.getString("username");
+            dbPassword = rs.getString("password");
+            checkResult = username.equals(dbUsername) && password.equals(dbPassword);
+        } catch (SQLException ex) {
+            System.out.println("Unable to login");
+        }
+
+        return checkResult;
+    }
+
+    @Override
     //Adding a new employee which takes all the variables and insert it to the DB (SQL QUERY)
-    public void addEmployee(EmployeeImpl e) {
+    public void addEmployee(Employee e) {
         connection = ConnectionManager.getConnection();
 
         int id = e.getLogin().getId();
@@ -107,8 +190,7 @@ public class EmployeeService extends JFrame implements Employee {
             prepStmt.setInt(10,departmentNumber);
             prepStmt.setString(11,mangerName);
             prepStmt.setString(12,description);
-            if(mangerPosition) prepStmt.setBoolean(13,true);
-            else prepStmt.setBoolean(13,false);
+            prepStmt.setBoolean(13, mangerPosition);
             prepStmt.executeUpdate();
             prepStmt.close();
 
@@ -128,7 +210,7 @@ public class EmployeeService extends JFrame implements Employee {
     }
 
     @Override
-    public void updateEmployee(EmployeeImpl e) {
+    public void updateEmployee(Employee e) {
         Connection con = ConnectionManager.getConnection();
 
         try {
@@ -165,7 +247,7 @@ public class EmployeeService extends JFrame implements Employee {
     }
 
     @Override
-    public void deleteEmployee(EmployeeImpl e) {
+    public void deleteEmployee(Employee e) {
         connection = ConnectionManager.getConnection();
 
         int id = e.getContactInfo().getId();
@@ -222,8 +304,78 @@ public class EmployeeService extends JFrame implements Employee {
         }
     }
 
-    public JComboBox<String> employeeList(){
-        JComboBox<String> employeeListCBox = new JComboBox<String>();
+    @Override
+    public boolean isUsernameAvailable(String givenUsername) {
+        connection = ConnectionManager.getConnection();
+        String username = null;
+        try{
+            String query = "SELECT * FROM login_info WHERE username = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1,givenUsername);
+            ResultSet rs = prepStmt.executeQuery();
+            rs.next();
+            username = rs.getString("username");
+            prepStmt.execute();
+            prepStmt.close();
+
+            if(username != null) return false;
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isEmailAvailable(String givenEmail) {
+        connection = ConnectionManager.getConnection();
+        String email = null;
+        try{
+            String query = "SELECT * FROM user_info WHERE email = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1,givenEmail);
+            ResultSet rs = prepStmt.executeQuery();
+            rs.next();
+            email = rs.getString("email");
+            prepStmt.execute();
+            prepStmt.close();
+
+            if(email != null) return false;
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isPhoneAvailable(String givenPhone) {
+        connection = ConnectionManager.getConnection();
+        String phone = null;
+        try{
+            String query = "SELECT * FROM user_info WHERE phone = ?";
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1,givenPhone);
+            ResultSet rs = prepStmt.executeQuery();
+            rs.next();
+            phone = rs.getString("email");
+            prepStmt.execute();
+            prepStmt.close();
+
+            if(phone != null) return false;
+
+        }catch (SQLException throwable){
+            throwable.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public List<String> employeeList(){
+        List<String> employeeList = new ArrayList<String>();
         connection = ConnectionManager.getConnection();
 
 
@@ -231,20 +383,21 @@ public class EmployeeService extends JFrame implements Employee {
             String query = "SELECT * FROM user_info";
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt = connection.prepareStatement(query);
-
             ResultSet rs = prepStmt.executeQuery();
+
+            employeeList.add("");
+
             while(rs.next()) {
-                employeeListCBox.addItem(rs.getString("first_name"));
+                employeeList.add(rs.getString("first_name"));
             }
             prepStmt.execute();
             prepStmt.close();
 
-            return employeeListCBox;
+            return employeeList;
 
         }catch (SQLException throwable){
             throwable.printStackTrace();
         }
-
         return null;
     }
 

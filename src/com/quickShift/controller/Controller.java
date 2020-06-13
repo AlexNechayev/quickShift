@@ -7,153 +7,147 @@ import com.quickShift.model.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Objects;
 
 public class Controller {
 
     private LoginFrame loginFrame;
-    private Model model;
-    static EmployeeService employeeService = new EmployeeService();
-    static EmployeeImpl employee;
 
-    static RegisterFrame registerFrame = new RegisterFrame();
-    static MenuFrame menuFrame = new MenuFrame();
-    static HoursReport hoursReport = new HoursReport();
+    private Model model;
+    static EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+    static Employee currentEmployee;
+    static Employee selectedEmployee;
 
     public Controller(LoginFrame loginFrame, Model model){
         this.loginFrame = loginFrame;
         this.model = model;
-        //registerFrame.getEmployeeCBox().addItem("String");
-        //employeeService.employeeList()
 
 
-        class addAddEmployeeListener implements ActionListener {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registerFrame = new RegisterFrame();
-                registerFrame.setVisible(true);
-                registerFrame.addAddEmployeeListener(new addEmployeeListener());
-            }
-        }
+//    Register Frame:
+//    static class addEmployeeListener implements ActionListener{
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//
+//            //TODO: make a logical and syntax checks//
+//
+//            String username = registerFrame.getUsername();
+//            String password = registerFrame.getPassword();
+//
+//            // check
+//            String firstName = registerFrame.getFName();
+//            String lastName = registerFrame.getLName();
+//            String gender = registerFrame.getGender();
+//            String address = registerFrame.getAddressTxt();
+//            String email = registerFrame.getEmail();
+//            Date birthday = registerFrame.getBDay();
+//            String phone = registerFrame.getPhoneNumTxt();
+//
+//            //employeeService.isUsernameAvailable(username);
+//            //employeeService.isEmailAvailable(email);
+//            //employeeService.isPhoneAvailable(phone);
+//
+//
+//            //TODO: DP - Factory Method//
+//            Date hireDate = registerFrame.getHireDate();
+//            String mangerName = registerFrame.getMangerNameTxt();
+//            String description = registerFrame.getDescriptionTxt();
+//            int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
+//            boolean mangerPosition = registerFrame.getMangerPositionJRad();
+//
+//
+//            Login login = null;
+//            try {
+//                login = new Login(username,password);
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//            }
+//            assert login != null;
+//
+//            ContactInfo contactInfo = new ContactInfo(firstName,lastName,login.getId(),gender,address,email,birthday,phone);
+//            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+//
+//            employeeService.addEmployee(employee);
+//            registerFrame.closeForm();
+//        }
+//    }
+//
+//    static class updateEmployeeListener implements ActionListener{
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            if(selectedEmployee == null) selectedEmployee = currentEmployee;
+//            Login login = new Login();
+//            login.setUsername(registerFrame.getUsername());
+//            login.setPassword(registerFrame.getPassword());
+//            login.setId(selectedEmployee.getLogin().getId());
+//            ContactInfo contactInfo = new ContactInfo(registerFrame.getFName(),registerFrame.getLName(),login.getId(),registerFrame.getGender(),registerFrame.getAddressTxt(),registerFrame.getEmail(), registerFrame.getBDay(),registerFrame.getPhoneNumTxt());
+//
+//            Date hireDate = registerFrame.getHireDate();
+//            String mangerName = registerFrame.getMangerNameTxt();
+//            String description = registerFrame.getDescriptionTxt();
+//            int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
+//            boolean mangerPosition = registerFrame.getMangerPositionJRad();
+//
+//            selectedEmployee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+//
+//            employeeService.updateEmployee(selectedEmployee);
+//
+//            selectedEmployee = null;
+//            registerFrame.closeForm();
+//        }
+//    }
+//
+//    public static class deleteEmployeeListener implements ActionListener{
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
 
-        class loginListener implements ActionListener {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String username = loginFrame.getUsername();
-                String password = loginFrame.getPassword();
-
-                employee = employeeService.loginEmployee(username,password);
-                if (employee != null){
-                    menuFrame = new MenuFrame(employee);
-                    menuFrame.setVisible(true);
-                    menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    menuFrame.reportHourBtnListener(new addReportHoursListener());
-                    menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
-                    menuFrame.addDeleteEmployeeListener(new deleteEmployeeListener());
-                    menuFrame.addUpdateInfoListener(new updateInfoListener());
-                    menuFrame.setGratingMessage(employee.getContactInfo().getFirstName(), employee.getContactInfo().getLastName());
-
-                    loginFrame.setUserName("");
-                    loginFrame.setPassword("");
-                }else{
-                    loginFrame.showMessage("Incorrect username or password");
-                }
-            }
-        }
-        this.loginFrame.addLoginListener(new loginListener());
-    }
-
-    static class addEmployeeListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            //make a logical and syntax checks
-            ////////////////////////////////////////////////////////////
-
-            Login login = null;
-            try {
-                login = new Login(registerFrame.getUsername(),registerFrame.getPassword());
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            assert login != null;
-            ContactInfo contactInfo = new ContactInfo(registerFrame.getFName(),registerFrame.getLName(),login.getId(),registerFrame.getGender(),registerFrame.getAddressTxt(),registerFrame.getEmail(), registerFrame.getBDay(),registerFrame.getPhoneNumTxt());
-
-            Date hireDate = registerFrame.getHireDate();
-            String mangerName = registerFrame.getMangerNameTxt();
-            String description = registerFrame.getDescriptionTxt();
-            int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
-            boolean mangerPosition = registerFrame.getMangerPositionJRad();
-
-            EmployeeImpl employeeImpl = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-
-            employeeService.addEmployee(employeeImpl);
-
-            registerFrame.closeForm();
-        }
-    }
-
-    static class updateEmployeeListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            //make a logical and syntax checks
-            ////////////////////////////////////////////////////////////
-            Login login = new Login();
-            login.setUsername(registerFrame.getUsername());
-            login.setPassword(registerFrame.getPassword());
-            login.setId(employee.getLogin().getId());
-            ContactInfo contactInfo = new ContactInfo(registerFrame.getFName(),registerFrame.getLName(),login.getId(),registerFrame.getGender(),registerFrame.getAddressTxt(),registerFrame.getEmail(), registerFrame.getBDay(),registerFrame.getPhoneNumTxt());
-
-            Date hireDate = registerFrame.getHireDate();
-            String mangerName = registerFrame.getMangerNameTxt();
-            String description = registerFrame.getDescriptionTxt();
-            int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
-            boolean mangerPosition = registerFrame.getMangerPositionJRad();
-
-            employee = new EmployeeImpl(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-
-            employeeService.updateEmployee(employee);
-            registerFrame.closeForm();
-        }
-    }
-
-    static class deleteEmployeeListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String username = JOptionPane.showInputDialog("Enter username that you want to delete");
-            employeeService.deleteEmployee(username);
-        }
-    }
-
-    static class addReportHoursListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            hoursReport = new HoursReport();
-            hoursReport.setVisible(true);
-        }
-    }
-
-    static class updateInfoListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            registerFrame = new RegisterFrame(employee);
-            registerFrame.setEmployeeCBox(employeeService.employeeList());
-            registerFrame.setVisible(true);
-            registerFrame.addAddEmployeeListener(new updateEmployeeListener());
-        }
+//        }
+//    }
+//
+//    public static class addReportHoursListener implements ActionListener{
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            hoursReport = new HoursReport();
+//            hoursReport.setVisible(true);
+//        }
+//    }
+//
+//    public static class updateInfoListener implements ActionListener{
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            registerFrame = new RegisterFrame(currentEmployee);
+//            registerFrame.setEmployeeToCBox(employeeService.employeeList());
+//            registerFrame.addAddEmployeeListener(new updateEmployeeListener());
+//            registerFrame.addItemChangeListener(new addItemChangedListener());
+//            registerFrame.setVisible(true);
+//        }
+//    }
+//
+//    static class addItemChangedListener implements ItemListener{
+//
+//        @Override
+//        public void itemStateChanged(ItemEvent e) {
+//            if(e.getStateChange() == ItemEvent.SELECTED){
+//                if(!(Objects.equals(registerFrame.getEmployeeCBox().getSelectedItem(), ""))){
+//                    String fName = registerFrame.getEmployeeCBox().getSelectedItem().toString();
+//                    selectedEmployee = employeeService.employeeByFirstName(fName);
+//                    registerFrame.setValue(selectedEmployee);
+//                }
+//            }
+//        }
     }
 }
 
 //package com.company.Controller;
 //
 //import com.company.Model.ContactInfo;
-//import com.company.Model.Employee;
+//import com.company.Model.EmployeeService;
 //import com.company.Model.com.company.Model;
 //
 //import javax.swing.*;
@@ -173,7 +167,7 @@ public class Controller {
 //    private com.company.Model theModel;
 //
 //    private ContactInfo m_ContactInfo;
-//    private Employee m_Employee;
+//    private EmployeeService m_Employee;
 //
 //    public com.company.Controller(JFrame theView, com.company.Model model) {
 //        this.theView = theView;
@@ -186,7 +180,7 @@ public class Controller {
 //                if (checkEmail(str[4])) {
 //                    if (str[6].matches("[0-9]+")) {
 //                        //m_ContactInfo = new ContactInfo(str[0], Integer.parseInt(str[1]), str[2], str[3], str[4]);
-//                        m_Employee = new Employee(str[8], str[5], Integer.parseInt(str[6]), str[7], m_ContactInfo);
+//                        m_Employee = new EmployeeService(str[8], str[5], Integer.parseInt(str[6]), str[7], m_ContactInfo);
 //                        /////////////////////// EXCEL //////////////////////////////////
 //                        return "שמירה בוצע בהצלחה";
 //                    } else
