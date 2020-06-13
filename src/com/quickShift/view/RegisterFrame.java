@@ -1,6 +1,5 @@
 package com.quickShift.view;
 
-import com.quickShift.controller.AddEmployeeController;
 import com.quickShift.controller.LoginController;
 import com.quickShift.controller.RegisterController;
 import com.quickShift.model.ContactInfo;
@@ -11,8 +10,6 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.IntrospectionException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;

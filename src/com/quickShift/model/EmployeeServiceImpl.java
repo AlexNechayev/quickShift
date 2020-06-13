@@ -1,8 +1,5 @@
 package com.quickShift.model;
 
-import com.quickShift.model.*;
-
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
