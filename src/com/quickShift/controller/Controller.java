@@ -27,54 +27,7 @@ public class Controller {
         this.model = model;
 
 
-//    Register Frame:
-//    static class addEmployeeListener implements ActionListener{
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//
-//            //TODO: make a logical and syntax checks//
-//
-//            String username = registerFrame.getUsername();
-//            String password = registerFrame.getPassword();
-//
-//            // check
-//            String firstName = registerFrame.getFName();
-//            String lastName = registerFrame.getLName();
-//            String gender = registerFrame.getGender();
-//            String address = registerFrame.getAddressTxt();
-//            String email = registerFrame.getEmail();
-//            Date birthday = registerFrame.getBDay();
-//            String phone = registerFrame.getPhoneNumTxt();
-//
-//            //employeeService.isUsernameAvailable(username);
-//            //employeeService.isEmailAvailable(email);
-//            //employeeService.isPhoneAvailable(phone);
-//
-//
-//            //TODO: DP - Factory Method//
-//            Date hireDate = registerFrame.getHireDate();
-//            String mangerName = registerFrame.getMangerNameTxt();
-//            String description = registerFrame.getDescriptionTxt();
-//            int departmentNumber = Integer.parseInt(registerFrame.getDepartmentNumber());
-//            boolean mangerPosition = registerFrame.getMangerPositionJRad();
-//
-//
-//            Login login = null;
-//            try {
-//                login = new Login(username,password);
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//            }
-//            assert login != null;
-//
-//            ContactInfo contactInfo = new ContactInfo(firstName,lastName,login.getId(),gender,address,email,birthday,phone);
-//            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
-//
-//            employeeService.addEmployee(employee);
-//            registerFrame.closeForm();
-//        }
-//    }
-//
+
 //    static class updateEmployeeListener implements ActionListener{
 //        @Override
 //        public void actionPerformed(ActionEvent e) {
@@ -122,7 +75,9 @@ public class Controller {
 //        @Override
 //        public void actionPerformed(ActionEvent e) {
 //            registerFrame = new RegisterFrame(currentEmployee);
+
 //            registerFrame.setEmployeeToCBox(employeeService.employeeList());
+
 //            registerFrame.addAddEmployeeListener(new updateEmployeeListener());
 //            registerFrame.addItemChangeListener(new addItemChangedListener());
 //            registerFrame.setVisible(true);

@@ -357,7 +357,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         try{
             String query = "SELECT * FROM user_info WHERE phone = ?";
             PreparedStatement prepStmt = connection.prepareStatement(query);
-            prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1,givenPhone);
             ResultSet rs = prepStmt.executeQuery();
             rs.next();
@@ -374,21 +373,53 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<String> employeeList(){
-        List<String> employeeList = new ArrayList<String>();
+    public List<Employee> employeeList(){
+
+        List<Employee> employeeList = new ArrayList<Employee>();
         connection = ConnectionManager.getConnection();
+        Login login = new Login();
+        ContactInfo contactInfo = new ContactInfo();
+        String mangerName = null;
+        String description = null;
+        int departmentNumber = 0;
+        Date hireDate = null;
+        boolean mangerPosition;
+        int id;
 
 
         try{
-            String query = "SELECT * FROM user_info";
+            String query = "SELECT * FROM login_info";
             PreparedStatement prepStmt = connection.prepareStatement(query);
-            prepStmt = connection.prepareStatement(query);
             ResultSet rs = prepStmt.executeQuery();
 
-            employeeList.add("");
-
             while(rs.next()) {
-                employeeList.add(rs.getString("first_name"));
+                id = (rs.getInt("id"));
+                login.setId(id);
+                login.setUsername(rs.getString("username"));
+                login.setPassword(rs.getString("password"));
+
+                String secQuery = "SELECT * FROM user_info WHERE id =?";
+                PreparedStatement secPrepStmt = connection.prepareStatement(secQuery);
+                secPrepStmt.setInt(1,id);
+                ResultSet secRs = secPrepStmt.executeQuery();
+                secRs.next();
+                contactInfo.setId(login.getId());
+                contactInfo.setFirstName(secRs.getString("first_name"));
+                contactInfo.setLastName(secRs.getString("last_name"));
+                contactInfo.setGender(secRs.getString("gender"));
+                contactInfo.setAddress(secRs.getString("address"));
+                contactInfo.setPhoneNumber(secRs.getString("phone"));
+                contactInfo.setEmail(secRs.getString("email"));
+                contactInfo.setBirthDayDate(secRs.getDate("birthday"));
+                hireDate = secRs.getDate("hire_date");
+                mangerName = secRs.getString("manger_name");
+                departmentNumber = secRs.getInt("department_number");
+                description = secRs.getString("description");
+                mangerPosition = secRs.getBoolean("mangerPosition");
+                secPrepStmt.execute();
+                secPrepStmt.close();
+
+                employeeList.add(new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition));
             }
             prepStmt.execute();
             prepStmt.close();

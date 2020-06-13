@@ -6,6 +6,7 @@ import com.quickShift.model.EmployeeServiceImpl;
 import com.quickShift.model.Login;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public final class RegisterController
@@ -50,5 +51,9 @@ public final class RegisterController
 
     public void updateCurrentEmployee(Employee employee) throws SQLException{
         employeeService.updateEmployee(employee);
+    }
+
+    public List<Employee> getEmployeeList(){
+        return employeeService.employeeList();
     }
 }

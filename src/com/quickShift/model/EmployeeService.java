@@ -9,7 +9,7 @@ public interface EmployeeService {
     void updateEmployee(Employee e);
     void deleteEmployee(Employee e);
     void deleteEmployee(String username);
-    List<String> employeeList();
+    List<Employee> employeeList();
 
     boolean isUsernameAvailable(String username);
     boolean isEmailAvailable(String emil);

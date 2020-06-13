@@ -48,6 +48,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 
     private String[] gender = {"","Male","Female"};
     private Integer[] departmentNum = {null,9001,9002,9003};
+    private List<Employee> employeeList = registerController.getEmployeeList();
 
 
     Calendar cld = Calendar.getInstance();
@@ -170,7 +171,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.mainTitle.setText("Update EmployeeService");
         this.setVisible(true);
 
-        // centralize jframe code
         this.pack();
         this.setLocationRelativeTo(null);
 
@@ -212,6 +212,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.departEnableJRad.setVisible(false);
 
         if(e.getMangerPosition()){
+            setEmployeeToCBox();
             this.usernameTxt.setEnabled(true);
             this.fNameTxt.setEnabled(true);
             this.lNameTxt.setEnabled(true);
@@ -344,9 +345,12 @@ public class RegisterFrame extends JFrame implements ActionListener{
         return mangerPositionJRad.isSelected();
     }
 
-    public void setEmployeeToCBox(List<String> employeeList){
-        for(String employeeName:employeeList){
-            this.employeeCBox.addItem(employeeName);
+
+
+    public void setEmployeeToCBox(){
+        this.employeeCBox.addItem("");
+        for(Employee employee:employeeList){
+            this.employeeCBox.addItem(employee.getContactInfo().getFirstName());
         }
     }
 
