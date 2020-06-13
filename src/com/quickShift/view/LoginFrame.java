@@ -25,7 +25,7 @@ public class LoginFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(mainFrame);
 
-        // centralize jframe code
+        // centralize JFrame code
         this.pack();
         this.setLocationRelativeTo(null);
 

@@ -1,15 +1,13 @@
 package com.quickShift.view;
 
-
-import com.quickShift.model.EmployeeImpl;
-import com.quickShift.model.Manger;
+import com.quickShift.model.Employee;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 
-public class MenuFrame extends JFrame{
+public class MenuFrame extends JFrame {
     private JButton reportHourBtn;
     private JPanel sideBar;
     private JPanel topBar;
@@ -19,14 +17,16 @@ public class MenuFrame extends JFrame{
     private JLabel gratingLbl;
     private JButton deleteEmployeeBtn;
     private JButton updateInfoBtn;
-    private JPanel shiftTable;
 
     public MenuFrame() {
         this.setTitle("QuickShift");
         this.setLocation(getWidth(), getHeight());
-        this.setSize(1000, 600);
+        this.setPreferredSize(new Dimension(1000, 600));
         this.add(mainMenu);
         setVisible(true); //Only for testing the ShiftCalenderPanel
+
+        this.pack();
+        this.setLocationRelativeTo(null);
 
         mainBar.removeAll();
         mainBar.repaint();
@@ -35,21 +35,21 @@ public class MenuFrame extends JFrame{
         mainBar.add(new ShiftCalenderPanel());
         mainBar.repaint();
         mainBar.revalidate();
-
     }
 
-    public MenuFrame(EmployeeImpl employeeImpl){
+    public MenuFrame(Employee employee) {
         this.setTitle("QuickShift");
         this.setLocation(getWidth(),getHeight());
         this.setSize(1000,600);
         this.add(mainMenu);
 
-        if(employeeImpl.getMangerPosition()){
+        this.pack();
+        this.setLocationRelativeTo(null);
+
+        if(employee.getMangerPosition()) {
             this.addEmployeeBtn.setVisible(true);
             this.deleteEmployeeBtn.setVisible(true);
         }
-
-        shiftTable = new TestGrid();
 
         mainBar.removeAll();
         mainBar.repaint();
@@ -58,18 +58,17 @@ public class MenuFrame extends JFrame{
         mainBar.add(new ShiftCalenderPanel());
         mainBar.repaint();
         mainBar.revalidate();
-
-
     }
 
-    public void setGratingMessage (String fistName,String lastName){
+    public void setGratingMessage (String fistName,String lastName) {
         this.gratingLbl.setText("Welcome Back "+fistName+" "+lastName);
     }
 
-    public void reportHourBtnListener(ActionListener listenForReportHourBtn){
-        reportHourBtn.addActionListener(listenForReportHourBtn);}
+    public void reportHourBtnListener(ActionListener listenForReportHourBtn) {
+        reportHourBtn.addActionListener(listenForReportHourBtn);
+    }
 
-    public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}
-    public void addDeleteEmployeeListener (ActionListener listenForDeleteEmployee){deleteEmployeeBtn.addActionListener(listenForDeleteEmployee);}
-    public void addUpdateInfoListener (ActionListener listenForUpdateInfo){updateInfoBtn.addActionListener(listenForUpdateInfo);}
+    public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn) {addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}
+    public void addDeleteEmployeeListener (ActionListener listenForDeleteEmployee) {deleteEmployeeBtn.addActionListener(listenForDeleteEmployee);}
+    public void addUpdateInfoListener (ActionListener listenForUpdateInfo) {updateInfoBtn.addActionListener(listenForUpdateInfo);}
 }

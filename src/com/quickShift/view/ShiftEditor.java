@@ -4,26 +4,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
 import java.util.Arrays;
 
 public class ShiftEditor extends JFrame {
-    String[] hours = new String[]{"08:00", "16:00", "00:00"};
+    String[] names = new String[]{null, "Alex", "Shartil", "Oron"};
+    String[] hours = new String[]{null, "08:00", "16:00", "00:00"};
 
     public ShiftEditor(ShiftPanel shift) throws HeadlessException {
         super("Shift Editor");
+        setLocation(getWidth(), getHeight());
         setMinimumSize(new Dimension(200, 100));
         setPreferredSize(new Dimension(200, 200));
         setLayout(new GridBagLayout());
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
-        JTextField nameComBox = new JTextField();
-        nameComBox.setText(shift.getEmployeeNameTxt());
+        JComboBox<String> nameComBox = new JComboBox<>(names);
+        nameComBox.setSelectedIndex(Arrays.asList(names).indexOf(shift.getEmployeeNameTxt()));
         nameComBox.setPreferredSize(new Dimension(100, 20));
         nameComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                shift.setEmployeeNameTxt(nameComBox.getText());
+                shift.setShiftStartTimeTxt(names[nameComBox.getSelectedIndex()]);
             }
         });
 

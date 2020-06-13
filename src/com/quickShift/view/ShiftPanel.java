@@ -10,6 +10,7 @@ public class ShiftPanel extends JPanel {
 
     public ShiftPanel(String name, String startTime, String endTime) {
         super();
+
         setLayout(new GridLayout(3, 1));
         setPreferredSize(new Dimension(80, 50));
         setBackground(new Color(255, 249, 212));
