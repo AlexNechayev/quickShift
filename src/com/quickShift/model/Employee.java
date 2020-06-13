@@ -11,6 +11,16 @@ public class Employee {
     private ContactInfo contactInfo;
     private Boolean mangerPosition;
 
+    public Employee(Employee e){
+        this.login = e.login;
+        this.hireDate = e.hireDate;
+        this.mangerName = e.mangerName;
+        this.departmentNumber = e.departmentNumber;
+        this.description = e.description;
+        this.contactInfo = e.contactInfo;
+        this.mangerPosition = e.mangerPosition;
+    }
+
     public Employee(Date hireDate, String mangerName, int departmentNumber, String description, ContactInfo contactInfo, Login login, boolean mangerPosition)
     {
         this.login = login;

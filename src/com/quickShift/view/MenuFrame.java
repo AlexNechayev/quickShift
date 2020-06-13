@@ -65,16 +65,6 @@ public class MenuFrame extends JFrame{
             */
 
 
-//        shiftTable = new TestGrid();
-//
-//        mainBar.removeAll();
-//        mainBar.repaint();
-//        mainBar.revalidate();
-//
-//        mainBar.add(shiftTable);
-//        mainBar.repaint();
-//        mainBar.revalidate();
-
         addEmployeeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,7 +105,15 @@ public class MenuFrame extends JFrame{
         reportHourBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
 
+                    //TODO singleton ????
+
+                    public void run() {
+                        new HoursReport();
+                    }
+                });
             }
         });
     }
@@ -123,12 +121,5 @@ public class MenuFrame extends JFrame{
     public void setGratingMessage (String fistName,String lastName){
         this.gratingLbl.setText("Welcome Back "+fistName+" "+lastName);
     }
-
-    public void reportHourBtnListener(ActionListener listenForReportHourBtn){
-        reportHourBtn.addActionListener(listenForReportHourBtn);}
-
-    public void addAddEmployeeListener(ActionListener listenForAddEmployeeBtn){addEmployeeBtn.addActionListener(listenForAddEmployeeBtn);}
-    public void addDeleteEmployeeListener (ActionListener listenForDeleteEmployee){deleteEmployeeBtn.addActionListener(listenForDeleteEmployee);}
-    public void addUpdateInfoListener (ActionListener listenForUpdateInfo){updateInfoBtn.addActionListener(listenForUpdateInfo);}
 }
 

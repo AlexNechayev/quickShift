@@ -1,6 +1,7 @@
 package com.quickShift.view;
 
 import com.quickShift.controller.AddEmployeeController;
+import com.quickShift.controller.LoginController;
 import com.quickShift.controller.RegisterController;
 import com.quickShift.model.ContactInfo;
 import com.quickShift.model.Employee;
@@ -10,6 +11,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.IntrospectionException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
@@ -18,7 +20,8 @@ import java.util.List;
 public class RegisterFrame extends JFrame implements ActionListener{
 
     private RegisterController registerController = RegisterController.getInstance();
-    private AddEmployeeController addEmployeeController = AddEmployeeController.getInstance();
+    private LoginController loginController = LoginController.getInstance();
+
 
     private Dimension dimension = new Dimension(660,560);
 
@@ -49,6 +52,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
     private String[] gender = {"","Male","Female"};
     private Integer[] departmentNum = {null,9001,9002,9003};
     private List<Employee> employeeList = registerController.getEmployeeList();
+    private Employee selectedEmployee = null;
 
 
     Calendar cld = Calendar.getInstance();
@@ -85,13 +89,17 @@ public class RegisterFrame extends JFrame implements ActionListener{
                     if (registerController.checkPhoneNumber(getPhoneNumTxt()))
                     {
                         try {
-
+                            int id;
                             login = new Login(username,password);
                             ContactInfo contactInfo = new ContactInfo(fName,lName,login.getId(),gender,address,email,bDay,phoneNum);
                             Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
                             if(addEmployeeBtn.getName().equals("update")){
-                                 registerController.updateCurrentEmployee(employee);
+                                id = selectedEmployee.getLogin().getId();
+                                employee.getContactInfo().setId(id);
+                                employee.getLogin().setId(id);
+                                selectedEmployee = employee;
+                                registerController.updateCurrentEmployee(selectedEmployee);
                                 JOptionPane.showMessageDialog(null, "The employee details were successfully updated", "successful operation", JOptionPane.INFORMATION_MESSAGE);
                             }else if(addEmployeeBtn.getName().equals("addEmployee")){
                                 registerController.createNewEmployee(employee);
@@ -168,8 +176,9 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.add(registrationFrame);
         this.addEmployeeBtn.setText("Update");
         this.addEmployeeBtn.setName("update");
-        this.mainTitle.setText("Update EmployeeService");
+        this.mainTitle.setText("Update Employee");
         this.setVisible(true);
+        selectedEmployee = new Employee(e);
 
         this.pack();
         this.setLocationRelativeTo(null);
@@ -223,6 +232,33 @@ public class RegisterFrame extends JFrame implements ActionListener{
             this.departInfoJPan.setVisible(true);
             this.mangerPositionJRad.setSelected(true);
             this.employeeSelectJPanel.setVisible(true);
+
+            employeeCBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent event) {
+                    if(event.getStateChange() == ItemEvent.SELECTED){
+                        String title = Objects.requireNonNull(employeeCBox.getSelectedItem()).toString();
+                        if(title.equals("")){
+                            selectedEmployee = new Employee(e);
+                        }else{
+                            String[] data = title.split(":");
+                            int id = Integer.parseInt(data[0]);
+                            if(!(e.getLogin().getId() == id)){
+                                selectedEmployee = loginController.createEmployeeById(id);
+                            }else{
+                                selectedEmployee = new Employee(e);
+                            }
+                        }
+                        setValue(selectedEmployee);
+                    }
+//                    if(e.getStateChange() == ItemEvent.SELECTED){
+//                    if(!((employeeCBox.getSelectedItem().equals("")){
+//                    String fName = employeeCBox.getSelectedItem().toString();
+////                    Employee employee = employeeService.employeeByFirstName(fName);
+////                    setValue();
+                }
+            });
+
 
         }
         addEmployeeBtn.addActionListener(this);
@@ -354,7 +390,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
             this.employeeCBox.addItem(employeeTitleSelect);
         }
     }
-
     public JComboBox<String> getEmployeeCBox() {
         return employeeCBox;
     }
@@ -362,13 +397,4 @@ public class RegisterFrame extends JFrame implements ActionListener{
     public void closeForm(){
         this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
     }
-
-    public void addItemChangeListener(ItemListener listenForItemChange){
-
-
-
-        employeeCBox.addItemListener(listenForItemChange);
-    }
-
-
 }

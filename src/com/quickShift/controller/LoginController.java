@@ -33,11 +33,18 @@ public final class LoginController
         return loginController;
     }
 
+    public Employee createEmployeeById(int id){
+        Employee employee = null;
+        employee = this.employeeService.employeeById(id);
+        return employee;
+    }
+
     public Employee createEmployeeIfPossible(String username, String password)
     {
         Employee employee = null;
 
-        if (EmployeeServiceImpl.checkLoginValidity(username,password))
+        //TODO לשאול את שרון האם יש צורך בבדיקה
+        if (employeeService.checkLoginValidity(username,password))
         {
             employee = this.employeeService.employeeByLogin(username,password);
         }

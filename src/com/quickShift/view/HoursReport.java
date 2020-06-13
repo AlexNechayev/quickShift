@@ -4,6 +4,7 @@ import com.toedter.calendar.JDateChooser;
 
 import com.quickShift.model.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
@@ -31,7 +32,8 @@ public class HoursReport extends JFrame {
         add(mainForm);
         this.setTitle("QuickShift : Hour report");
         this.setLocation(getWidth(),getHeight());
-        this.setSize(800,300);
+        this.setPreferredSize(new Dimension(800,300));
+        this.setVisible(true);
 
         // centralize jframe code
         this.pack();

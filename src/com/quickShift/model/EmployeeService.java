@@ -4,7 +4,8 @@ import java.util.List;
 
 public interface EmployeeService {
     Employee employeeByLogin(String username, String password);
-    Employee employeeByFirstName(String fName);
+    Employee employeeById(int id);
+    public boolean checkLoginValidity(String username, String password);
     void addEmployee(Employee e);
     void updateEmployee(Employee e);
     void deleteEmployee(Employee e);

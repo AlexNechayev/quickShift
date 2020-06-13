@@ -72,21 +72,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     //EmployeeService constructor that receive first name as argument to pull all the Employee data from the DB (SQL QUERY)
-    public Employee employeeByFirstName(String fName){
+    public Employee employeeById(int id){
         connection = ConnectionManager.getConnection();
 
-        String dbFName = null;
         int dbId;
 
         try{
-            String sql = "SELECT * FROM user_info WHERE first_name = ?";
+            String sql = "SELECT * FROM user_info WHERE id = ?";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,fName);
+            st.setInt(1,id);
             ResultSet rs = st.executeQuery();
             rs.next();
-            dbFName =  rs.getString("first_name");
+            dbId = rs.getInt("id");
 
-            if(dbFName.equals(fName)){
+            if(dbId==id){
                 dbId = rs.getInt("id");
 
                 ContactInfo contactInfo = new ContactInfo();
@@ -130,7 +129,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     //sharon and oron method
-    public static boolean checkLoginValidity(String username, String password)
+    @Override
+    public boolean checkLoginValidity(String username, String password)
     {
         boolean checkResult = false;
         Connection connection = ConnectionManager.getConnection();
@@ -148,7 +148,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         } catch (SQLException ex) {
             System.out.println("Unable to login");
         }
-
         return checkResult;
     }
 
