@@ -45,6 +45,11 @@ public final class RegisterController
         return phoneNumberToCheck.matches("[0-9]+") && phoneNumberToCheck.length() == 10;
     }
 
+    public boolean checkIfFullNameHasOnlyEnglishLetters(String firstNameToCheck,String lastNameToCheck)
+    {
+        return firstNameToCheck.matches("[a-zA-Z]+") && lastNameToCheck.matches("[a-zA-Z]+");
+    }
+
     public void createNewEmployee(Employee employee) throws SQLException {
         employeeService.addEmployee(employee);
     }
