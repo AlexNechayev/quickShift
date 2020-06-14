@@ -49,7 +49,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
     private String[] gender = {"","Male","Female"};
     private Integer[] departmentNum = {null,9001,9002,9003};
 
-
     Calendar cld = Calendar.getInstance();
     JDateChooser dateChooseHireD = new JDateChooser(cld.getTime());
     JDateChooser dateChooseBDay = new JDateChooser(cld.getTime());
@@ -72,56 +71,88 @@ public class RegisterFrame extends JFrame implements ActionListener{
         String description = getDescriptionTxt();
         boolean mangerPosition = getMangerPositionJRad();
 
-        //TODO add a cross validation to all values
-        //e.g.:
-        if(username.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter a Username", "Invalid Username", JOptionPane.ERROR_MESSAGE);
-        }else{
+        if (!getUsername().isEmpty())
+        {
             if (registerController.checkPassword(getPassword()))
             {
-                if (registerController.checkEmail(getEmail()))
+                if (registerController.checkIfFullNameHasOnlyEnglishLetters(getFName(),getLName()))
                 {
-                    if (registerController.checkPhoneNumber(getPhoneNumTxt()))
+                    if (!getBDay().toString().isEmpty())
                     {
-                        try {
+                        if(!getGender().isEmpty())
+                        {
+                            if (!getAddressTxt().isEmpty())
+                            {
+                                if (registerController.checkPhoneNumber(getPhoneNumTxt()))
+                                {
+                                    if (registerController.checkEmail(getEmail()))
+                                    {
+                                        try
+                                        {
+                                            login = new Login(username,password);
+                                            ContactInfo contactInfo = new ContactInfo(fName,lName,login.getId(),gender,address,email,bDay,phoneNum);
+                                            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
 
-                            login = new Login(username,password);
-                            ContactInfo contactInfo = new ContactInfo(fName,lName,login.getId(),gender,address,email,bDay,phoneNum);
-                            Employee employee = new Employee(hireDate,mangerName,departmentNumber,description,contactInfo,login,mangerPosition);
+                                            if(addEmployeeBtn.getName().equals("update"))
+                                            {
+                                                registerController.updateCurrentEmployee(employee);
+                                                JOptionPane.showMessageDialog(null, "The employee details were successfully updated", "successful operation", JOptionPane.INFORMATION_MESSAGE);
+                                            }
+                                            else
+                                            if(addEmployeeBtn.getName().equals("addEmployee"))
+                                            {
+                                                registerController.createNewEmployee(employee);
+                                                JOptionPane.showMessageDialog(null, "The new employee was successfully added", "successful operation", JOptionPane.INFORMATION_MESSAGE);
+                                            }
+                                            else {
+                                                JOptionPane.showMessageDialog(null, "Something went wrong", "error operation", JOptionPane.INFORMATION_MESSAGE);
+                                            }
 
-                            if(addEmployeeBtn.getName().equals("update")){
-                                 registerController.updateCurrentEmployee(employee);
-                                JOptionPane.showMessageDialog(null, "The employee details were successfully updated", "successful operation", JOptionPane.INFORMATION_MESSAGE);
-                            }else if(addEmployeeBtn.getName().equals("addEmployee")){
-                                registerController.createNewEmployee(employee);
-                                JOptionPane.showMessageDialog(null, "The new employee was successfully added", "successful operation", JOptionPane.INFORMATION_MESSAGE);
-                            }else{
-                                JOptionPane.showMessageDialog(null, "Something went wrong", "error operation", JOptionPane.INFORMATION_MESSAGE);
+                                            this.closeForm();
+                                        }
+                                        catch (SQLException ex)
+                                        {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid Email", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }
+                                else
+                                {
+                                    JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
-                            this.closeForm();
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
+                            else
+                            {
+                                JOptionPane.showMessageDialog(null, "Please enter an address", "Invalid Address", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Please choose a valid gender", "Invalid Gender", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid phone number", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Please choose a valid birthday", "Invalid Birthday", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid email", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter a full name with english letters", "Invalid Full Name", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else
             {
                 JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
             }
-
-//                else
-//                {
-//                    JOptionPane.showMessageDialog(null, "Please enter all the information", "Information missing", JOptionPane.ERROR_MESSAGE);
-//                }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Please enter a Username", "Invalid Username", JOptionPane.ERROR_MESSAGE);
         }
     }
 
