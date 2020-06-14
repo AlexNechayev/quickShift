@@ -68,20 +68,28 @@ public class RegisterFrame extends JFrame implements ActionListener{
         String address = getAddressTxt();
         String phoneNum = getPhoneNumTxt();
         String email = getEmail();
-        int departmentNumber = getDepartmentNumber().equals("") ? 0 : Integer.parseInt(getDepartmentNumber());
+        int departmentNumber = getDepartmentNumber().equals("")?0:Integer.parseInt(getDepartmentNumber());
         Date hireDate = getHireDate();
         String mangerName = getMangerNameTxt();
         String description = getDescriptionTxt();
         boolean mangerPosition = getMangerPositionJRad();
 
-        if (!getUsername().isEmpty()) {
-            if (registerController.checkPassword(getPassword())) {
-                if (registerController.checkIfFullNameHasOnlyEnglishLetters(getFName(), getLName())) {
-                    if (!getBDay().toString().isEmpty()) {
-                        if (!getGender().isEmpty()) {
-                            if (!getAddressTxt().isEmpty()) {
-                                if (registerController.checkPhoneNumber(getPhoneNumTxt())) {
-                                    if (registerController.checkEmail(getEmail())) {
+        if (!getUsername().isEmpty())
+        {
+            if (registerController.checkPassword(getPassword()))
+            {
+                if (registerController.checkIfFullNameHasOnlyEnglishLetters(getFName(),getLName()))
+                {
+                    if (!getBDay().toString().isEmpty())
+                    {
+                        if(!getGender().isEmpty())
+                        {
+                            if (!getAddressTxt().isEmpty())
+                            {
+                                if (registerController.checkPhoneNumber(getPhoneNumTxt()))
+                                {
+                                    if (registerController.checkEmail(getEmail()))
+                                    {
                                         try {
                                             int id;
                                             login = new Login(username,password);
@@ -105,21 +113,45 @@ public class RegisterFrame extends JFrame implements ActionListener{
                                         } catch (SQLException ex) {
                                             ex.printStackTrace();
                                         }
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid phone number", JOptionPane.ERROR_MESSAGE);
                                     }
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Please enter a full name with english letters", "Invalid Full Name", JOptionPane.ERROR_MESSAGE);
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(null, "Please enter a valid email", "Invalid Email", JOptionPane.ERROR_MESSAGE);
+                                    }
                                 }
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+                                else
+                                {
+                                    JOptionPane.showMessageDialog(null, "Please enter a valid phone number", "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Please enter a Username", "Invalid Username", JOptionPane.ERROR_MESSAGE);
+                            else
+                            {
+                                JOptionPane.showMessageDialog(null, "Please enter an address", "Invalid Address", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Please choose a valid gender", "Invalid Gender", JOptionPane.ERROR_MESSAGE);
                         }
                     }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Please choose a valid birthday", "Invalid Birthday", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Please enter a full name with english letters", "Invalid Full Name", JOptionPane.ERROR_MESSAGE);
                 }
             }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Please enter a password with a least 6 characters", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Please enter a Username", "Invalid Username", JOptionPane.ERROR_MESSAGE);
         }
     }
 
