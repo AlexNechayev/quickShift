@@ -1,15 +1,23 @@
 package com.quickShift.view;
 
+import com.quickShift.controller.RegisterController;
+import com.quickShift.model.Employee;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 
 public class ShiftEditor extends JFrame {
-    String[] names = new String[]{null, "Alex", "Shartil", "Oron"};
-    String[] hours = new String[]{null, "08:00", "16:00", "00:00"};
+
+    private RegisterController registerController = RegisterController.getInstance();
+    private List<Employee> employeeList = registerController.getEmployeeList();
+
+    String[] startHours = new String[]{"", "09:00", "12:00", "15:00", "18:00"};
+    String[] endHours = new String[]{"", "12:00", "15:00", "18:00", "21:00"};
 
     public ShiftEditor(ShiftPanel shift) throws HeadlessException {
         super("Shift Editor");
@@ -23,33 +31,34 @@ public class ShiftEditor extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        JComboBox<String> nameComBox = new JComboBox<>(names);
-        nameComBox.setSelectedIndex(Arrays.asList(names).indexOf(shift.getEmployeeNameTxt()));
+        String[] employees = employeeToString();
+        JComboBox<String> nameComBox = new JComboBox<String>(employees);
+        nameComBox.setSelectedIndex(Arrays.asList(employees).indexOf(shift.getEmployeeNameTxt()));
         nameComBox.setPreferredSize(new Dimension(100, 20));
         nameComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                shift.setShiftStartTimeTxt(names[nameComBox.getSelectedIndex()]);
+                shift.setEmployeeNameTxt(employees[nameComBox.getSelectedIndex()]);
             }
         });
 
-        JComboBox<String> shiftStartComBox = new JComboBox<>(hours);
-        shiftStartComBox.setSelectedIndex(Arrays.asList(hours).indexOf(shift.getShiftStartTimeTxt()));
+        JComboBox<String> shiftStartComBox = new JComboBox<>(startHours);
+        shiftStartComBox.setSelectedIndex(Arrays.asList(startHours).indexOf(shift.getShiftStartTimeTxt()));
         shiftStartComBox.setPreferredSize(new Dimension(100, 20));
         shiftStartComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                shift.setShiftStartTimeTxt(hours[shiftStartComBox.getSelectedIndex()]);
+                shift.setShiftStartTimeTxt("Start: " + startHours[shiftStartComBox.getSelectedIndex()]);
             }
         });
 
-        JComboBox<String> shiftEndComBox = new JComboBox<>(hours);
-        shiftEndComBox.setSelectedIndex(Arrays.asList(hours).indexOf(shift.getShiftEndTimeTxt()));
+        JComboBox<String> shiftEndComBox = new JComboBox<>(endHours);
+        shiftEndComBox.setSelectedIndex(Arrays.asList(endHours).indexOf(shift.getShiftEndTimeTxt()));
         shiftEndComBox.setPreferredSize(new Dimension(100, 20));
         shiftEndComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                shift.setShiftEndTimeTxt(hours[shiftEndComBox.getSelectedIndex()]);
+                shift.setShiftEndTimeTxt("End: " + endHours[shiftEndComBox.getSelectedIndex()]);
             }
         });
 
@@ -78,5 +87,18 @@ public class ShiftEditor extends JFrame {
         gc.gridy = 2;
         add(shiftEndComBox, gc);
     }
-}
 
+    public String[] employeeToString() {
+        String firstName = null, lastName = null;
+        String[] employeeStringList = new String[employeeList.size()];
+
+        for (int i = 0; i < employeeList.size(); i++)
+        {
+            firstName = employeeList.get(i).getContactInfo().getFirstName();
+            lastName = employeeList.get(i).getContactInfo().getLastName();
+            employeeStringList[i] = firstName +" "+ lastName;
+        }
+
+        return employeeStringList;
+    }
+}

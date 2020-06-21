@@ -416,9 +416,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
             this.employeeCBox.addItem(employeeTitleSelect);
         }
     }
-    public JComboBox<String> getEmployeeCBox() {
-        return employeeCBox;
-    }
 
     public void closeForm(){
         this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));

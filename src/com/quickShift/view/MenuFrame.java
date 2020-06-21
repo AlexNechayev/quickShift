@@ -49,6 +49,14 @@ public class MenuFrame extends JFrame{
             this.deleteEmployeeBtn.setVisible(true);
         }
 
+        mainBar.removeAll();
+        mainBar.repaint();
+        mainBar.revalidate();
+
+        mainBar.add(new ShiftCalenderPanel());
+        mainBar.repaint();
+        mainBar.revalidate();
+
 
 
 

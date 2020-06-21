@@ -21,11 +21,11 @@ public class ShiftPanel extends JPanel {
         employeeName.setHorizontalAlignment(SwingConstants.CENTER);
 
         shiftStartTime = new JLabel();
-        shiftStartTime.setText(startTime);
+        shiftStartTime.setText("Start: " + startTime);
         shiftStartTime.setHorizontalAlignment(SwingConstants.CENTER);
 
         shiftEndTime = new JLabel();
-        shiftEndTime.setText(endTime);
+        shiftEndTime.setText("End: " + endTime);
         shiftEndTime.setHorizontalAlignment(SwingConstants.CENTER);
 
 
@@ -44,7 +44,8 @@ public class ShiftPanel extends JPanel {
     }
 
     public String getShiftStartTimeTxt() {
-        return shiftStartTime.getText();
+        String[] txt = shiftStartTime.getText().split(" ");
+        return txt[1];
     }
 
     public void setShiftStartTimeTxt(String txt) {
@@ -52,7 +53,8 @@ public class ShiftPanel extends JPanel {
     }
 
     public String getShiftEndTimeTxt() {
-        return shiftEndTime.getText();
+        String[] txt = shiftEndTime.getText().split(" ");
+        return txt[1];
     }
 
     public void setShiftEndTimeTxt(String txt) {
