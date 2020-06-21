@@ -50,19 +50,6 @@ public class MenuFrame extends JFrame{
         }
 
 
-        /*
-        if (currentEmployee != null){
-            menuFrame = new MenuFrame(currentEmployee);
-            menuFrame.setVisible(true);
-            menuFrame.setGratingMessage(currentEmployee.getContactInfo().getFirstName(), currentEmployee.getContactInfo().getLastName());
-
-
-            /*listener
-            menuFrame.reportHourBtnListener(new Controller.addReportHoursListener());
-            menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
-            menuFrame.addDeleteEmployeeListener(new Controller.deleteEmployeeListener());
-            menuFrame.addUpdateInfoListener(new Controller.updateInfoListener());
-            */
 
 
         addEmployeeBtn.addActionListener(new ActionListener() {
