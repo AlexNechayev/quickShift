@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         LoginFrame loginFrame = new LoginFrame();
         loginFrame.setVisible(true);
-        /*Model model = new Model();
-        Controller controller = new Controller(loginFrame,model);*/
+        Model model = new Model();
+        Controller controller = new Controller(loginFrame,model);
     }
 }
