@@ -44,6 +44,9 @@ public final class LoginController
         Employee employee = null;
 
         //TODO לשאול את שרון האם יש צורך בבדיקה
+        //תשובה: הבדיקה נחוצה משום שבה אנו בודקים האם שם משתמש וסיסמא נמצאים במסד הנתונים
+        //אם כן, נוכל ליצור אובייקט עובד בבטחון
+        //אחרת, יוחזר ערך NULL כי לא קיים עובד עם שם משתמש וסיסמא שהוכנסו
         if (employeeService.checkLoginValidity(username,password))
         {
             employee = this.employeeService.employeeByLogin(username,password);
@@ -52,23 +55,3 @@ public final class LoginController
         return employee;
     }
 }
-/*
-public final class Singleton {
-
-    private static volatile Singleton instance = null;
-
-    private Singleton() {}
-
-    public static Singleton getInstance() {
-        if (instance == null) {
-            synchronized(Singleton.class) {
-                if (instance == null) {
-                    instance = new Singleton();
-                }
-            }
-        }
-
-        return instance;
-    }
-}
-* */
