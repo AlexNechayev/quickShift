@@ -25,32 +25,45 @@ public class LoginControllerTest
     }
 
     @Test
-    public void checkCreateEmployeeById()
+    public void checkPullEmployeeById()
     {
         System.out.println("CreateEmployeeById method was called!");
-        //דוגמה קטנה להרצת בדיקה
-        Employee testEmployee = this.loginController.createEmployeeById(0);
+
+        //id = negative number, we expect to fail the test
+        Employee testEmployee = this.loginController.pullEmployeeById(-5);
         assertEquals(null, testEmployee);
-        /////////////////////////////////////////////////////////
-        //TODO check createEmployeeById method with the next values:
-        //TODO id = actual employee ID, we expect to pass the test
-        //TODO id = negative number, we expect to fail the test
-        //TODO id = zero, we expect to fail the test
+
+        //id = zero, we expect to fail the test
+        testEmployee = this.loginController.pullEmployeeById(0);
+        assertEquals(null, testEmployee);
+
+        //id = actual employee ID, we expect to pass the test
+        String testEmployeeUserName = this.loginController.pullEmployeeById(12).getLogin().getUsername();
+        assertEquals("a", testEmployeeUserName);
     }
 
     @Test
-    public void checkCreateEmployeeIfPossible()
-    {
+    public void checkCreateEmployeeIfPossible() {
         System.out.println("checkCreateEmployeeIfPossible method was called!");
-        //דוגמה קטנה להרצת בדיקה
-        Employee testEmployee = this.loginController.createEmployeeIfPossible("abc","123");
+
+        //username = false employee username, password = false employee password, we expect to fail the test
+        Employee testEmployee = this.loginController.createEmployeeIfPossible("abc", "123");
         assertEquals(null, testEmployee);
-        /////////////////////////////////////////////////////////
-        //TODO check createEmployeeById method with the next values:
-        //TODO username = actual employee username, password = actual employee password, we expect to pass the test
-        //TODO username = empty string (""), password = empty string (""), we expect to fail the test
-        //TODO username = false employee username, password = false employee password, we expect to fail the test
-        //TODO username = employee username in hebrew, password = employee password in hebrew, we expect to fail the test
-        //TODO username = gibberish (!@#%@cvdfgsfדכגכעגכע), password = gibberish (HFFJ$%#$דגגASAS), we expect to fail the test
+
+        //username = empty string (""), password = empty string (""), we expect to fail the test
+        testEmployee = this.loginController.createEmployeeIfPossible("", "");
+        assertEquals(null, testEmployee);
+
+        //username = employee username in hebrew, password = employee password in hebrew, we expect to fail the test
+        testEmployee = this.loginController.createEmployeeIfPossible("הדכעאי", "קכדעגעיגכי");
+        assertEquals(null, testEmployee);
+
+        //username = gibberish, password = gibberish, we expect to fail the test
+        testEmployee = this.loginController.createEmployeeIfPossible("!@#%@cvdfgsfדכגכעגכע", "HFFJ$%#$דגגASAS");
+        assertEquals(null, testEmployee);
+
+        //username = actual employee username, password = actual employee password, we expect to pass the test
+        int testEmployeeID = this.loginController.createEmployeeIfPossible("a", "123").getLogin().getId();
+        assertEquals(12, testEmployeeID);
     }
 }

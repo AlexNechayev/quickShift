@@ -10,7 +10,6 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -270,7 +269,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
                             String[] data = title.split(":");
                             int id = Integer.parseInt(data[0]);
                             if(!(e.getLogin().getId() == id)){
-                                selectedEmployee = loginController.createEmployeeById(id);
+                                selectedEmployee = loginController.pullEmployeeById(id);
                             }else{
                                 selectedEmployee = new Employee(e);
                             }

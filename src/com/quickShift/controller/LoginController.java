@@ -33,7 +33,7 @@ public final class LoginController
         return loginController;
     }
 
-    public Employee createEmployeeById(int id){
+    public Employee pullEmployeeById(int id){
         Employee employee = null;
         employee = this.employeeService.employeeById(id);
         return employee;
