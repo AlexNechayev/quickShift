@@ -13,7 +13,6 @@ public final class RegisterController
 {
     private static volatile  RegisterController registerController = null;
     private EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-    // do we need to include a model member???
 
     private RegisterController() {}
 
@@ -37,7 +36,15 @@ public final class RegisterController
 
     public boolean checkPassword(String passwordToCheck)
     {
-        return passwordToCheck.length() >=6;
+        boolean resultToReturn = passwordToCheck.length() >= 6;
+
+        //password can be made of letters and numbers only
+        if (resultToReturn)
+        {
+            resultToReturn = passwordToCheck.matches("^[a-zA-Z0-9]+$");
+        }
+
+        return resultToReturn;
     }
 
     public boolean checkPhoneNumber(String phoneNumberToCheck)

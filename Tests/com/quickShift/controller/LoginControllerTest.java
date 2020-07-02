@@ -12,20 +12,20 @@ public class LoginControllerTest
     private LoginController loginController;
 
     @Before
-    public void setUpCreateEmployeeIfPossible()
+    public void setUpLoginControllerTest()
     {
         this.loginController = LoginController.getInstance();
         System.out.println("Set up method was called!");
     }
 
     @After
-    public void tearDownCreateEmployeeIfPossible()
+    public void tearDownLoginControllerTest()
     {
         System.out.println("Tear down method was called!");
     }
 
     @Test
-    public void checkPullEmployeeById()
+    public void testPullEmployeeById()
     {
         System.out.println("CreateEmployeeById method was called!");
 
@@ -43,7 +43,7 @@ public class LoginControllerTest
     }
 
     @Test
-    public void checkCreateEmployeeIfPossible() {
+    public void testCreateEmployeeIfPossible() {
         System.out.println("checkCreateEmployeeIfPossible method was called!");
 
         //username = false employee username, password = false employee password, we expect to fail the test
