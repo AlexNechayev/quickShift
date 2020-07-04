@@ -150,9 +150,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     //Adding a new employee which takes all the variables and insert it to the DB (SQL QUERY)
-    public void addEmployee(Employee e) {
+    public boolean addEmployee(Employee e) {
         connection = ConnectionManager.getConnection();
-
         int id = e.getLogin().getId();
         String username = e.getLogin().getUsername();
         String password = e.getLogin().getPassword();
@@ -199,14 +198,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             prepStmt.executeUpdate();
             prepStmt.close();
 
-
+            return true;
         }catch (SQLException throwable){
             throwable.printStackTrace();
+            return false;
         }
     }
 
     @Override
-    public void updateEmployee(Employee e) {
+    public boolean updateEmployee(Employee e) {
         Connection con = ConnectionManager.getConnection();
 
         try {
@@ -236,9 +236,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             prepStmt.execute();
             prepStmt.close();
 
-
+            return true;
         } catch (SQLException throwable) {
             throwable.printStackTrace();
+            return false;
         }
     }
 

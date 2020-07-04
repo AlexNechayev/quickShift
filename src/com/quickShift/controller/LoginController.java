@@ -35,7 +35,13 @@ public final class LoginController
 
     public Employee pullEmployeeById(int id){
         Employee employee = null;
-        //employee = this.employeeService.employeeById(id);
+        employee = this.employeeService.employeeById(id);
+        return employee;
+    }
+
+    public Employee pullEmployeeByLogin(String username, String password){
+        Employee employee = null;
+        employee = this.employeeService.employeeByLogin(username,password);
         return employee;
     }
 

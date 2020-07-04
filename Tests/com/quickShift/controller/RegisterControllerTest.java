@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 public class RegisterControllerTest
 {
     private RegisterController registerController;
+    private LoginController loginController;
 
     @Before
     public void setUpRegisterControllerTest()
@@ -93,20 +94,23 @@ public class RegisterControllerTest
     @Test
     public void testCreateNewEmployee() throws SQLException {
         System.out.println("CreateNewEmployee method was called!");
-
-        //TODO: write failing tests
-        //registerController.createNewEmployee(new Employee(new Date(2020,12,12),"Morthy",9001,"Employee",new ContactInfo("Rick","Sanchez",54,"Male","IL","RS@gmail.com",new Date(1999,12,12),"0543211234"),new Login("us","pw"),false));
+        boolean testAddEmployee = registerController.createNewEmployee(new Employee(new Date(2020,12,12),"Morthy",9001,"Employee",new ContactInfo("Rick","Sanchez","Male","IL","RS@gmail.com",new Date(1999,12,12),"0543211234"),new Login("us","pw"),false));
         //TODO: write passing tests
+        assertEquals(true,testAddEmployee);
     }
 
     @Test
-    public void testUpdateCurrentEmployee()
-    {
+    public void testUpdateCurrentEmployee() throws SQLException {
         System.out.println("UpdateCurrentEmployee method was called!");
 
-        //TODO: write failing tests
+        Employee employeeTest = loginController.pullEmployeeByLogin("us","123456");
+        if(employeeTest != null){
+            boolean testUpdateEmployee = registerController.updateCurrentEmployee(employeeTest);
+            assertEquals(true,testUpdateEmployee);
+        }
 
-        //TODO: write passing tests
+
+
     }
 
     @Test

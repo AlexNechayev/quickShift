@@ -6,8 +6,8 @@ public interface EmployeeService {
     Employee employeeByLogin(String username, String password);
     Employee employeeById(int id);
     public boolean checkLoginValidity(String username, String password);
-    void addEmployee(Employee e);
-    void updateEmployee(Employee e);
+    boolean addEmployee(Employee e);
+    boolean updateEmployee(Employee e);
     void deleteEmployee(Employee e);
     void deleteEmployee(String username);
     List<Employee> employeeList();

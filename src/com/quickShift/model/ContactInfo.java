@@ -13,12 +13,22 @@ public class ContactInfo
     private String email;
     private Date birthDayDate;
 
-    public ContactInfo() {
-    }
+    public ContactInfo() { }
+
     public ContactInfo(String firstName, String lastName, int id, String gender, String address, String email, Date birthDayDate, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
+        this.gender = gender;
+        this.address = address;
+        this.email = email;
+        this.birthDayDate = birthDayDate;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public ContactInfo(String firstName, String lastName, String gender, String address, String email, Date birthDayDate, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.address = address;
         this.email = email;

@@ -57,12 +57,12 @@ public final class RegisterController
         return firstNameToCheck.matches("[a-zA-Z]+") && lastNameToCheck.matches("[a-zA-Z]+");
     }
 
-    public void createNewEmployee(Employee employee) throws SQLException {
-        employeeService.addEmployee(employee);
+    public boolean createNewEmployee(Employee employee) throws SQLException {
+       return employeeService.addEmployee(employee);
     }
 
-    public void updateCurrentEmployee(Employee employee) throws SQLException{
-        employeeService.updateEmployee(employee);
+    public boolean updateCurrentEmployee(Employee employee) throws SQLException{
+        return employeeService.updateEmployee(employee);
     }
 
     public List<Employee> getEmployeeList(){
