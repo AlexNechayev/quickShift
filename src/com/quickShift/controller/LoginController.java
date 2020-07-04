@@ -6,16 +6,7 @@ import com.quickShift.model.EmployeeServiceImpl;
 public final class LoginController
 {
     private static volatile LoginController loginController = null;
-    private Model model;
     private EmployeeServiceImpl employeeService;
-
-    public Model getModel() {
-        return this.model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
 
 
     private LoginController() {

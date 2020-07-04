@@ -2,14 +2,13 @@ package com.quickShift.controller;
 
 import com.quickShift.model.EmployeeServiceImpl;
 
-import static com.quickShift.controller.Controller.employeeService;
-
 public final class DeleteController {
 
     private static volatile DeleteController deleteController = null;
+    private EmployeeServiceImpl employeeService;
 
     private DeleteController(){
-        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+        employeeService = new EmployeeServiceImpl();
     }
 
     public static DeleteController getInstance()

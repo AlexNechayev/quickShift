@@ -1,7 +1,5 @@
 package com.quickShift.view;
 
-
-import com.quickShift.controller.Controller;
 import com.quickShift.controller.DeleteController;
 import com.quickShift.model.Employee;
 
@@ -25,7 +23,6 @@ public class MenuFrame extends JFrame{
     private DeleteController deleteController = DeleteController.getInstance();
 
 
-
     public MenuFrame(Employee employee){
         this.setTitle("QuickShift");
         this.setLocation(getWidth(),getHeight());
@@ -38,10 +35,6 @@ public class MenuFrame extends JFrame{
         this.pack();
         this.setLocationRelativeTo(null);
 
-        //this.reportHourBtnListener(new Controller.addReportHoursListener());
-        //menuFrame.addAddEmployeeListener(new addAddEmployeeListener());
-        //this.addDeleteEmployeeListener(new Controller.deleteEmployeeListener());
-        //this.addUpdateInfoListener(new Controller.updateInfoListener());
         this.setGratingMessage(employee.getContactInfo().getFirstName(), employee.getContactInfo().getLastName());
 
         if(employee.getMangerPosition()){

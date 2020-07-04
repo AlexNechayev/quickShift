@@ -9,21 +9,23 @@ public class ConnectionManager {
     private static String driverName = "com.mysql.jdbc.Driver";
     private static String username = "root";
     private static String password = "340391@mySQL";
-    private static Connection con;
+    private static Connection con = null;
 
     public static Connection getConnection() {
         try {
             Class.forName(driverName);
             try {
                 con = DriverManager.getConnection(url, username, password);
-            } catch (SQLException ex) {
-                // log an exception. fro example:
-                System.out.println("Failed to create the database connection.");
+                if(con == null){
+                    throw new SQLException("\"Failed to create the database connection.\"");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException e) {
             System.out.println("Driver not found.");
         }
-        System.out.println("connection status: success");
+        //System.out.println("connection status: success");
         return con;
     }
 }

@@ -268,7 +268,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmployee(String username) {
+  public void deleteEmployee(String username) {
         connection = ConnectionManager.getConnection();
 
         int id;
