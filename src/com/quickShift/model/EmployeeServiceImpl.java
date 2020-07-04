@@ -268,7 +268,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-  public void deleteEmployee(String username) {
+  public boolean deleteEmployee(String username) {
         connection = ConnectionManager.getConnection();
 
         int id;
@@ -295,9 +295,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             prepStmt.setInt(1,id);
             prepStmt.execute();
             prepStmt.close();
+            return true;
 
         }catch (SQLException throwable){
             throwable.printStackTrace();
+            return false;
         }
     }
 

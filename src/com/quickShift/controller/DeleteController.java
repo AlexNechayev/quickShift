@@ -26,9 +26,8 @@ public final class DeleteController {
         return deleteController;
     }
 
-    public void deleteEmployee(String username){
-        employeeService.deleteEmployee(username);
+    public boolean deleteEmployee(String username)
+    {
+        return employeeService.deleteEmployee(username);
     }
 }
-
-
