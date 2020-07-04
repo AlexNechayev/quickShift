@@ -1,9 +1,14 @@
 package com.quickShift.controller;
 
+import com.quickShift.model.ContactInfo;
 import com.quickShift.model.Employee;
+import com.quickShift.model.Login;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Date;
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
@@ -86,12 +91,11 @@ public class RegisterControllerTest
     }
 
     @Test
-    public void testCreateNewEmployee()
-    {
+    public void testCreateNewEmployee() throws SQLException {
         System.out.println("CreateNewEmployee method was called!");
 
         //TODO: write failing tests
-
+        //registerController.createNewEmployee(new Employee(new Date(2020,12,12),"Morthy",9001,"Employee",new ContactInfo("Rick","Sanchez",54,"Male","IL","RS@gmail.com",new Date(1999,12,12),"0543211234"),new Login("us","pw"),false));
         //TODO: write passing tests
     }
 
