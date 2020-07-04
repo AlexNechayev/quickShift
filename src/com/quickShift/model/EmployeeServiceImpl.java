@@ -298,7 +298,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             return true;
 
         }catch (SQLException throwable){
-            throwable.printStackTrace();
+            //throwable.printStackTrace();
             return false;
         }
     }

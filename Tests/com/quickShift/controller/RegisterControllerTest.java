@@ -122,7 +122,7 @@ public class RegisterControllerTest
         assertNull(employeeTest);
 
         //user name and password are real employee credentials, we expect to pass the test
-        employeeTest = loginController.pullEmployeeByLogin("us","123456");
+        employeeTest = loginController.pullEmployeeByLogin("us","pw");
         employeeTest.setMangerName("Alex"); //Input Updated manger name
         assertTrue(this.registerController.updateCurrentEmployee(employeeTest));
     }

@@ -8,7 +8,6 @@ public interface EmployeeService {
     public boolean checkLoginValidity(String username, String password);
     boolean addEmployee(Employee e);
     boolean updateEmployee(Employee e);
-    //איפה מימוש של המתודה????
     void deleteEmployee(Employee e);
     boolean deleteEmployee(String username);
     List<Employee> employeeList();

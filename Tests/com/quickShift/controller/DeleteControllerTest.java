@@ -41,7 +41,7 @@ public class DeleteControllerTest
         assertFalse(this.deleteController.deleteEmployee(userName));
 
         //user name = valid user name, we expect to fail the test
-        userName = "a";//valid user name
+        userName = "us";//valid user name
         assertTrue(this.deleteController.deleteEmployee(userName));
     }
 }
