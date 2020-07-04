@@ -2,7 +2,6 @@ package com.quickShift.controller;
 
 import com.quickShift.model.Employee;
 import com.quickShift.model.EmployeeServiceImpl;
-import com.quickShift.model.Model;
 
 public final class LoginController
 {

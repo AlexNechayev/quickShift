@@ -37,7 +37,6 @@ public class Login {
                     }
                 }
             }
-
         }catch(SQLException e){
             System.out.println("Unable to retrieve data from DB");
         }
