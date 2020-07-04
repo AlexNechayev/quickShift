@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -21,6 +22,7 @@ public class RegisterControllerTest
     public void setUpRegisterControllerTest()
     {
         this.registerController = RegisterController.getInstance();
+        this.loginController = LoginController.getInstance();
         System.out.println("Set up method was called!");
     }
 
@@ -104,13 +106,10 @@ public class RegisterControllerTest
         System.out.println("UpdateCurrentEmployee method was called!");
 
         Employee employeeTest = loginController.pullEmployeeByLogin("us","123456");
-        if(employeeTest != null){
-            boolean testUpdateEmployee = registerController.updateCurrentEmployee(employeeTest);
-            assertEquals(true,testUpdateEmployee);
-        }
+        employeeTest.setMangerName("Alex"); //Input Updated manger name
 
-
-
+        boolean testUpdateEmployee = registerController.updateCurrentEmployee(employeeTest);
+        assertEquals(true,testUpdateEmployee);
     }
 
     @Test
@@ -118,8 +117,11 @@ public class RegisterControllerTest
     {
         System.out.println("GetEmployeeList method was called!");
 
-        //TODO: write failing tests
+        List<Employee> employeeList = null;
+        employeeList = registerController.getEmployeeList();
+        boolean isListEmpty = employeeList == null;
 
-        //TODO: write passing tests
+        assertEquals(false,isListEmpty);
+
     }
 }
