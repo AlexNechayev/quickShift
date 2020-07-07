@@ -61,6 +61,10 @@ public class ContactInfo
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return (firstName + " " + lastName);
+    }
+
     public String getGender() {
         return gender;
     }

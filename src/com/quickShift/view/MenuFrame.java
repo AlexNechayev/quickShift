@@ -19,6 +19,7 @@ public class MenuFrame extends JFrame{
     private JButton deleteEmployeeBtn;
     private JButton updateInfoBtn;
     private JPanel shiftTable;
+    private ShiftCalenderPanel shiftCalenderPanel = new ShiftCalenderPanel();
 
     private DeleteController deleteController = DeleteController.getInstance();
 
@@ -31,7 +32,7 @@ public class MenuFrame extends JFrame{
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // centralize jframe code
+        // centralize JFrame code
         this.pack();
         this.setLocationRelativeTo(null);
 
@@ -46,11 +47,11 @@ public class MenuFrame extends JFrame{
         mainBar.repaint();
         mainBar.revalidate();
 
-        mainBar.add(new ShiftCalenderPanel());
+        mainBar.add(shiftCalenderPanel);
         mainBar.repaint();
         mainBar.revalidate();
 
-
+        //shiftCalenderPanel.arrangeShiftsRandomly();
 
 
         addEmployeeBtn.addActionListener(new ActionListener() {
