@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
 public class MenuFrame extends JFrame{
     private JButton reportHourBtn;
@@ -51,8 +52,16 @@ public class MenuFrame extends JFrame{
         mainBar.repaint();
         mainBar.revalidate();
 
-        //shiftCalenderPanel.arrangeShiftsRandomly();
+        //TODO: add the function shiftCalenderPanel.arrangeShiftsRandomly(); to the button listener
+        // of JButton 'Arrange Shifts randomly'
 
+        //TODO: add the code below to the button listener
+        /*
+        int result = JOptionPane.showConfirmDialog(null, "Make a swap request" , "Swap Request", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            TODO: Write your code here
+        }
+        */
 
         addEmployeeBtn.addActionListener(new ActionListener() {
             @Override

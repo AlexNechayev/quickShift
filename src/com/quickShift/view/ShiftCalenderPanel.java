@@ -13,6 +13,9 @@ import java.util.Random;
 
 public class ShiftCalenderPanel extends JPanel implements MouseListener {
     private ShiftPanel[][] shiftPanelMatrix = new ShiftPanel[3][5];
+    private boolean isSwitching = false;
+    private boolean isFirstShiftForSwitch = true;
+    private int countShiftsToSwitch = 0;
 
     public ShiftCalenderPanel() {
         super();
@@ -48,15 +51,26 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getComponent() instanceof ShiftPanel) {
-            ShiftPanel shiftPanel = ((ShiftPanel)(e.getComponent()));
+        ShiftPanel shiftPanel = ((ShiftPanel)(e.getComponent()));
 
+        if (e.getComponent() instanceof ShiftPanel && !isSwitching) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     new ShiftEditor(shiftPanel);
                 }
             });
+        } else if (isSwitching && isFirstShiftForSwitch) {
+            shiftPanel.setBackground(new Color(255, 247, 0));
+            isFirstShiftForSwitch = false;
+            //TODO: add the switch to the SQL
+            //JOptionPane.showConfirmDialog(null, "Make a swap request" , "Swap Request", JOptionPane.YES_NO_OPTION);
+            JOptionPane.showMessageDialog(null, "Please choose the desired shift", "Shift has benn Chosen Successfully", JOptionPane.INFORMATION_MESSAGE);
+        } else if (isSwitching) {
+            shiftPanel.setBackground(new Color(255, 247, 0));
+            isFirstShiftForSwitch = true;
+            JOptionPane.showMessageDialog(null, "Swap request has been sent", "Shift has benn Chosen Successfully", JOptionPane.INFORMATION_MESSAGE);
+            //TODO: add the switch to the SQL
         }
     }
 
