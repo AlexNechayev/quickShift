@@ -100,7 +100,7 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
 
         for (int i = 0; i < 3; i++) { //Shift type
             for (int j = 0; j < 5; j++) { //Day of week
-                employee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size() - 1));
+                employee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size()));
                 employeeListAssigned.add(employee);
                 employeeListForAssignment.remove(employee);
 

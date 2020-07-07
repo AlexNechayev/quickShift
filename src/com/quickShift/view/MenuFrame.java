@@ -19,6 +19,8 @@ public class MenuFrame extends JFrame{
     private JLabel gratingLbl;
     private JButton deleteEmployeeBtn;
     private JButton updateInfoBtn;
+    private JButton mixShiftsRandomlyBtn;
+    private JButton clearShiftsTableBtn;
     private JPanel shiftTable;
     private ShiftCalenderPanel shiftCalenderPanel = new ShiftCalenderPanel();
 
@@ -42,6 +44,8 @@ public class MenuFrame extends JFrame{
         if(employee.getMangerPosition()){
             this.addEmployeeBtn.setVisible(true);
             this.deleteEmployeeBtn.setVisible(true);
+            this.mixShiftsRandomlyBtn.setVisible(true);
+            this.clearShiftsTableBtn.setVisible(true);
         }
 
         mainBar.removeAll();
@@ -68,9 +72,6 @@ public class MenuFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
-
-                    //TODO singleton ????
-
                     public void run() {
                         new RegisterFrame();
                     }
@@ -112,6 +113,14 @@ public class MenuFrame extends JFrame{
                         new HoursReport();
                     }
                 });
+            }
+        });
+        mixShiftsRandomlyBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(JOptionPane.showConfirmDialog(null,"Are you sure you want to mix the shift table?","Arrange Shifts Randomly",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                    shiftCalenderPanel.arrangeShiftsRandomly();
+                }
             }
         });
     }
