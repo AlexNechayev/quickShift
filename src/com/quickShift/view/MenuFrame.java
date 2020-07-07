@@ -123,6 +123,14 @@ public class MenuFrame extends JFrame{
                 }
             }
         });
+        clearShiftsTableBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(JOptionPane.showConfirmDialog(null,"Are you sure you want to clear the shift table?","Clear Shift Table",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                    shiftCalenderPanel.clearShiftTable();
+                }
+            }
+        });
     }
 
     public void setGratingMessage (String fistName,String lastName){

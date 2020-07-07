@@ -93,24 +93,56 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
     public void arrangeShiftsRandomly() {
         RegisterController registerController = RegisterController.getInstance();
         List<Employee> employeeListForAssignment = registerController.getEmployeeList(); //Do we change the actual list?
-        List<Employee> employeeListAssigned = new ArrayList<>();
 
+        Employee[][] employeesShiftTable = new Employee[3][5];
         Random random = new Random();
-        Employee employee;
 
-        for (int i = 0; i < 3; i++) { //Shift type
-            for (int j = 0; j < 5; j++) { //Day of week
-                employee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size()));
-                employeeListAssigned.add(employee);
-                employeeListForAssignment.remove(employee);
+        Employee currentEmployee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size()));
+        int currentEmployeeID = currentEmployee.getContactInfo().getId();
+        Employee lastEmployee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size()));
+        int lastEmployeeID = lastEmployee.getContactInfo().getId();
 
-                shiftPanelMatrix[i][j].setEmployeeNameTxt(employee.getContactInfo().getFullName());
+        for (int j = 0; j < 5; j++) { //Day of week
+            for (int i = 0; i < 3; i++) { //Shift type
+
+                while(currentEmployeeID == lastEmployeeID){
+                    currentEmployee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size()));
+                    currentEmployeeID = currentEmployee.getContactInfo().getId();
+                }
+
+                if(i==0){ //Randomize the first Employee which not worked in the last evening shift
+                    employeesShiftTable[0][j] = currentEmployee;
+                }
+                if(i==1){ //Randomize the first Employee which not worked at the same day in the morning shift
+                    while(i==1 && employeesShiftTable[0][j].getContactInfo().getId() == currentEmployeeID){
+                        currentEmployee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size()));
+                        currentEmployeeID = currentEmployee.getContactInfo().getId();
+                    }
+                }
+                if(i==2){ ////Randomize the first Employee which not worked at the same day in morning or midday shifts
+                    while(i==2 && (employeesShiftTable[0][j].getContactInfo().getId() == currentEmployeeID)||(employeesShiftTable[1][j].getContactInfo().getId() == currentEmployeeID)){
+                        currentEmployee = employeeListForAssignment.get(random.nextInt(employeeListForAssignment.size()));
+                        currentEmployeeID = currentEmployee.getContactInfo().getId();
+                    }
+                }
+
+                //Initialized the selected employee to Employee Table
+                employeesShiftTable[i][j] = currentEmployee;
+                lastEmployeeID = currentEmployeeID;
+
+                //Adds the relevant data from the selected employee to the shiftPanel view
+                shiftPanelMatrix[i][j].setEmployeeNameTxt(currentEmployee.getContactInfo().getFullName());
                 shiftPanelMatrix[i][j].invalidate();
 
-                if (employeeListForAssignment.size() == 0) {
-                    employeeListForAssignment.addAll(employeeListAssigned);
-                    employeeListAssigned.clear();
-                }
+            }
+        }
+    }
+
+    public void clearShiftTable() {
+        for (int j = 0; j < 5; j++) { //Day of week
+            for (int i = 0; i < 3; i++) { //Shift type
+                shiftPanelMatrix[i][j].setEmployeeNameTxt("");
+                shiftPanelMatrix[i][j].invalidate();
             }
         }
     }
