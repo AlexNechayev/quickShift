@@ -11,16 +11,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.List;
 
 public class RegisterFrame extends JFrame implements ActionListener{
 
-    private RegisterController registerController = RegisterController.getInstance();
-    private LoginController loginController = LoginController.getInstance();
+    private final RegisterController registerController = RegisterController.getInstance();
+    private final LoginController loginController = LoginController.getInstance();
 
 
-    private Dimension dimension = new Dimension(660,560);
+    private final Dimension dimension = new Dimension(660,560);
 
     private JPanel registrationFrame;
     private JPanel departInfoJPan;
@@ -46,9 +48,9 @@ public class RegisterFrame extends JFrame implements ActionListener{
     private JComboBox<String> employeeCBox;
     private JPanel employeeSelectJPanel;
 
-    private String[] gender = {"","Male","Female"};
-    private Integer[] departmentNum = {null,9001,9002,9003};
-    private List<Employee> employeeList = registerController.getEmployeeList();
+    private final String[] gender = {"","Male","Female"};
+    private final Integer[] departmentNum = {null,9001,9002,9003};
+    private final List<Employee> employeeList = registerController.getEmployeeList();
     private Employee selectedEmployee = null;
 
     Calendar cld = Calendar.getInstance();
@@ -57,18 +59,18 @@ public class RegisterFrame extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Login login = null;
+        Login login;
         String username = getUsername();
         String password = getPassword();
         String fName = getFName();
         String lName = getLName();
-        Date bDay = getBDay();
+        LocalDate bDay = getBDay();
         String gender = getGender();
         String address = getAddressTxt();
         String phoneNum = getPhoneNumTxt();
         String email = getEmail();
         int departmentNumber = getDepartmentNumber().equals("")?0:Integer.parseInt(getDepartmentNumber());
-        Date hireDate = getHireDate();
+        LocalDate hireDate = getHireDate();
         String mangerName = getMangerNameTxt();
         String description = getDescriptionTxt();
         boolean mangerPosition = getMangerPositionJRad();
@@ -183,10 +185,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.departmentNumCBox.addItem(departmentNum[2]);
         this.departmentNumCBox.addItem(departmentNum[3]);
 
-        departEnableJRad.addActionListener(e -> {
-            if (departEnableJRad.isSelected()) departInfoJPan.setVisible(true);
-            else departInfoJPan.setVisible(false);
-        });
+        departEnableJRad.addActionListener(e -> departInfoJPan.setVisible(departEnableJRad.isSelected()));
 
         addEmployeeBtn.addActionListener(this);
     }
@@ -230,11 +229,11 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.emailTxt.setText(e.getContactInfo().getEmail());
         this.addressTxt.setText(e.getContactInfo().getAddress());
 
-        this.dateChooseBDay.setDate(e.getContactInfo().getBirthDayDate());
+        this.dateChooseBDay.setDate(java.sql.Date.valueOf(e.getContactInfo().getBirthDayDate()));
         this.dateChooseBDay.setDateFormatString("dd/MM/yyyy");
         this.birthdayJPanel.add(dateChooseBDay);
         this.birthdayJPanel.setEnabled(false);
-        this.dateChooseHireD.setDate(e.getHireDate());
+        this.dateChooseHireD.setDate(java.sql.Date.valueOf(e.getHireDate()));
         this.dateChooseHireD.setDateFormatString("dd/MM/yyyy");
         this.hireDateJPanel.add(dateChooseHireD);
         this.hireDateJPanel.setEnabled(false);
@@ -258,33 +257,23 @@ public class RegisterFrame extends JFrame implements ActionListener{
             this.mangerPositionJRad.setSelected(true);
             this.employeeSelectJPanel.setVisible(true);
 
-            employeeCBox.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent event) {
-                    if(event.getStateChange() == ItemEvent.SELECTED){
-                        String title = Objects.requireNonNull(employeeCBox.getSelectedItem()).toString();
-                        if(title.equals("")){
-                            selectedEmployee = new Employee(e);
+            employeeCBox.addItemListener(event -> {
+                if(event.getStateChange() == ItemEvent.SELECTED){
+                    String title = Objects.requireNonNull(employeeCBox.getSelectedItem()).toString();
+                    if(title.equals("")){
+                        selectedEmployee = new Employee(e);
+                    }else{
+                        String[] data = title.split(":");
+                        int id = Integer.parseInt(data[0]);
+                        if(!(e.getLogin().getId() == id)){
+                            selectedEmployee = loginController.pullEmployeeById(id);
                         }else{
-                            String[] data = title.split(":");
-                            int id = Integer.parseInt(data[0]);
-                            if(!(e.getLogin().getId() == id)){
-                                selectedEmployee = loginController.pullEmployeeById(id);
-                            }else{
-                                selectedEmployee = new Employee(e);
-                            }
+                            selectedEmployee = new Employee(e);
                         }
-                        setValue(selectedEmployee);
                     }
-//                    if(e.getStateChange() == ItemEvent.SELECTED){
-//                    if(!((employeeCBox.getSelectedItem().equals("")){
-//                    String fName = employeeCBox.getSelectedItem().toString();
-////                    Employee employee = employeeService.employeeByFirstName(fName);
-////                    setValue();
+                    setValue(selectedEmployee);
                 }
             });
-
-
         }
         addEmployeeBtn.addActionListener(this);
     }
@@ -299,10 +288,10 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.emailTxt.setText(e.getContactInfo().getEmail());
         this.addressTxt.setText(e.getContactInfo().getAddress());
 
-        this.dateChooseBDay.setDate(e.getContactInfo().getBirthDayDate());
+        this.dateChooseBDay.setDate(java.sql.Date.valueOf(e.getContactInfo().getBirthDayDate()));
         this.dateChooseBDay.setDateFormatString("dd/MM/yyyy");
         this.birthdayJPanel.add(dateChooseBDay);
-        this.dateChooseHireD.setDate(e.getHireDate());
+        this.dateChooseHireD.setDate(java.sql.Date.valueOf(e.getHireDate()));
         this.dateChooseHireD.setDateFormatString("dd/MM/yyyy");
         this.hireDateJPanel.add(dateChooseHireD);
 
@@ -310,19 +299,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
         this.mangerNameTxt.setText(e.getMangerName());
         this.descriptionTxt.setText(e.getDescription());
         this.mangerPositionJRad.setSelected(e.getMangerPosition());
-
-//        if(e.getMangerPosition()){
-//            this.usernameTxt.setEnabled(true);
-//            this.fNameTxt.setEnabled(true);
-//            this.lNameTxt.setEnabled(true);
-//            this.genderCBox.setEnabled(true);
-//            this.birthdayJPanel.setEnabled(true);
-//            this.hireDateJPanel.setEnabled(true);
-//            this.departInfoJPan.setEnabled(true);
-//            this.departInfoJPan.setVisible(true);
-//            this.mangerPositionJRad.setSelected(true);
-//            this.employeeSelectJPanel.setVisible(true);
-//        }
     }
 
     public String getFName(){
@@ -341,16 +317,15 @@ public class RegisterFrame extends JFrame implements ActionListener{
         return String.valueOf(this.passwordTxt.getPassword());
     }
 
-    public Date getHireDate(){
-        return this.dateChooseHireD.getDate();
+    public LocalDate getHireDate(){
+        return (this.dateChooseHireD.getDate()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    public Date getBDay(){
-        return this.dateChooseBDay.getDate();
+    public LocalDate getBDay(){
+        return (this.dateChooseBDay.getDate()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public String getEmail(){
-        String s = emailTxt.getText();
         return this.emailTxt.getText();
     }
 
@@ -411,7 +386,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
     public void setEmployeeToCBox(){
         this.employeeCBox.addItem("");
         for(Employee employee:employeeList){
-            String employeeTitleSelect = employee.getLogin().getId()+": "+employee.getContactInfo().getFirstName()+" "+employee.getContactInfo().getLastName();
+            String employeeTitleSelect = employee.getLogin().getId()+": "+employee.getContactInfo().getFullName();
             this.employeeCBox.addItem(employeeTitleSelect);
         }
     }
@@ -419,10 +394,4 @@ public class RegisterFrame extends JFrame implements ActionListener{
     public void closeForm(){
         this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
     }
-
-    public void addItemChangeListener(ItemListener listenForItemChange){
-        employeeCBox.addItemListener(listenForItemChange);
-    }
-
-
 }

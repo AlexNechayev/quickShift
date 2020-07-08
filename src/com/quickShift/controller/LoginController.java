@@ -2,6 +2,7 @@ package com.quickShift.controller;
 
 import com.quickShift.model.Employee;
 import com.quickShift.model.EmployeeServiceImpl;
+import com.quickShift.view.ShiftPanel;
 
 public final class LoginController
 {
@@ -49,5 +50,13 @@ public final class LoginController
         }
 
         return employee;
+    }
+
+    public void saveShiftsTableDB(ShiftPanel[][] sp){
+        this.employeeService.saveShiftTableToDB(sp);
+    }
+
+    public ShiftPanel[][] loadShiftsTableDB(){
+        return this.employeeService.loadShiftTableToDB();
     }
 }

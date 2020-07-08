@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -98,9 +99,9 @@ public class RegisterControllerTest
         System.out.println("CreateNewEmployee method was called!");
 
         //we'll add a new employee, we expect to pass the test
-        Date testDate = new Date(2020,12,12);
+        LocalDate testDate = LocalDate.of(2020,12,12);
         Login testLogin = new Login("us","pw");
-        ContactInfo testContactInfo = new ContactInfo("Rick","Sanchez","Male","IL","RS@gmail.com",new Date(1999,12,12),"0543211234");
+        ContactInfo testContactInfo = new ContactInfo("Rick","Sanchez","Male","IL","RS@gmail.com",LocalDate.of(1999,12,12),"0543211234");
         Employee testEmployee = new Employee(testDate,"Morty",9001,"Employee",testContactInfo,testLogin,false);
 
         assertTrue(this.registerController.createNewEmployee(testEmployee));

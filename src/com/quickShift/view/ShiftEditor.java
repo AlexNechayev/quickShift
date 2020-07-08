@@ -1,5 +1,6 @@
 package com.quickShift.view;
 
+import com.quickShift.controller.LoginController;
 import com.quickShift.controller.RegisterController;
 import com.quickShift.model.Employee;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class ShiftEditor extends JFrame {
 
     private RegisterController registerController = RegisterController.getInstance();
+    private LoginController loginController = LoginController.getInstance();
     private List<Employee> employeeList = registerController.getEmployeeList();
 
     String[] startHours = new String[]{"", "09:00", "12:00", "15:00", "18:00"};
@@ -39,6 +41,8 @@ public class ShiftEditor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 shift.setEmployeeNameTxt(employees[nameComBox.getSelectedIndex()]);
+                //shift.invalidate();
+                loginController.saveShiftsTableDB(ShiftCalenderPanel.shiftPanelMatrix);
             }
         });
 
@@ -89,14 +93,11 @@ public class ShiftEditor extends JFrame {
     }
 
     public String[] employeeToString() {
-        String firstName = null, lastName = null;
         String[] employeeStringList = new String[employeeList.size()];
 
         for (int i = 0; i < employeeList.size(); i++)
         {
-            firstName = employeeList.get(i).getContactInfo().getFirstName();
-            lastName = employeeList.get(i).getContactInfo().getLastName();
-            employeeStringList[i] = firstName +" "+ lastName;
+            employeeStringList[i] = employeeList.get(i).getContactInfo().getFullName();
         }
 
         return employeeStringList;

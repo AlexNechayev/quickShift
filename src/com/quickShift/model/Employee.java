@@ -1,10 +1,10 @@
 package com.quickShift.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Employee {
     private Login login;
-    private Date hireDate;
+    private LocalDate hireDate;
     private String mangerName;
     private int departmentNumber;
     private String description;
@@ -21,7 +21,7 @@ public class Employee {
         this.mangerPosition = e.mangerPosition;
     }
 
-    public Employee(Date hireDate, String mangerName, int departmentNumber, String description, ContactInfo contactInfo, Login login, boolean mangerPosition)
+    public Employee(LocalDate hireDate, String mangerName, int departmentNumber, String description, ContactInfo contactInfo, Login login, boolean mangerPosition)
     {
         this.login = login;
         this.hireDate = hireDate;
@@ -43,10 +43,10 @@ public class Employee {
     public Login getLogin(){return login;}
     public void setLogin(Login login){this.login = login;}
 
-    public Date getHireDate() {
+    public LocalDate getHireDate() {
         return hireDate;
     }
-    public void setHireDate(Date hireDate) {
+    public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 
@@ -81,7 +81,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "EmployeeService{" +
+        return "Employee{" +
                 "hireDate=" + hireDate +
                 ", mangerName='" + mangerName + '\'' +
                 ", departmentNumber=" + departmentNumber +

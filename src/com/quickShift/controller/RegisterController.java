@@ -1,10 +1,7 @@
 package com.quickShift.controller;
 
-import com.quickShift.model.ContactInfo;
 import com.quickShift.model.Employee;
 import com.quickShift.model.EmployeeServiceImpl;
-import com.quickShift.model.Login;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;

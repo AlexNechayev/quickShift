@@ -1,6 +1,6 @@
 package com.quickShift.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ContactInfo
 {
@@ -11,11 +11,11 @@ public class ContactInfo
     private String address;
     private String phoneNumber;
     private String email;
-    private Date birthDayDate;
+    private LocalDate birthDayDate;
 
     public ContactInfo() { }
 
-    public ContactInfo(String firstName, String lastName, int id, String gender, String address, String email, Date birthDayDate, String phoneNumber) {
+    public ContactInfo(String firstName, String lastName, int id, String gender, String address, String email, LocalDate birthDayDate, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
@@ -26,7 +26,7 @@ public class ContactInfo
         this.phoneNumber = phoneNumber;
     }
 
-    public ContactInfo(String firstName, String lastName, String gender, String address, String email, Date birthDayDate, String phoneNumber) {
+    public ContactInfo(String firstName, String lastName, String gender, String address, String email, LocalDate birthDayDate, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -97,11 +97,11 @@ public class ContactInfo
         this.email = email;
     }
 
-    public Date getBirthDayDate() {
+    public LocalDate getBirthDayDate() {
         return birthDayDate;
     }
 
-    public void setBirthDayDate(Date birthDayDate) {
+    public void setBirthDayDate(LocalDate birthDayDate) {
         this.birthDayDate = birthDayDate;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

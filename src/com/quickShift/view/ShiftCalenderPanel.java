@@ -1,5 +1,6 @@
 package com.quickShift.view;
 
+import com.quickShift.controller.LoginController;
 import com.quickShift.controller.RegisterController;
 import com.quickShift.model.Employee;
 
@@ -12,10 +13,8 @@ import java.util.List;
 import java.util.Random;
 
 public class ShiftCalenderPanel extends JPanel implements MouseListener {
-    private ShiftPanel[][] shiftPanelMatrix = new ShiftPanel[3][5];
-    private boolean isSwitching = false;
-    private boolean isFirstShiftForSwitch = true;
-    private int countShiftsToSwitch = 0;
+    private LoginController loginController = LoginController.getInstance();
+    public static ShiftPanel[][] shiftPanelMatrix;
 
     public ShiftCalenderPanel() {
         super();
@@ -24,7 +23,7 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
         //setMaximumSize(new Dimension(500, 500));  //Uncomment this if you want to set maximum size
         setLayout(new GridLayout(4, 5, 0, 0));
         setBackground(new Color(210, 210, 180));
-
+        shiftPanelMatrix = new ShiftPanel[3][5];
 
         JLabel sunday = new JLabel("Sunday"); sunday.setHorizontalAlignment(SwingConstants.CENTER); add(sunday);
         JLabel monday = new JLabel("Monday"); monday.setHorizontalAlignment(SwingConstants.CENTER); add(monday);
@@ -32,17 +31,10 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
         JLabel wednesday = new JLabel("Wednesday"); wednesday.setHorizontalAlignment(SwingConstants.CENTER); add(wednesday);
         JLabel thursday = new JLabel("Thursday"); thursday.setHorizontalAlignment(SwingConstants.CENTER); add(thursday);
 
-
+        shiftPanelMatrix = loginController.loadShiftsTableDB();
 
         for (int i = 0; i < 3; i++) { //Shift type
             for (int j = 0; j < 5; j++) { //Day of week
-                if (i == 0)
-                    shiftPanelMatrix[i][j] = new ShiftPanel("", "09:00", "15:00");
-                else if (i == 1)
-                    shiftPanelMatrix[i][j] = new ShiftPanel("", "12:00", "18:00");
-                else //if (i == 2)
-                    shiftPanelMatrix[i][j] = new ShiftPanel("", "15:00", "21:00");
-
                 shiftPanelMatrix[i][j].addMouseListener(this);
                 add(shiftPanelMatrix[i][j]);
             }
@@ -52,26 +44,12 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         ShiftPanel shiftPanel = ((ShiftPanel)(e.getComponent()));
-
-        if (e.getComponent() instanceof ShiftPanel && !isSwitching) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    new ShiftEditor(shiftPanel);
-                }
-            });
-        } else if (isSwitching && isFirstShiftForSwitch) {
-            shiftPanel.setBackground(new Color(255, 247, 0));
-            isFirstShiftForSwitch = false;
-            //TODO: add the switch to the SQL
-            //JOptionPane.showConfirmDialog(null, "Make a swap request" , "Swap Request", JOptionPane.YES_NO_OPTION);
-            JOptionPane.showMessageDialog(null, "Please choose the desired shift", "Shift has benn Chosen Successfully", JOptionPane.INFORMATION_MESSAGE);
-        } else if (isSwitching) {
-            shiftPanel.setBackground(new Color(255, 247, 0));
-            isFirstShiftForSwitch = true;
-            JOptionPane.showMessageDialog(null, "Swap request has been sent", "Shift has benn Chosen Successfully", JOptionPane.INFORMATION_MESSAGE);
-            //TODO: add the switch to the SQL
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ShiftEditor(shiftPanel);
+            }
+        });
     }
 
     @Override
@@ -132,10 +110,12 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
 
                 //Adds the relevant data from the selected employee to the shiftPanel view
                 shiftPanelMatrix[i][j].setEmployeeNameTxt(currentEmployee.getContactInfo().getFullName());
+                shiftPanelMatrix[i][j].setEmployee(currentEmployee);
                 shiftPanelMatrix[i][j].invalidate();
 
             }
         }
+        loginController.saveShiftsTableDB(shiftPanelMatrix);
     }
 
     public void clearShiftTable() {
