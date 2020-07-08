@@ -122,6 +122,16 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
         for (int j = 0; j < 5; j++) { //Day of week
             for (int i = 0; i < 3; i++) { //Shift type
                 shiftPanelMatrix[i][j].setEmployeeNameTxt("");
+                if(i==0){
+                    shiftPanelMatrix[i][j].setShiftStartTimeTxt("Start: 09:00");
+                    shiftPanelMatrix[i][j].setShiftEndTimeTxt("End: 15:00");
+                }else if(i==1){
+                    shiftPanelMatrix[i][j].setShiftStartTimeTxt("Start: 12:00");
+                    shiftPanelMatrix[i][j].setShiftEndTimeTxt("End: 18:00");
+                }else{
+                    shiftPanelMatrix[i][j].setShiftStartTimeTxt("Start: 15:00");
+                    shiftPanelMatrix[i][j].setShiftEndTimeTxt("End: 21:00");
+                }
                 shiftPanelMatrix[i][j].invalidate();
             }
         }

@@ -521,7 +521,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 rs.next();
 
                 for(int k = 0;k<5;k++){
-                    sp[i][k].setShiftEndTimeTxt("Start: "+timeFormat.format(rs.getTime(days[k])));
+                    sp[i][k].setShiftEndTimeTxt("End: "+timeFormat.format(rs.getTime(days[k])));
                 }
 
                 prepStmt.execute();

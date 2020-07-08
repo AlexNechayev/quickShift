@@ -41,7 +41,6 @@ public class ShiftEditor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 shift.setEmployeeNameTxt(employees[nameComBox.getSelectedIndex()]);
-                //shift.invalidate();
                 loginController.saveShiftsTableDB(ShiftCalenderPanel.shiftPanelMatrix);
             }
         });
