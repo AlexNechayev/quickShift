@@ -33,6 +33,8 @@ public class HoursReport extends JFrame {
         this.setTitle("QuickShift : Hour report");
         this.setLocation(getWidth(),getHeight());
         this.setPreferredSize(new Dimension(800,300));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/com/quickShift/view/images/icon.png"));
+        setIconImage(icon.getImage());
         this.setVisible(true);
 
         // centralize jframe code

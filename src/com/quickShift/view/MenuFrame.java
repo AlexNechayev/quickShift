@@ -21,9 +21,8 @@ public class MenuFrame extends JFrame{
     private JButton updateInfoBtn;
     private JButton mixShiftsRandomlyBtn;
     private JButton clearShiftsTableBtn;
-    private JPanel shiftTable;
-    private ShiftCalenderPanel shiftCalenderPanel = new ShiftCalenderPanel();
-
+    private JButton weeklyHourReportBtn;
+    private ShiftCalenderPanel shiftCalenderPanel;
     private DeleteController deleteController = DeleteController.getInstance();
 
 
@@ -33,13 +32,17 @@ public class MenuFrame extends JFrame{
         this.setPreferredSize(new Dimension(1000,600));
         this.add(mainMenu);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ImageIcon icon = new ImageIcon(getClass().getResource("/com/quickShift/view/images/icon.png"));
+        setIconImage(icon.getImage());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // centralize JFrame code
         this.pack();
         this.setLocationRelativeTo(null);
 
-        this.setGratingMessage(employee.getContactInfo().getFirstName(), employee.getContactInfo().getLastName());
+        this.setGratingMessage(employee.getContactInfo().getFullName());
+
+        shiftCalenderPanel = ShiftCalenderPanel.getInstance(employee);
 
         if(employee.getMangerPosition()){
             this.addEmployeeBtn.setVisible(true);
@@ -83,7 +86,7 @@ public class MenuFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 DeleteController.getInstance();
-                String username = JOptionPane.showInputDialog("Enter username that you want to delete");
+                String username = JOptionPane.showInputDialog(null,"Enter username that you want to delete");
                 deleteController.deleteEmployee(username);
             }
         });
@@ -107,10 +110,20 @@ public class MenuFrame extends JFrame{
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
 
-                    //TODO singleton ????
+                    public void run() {
+                       new HoursReport();
+                    }
+                });
+            }
+        });
+        weeklyHourReportBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
 
                     public void run() {
-                        new HoursReport();
+                        new HourCalculator(employee);
                     }
                 });
             }
@@ -133,8 +146,8 @@ public class MenuFrame extends JFrame{
         });
     }
 
-    public void setGratingMessage (String fistName,String lastName){
-        this.gratingLbl.setText("Welcome Back "+fistName+" "+lastName);
+    public void setGratingMessage (String fullName){
+        this.gratingLbl.setText("Welcome Back "+fullName);
     }
 }
 

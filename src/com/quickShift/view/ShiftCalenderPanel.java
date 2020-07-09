@@ -3,6 +3,7 @@ package com.quickShift.view;
 import com.quickShift.controller.LoginController;
 import com.quickShift.controller.RegisterController;
 import com.quickShift.model.Employee;
+import com.quickShift.model.EmployeeServiceImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +14,20 @@ import java.util.List;
 import java.util.Random;
 
 public class ShiftCalenderPanel extends JPanel implements MouseListener {
+    private static volatile ShiftCalenderPanel shiftCalenderPanel = null;
     private LoginController loginController = LoginController.getInstance();
     public static ShiftPanel[][] shiftPanelMatrix;
 
-    public ShiftCalenderPanel() {
+    public static ShiftCalenderPanel getInstance(Employee e) {
+        synchronized (ShiftCalenderPanel.class) {
+            if (shiftCalenderPanel == null) {
+                shiftCalenderPanel = new ShiftCalenderPanel(e);
+            }
+        }
+        return shiftCalenderPanel;
+    }
+
+    private ShiftCalenderPanel(Employee employee) {
         super();
 
         //setMinimumSize(new Dimension(500, 500)); //Uncomment this if you want to set minimum size
@@ -35,7 +46,10 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
 
         for (int i = 0; i < 3; i++) { //Shift type
             for (int j = 0; j < 5; j++) { //Day of week
-                shiftPanelMatrix[i][j].addMouseListener(this);
+
+                if (employee.getMangerPosition()) {
+                    shiftPanelMatrix[i][j].addMouseListener(this);
+                }
                 add(shiftPanelMatrix[i][j]);
             }
         }
@@ -70,7 +84,8 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
 
     public void arrangeShiftsRandomly() {
         RegisterController registerController = RegisterController.getInstance();
-        List<Employee> employeeListForAssignment = registerController.getEmployeeList(); //Do we change the actual list?
+        List<Employee> employeeListForAssignment = registerController.getEmployeeList();
+        List<Employee> employeeListAssigned = new ArrayList<>();
 
         Employee[][] employeesShiftTable = new Employee[3][5];
         Random random = new Random();
@@ -112,6 +127,14 @@ public class ShiftCalenderPanel extends JPanel implements MouseListener {
                 shiftPanelMatrix[i][j].setEmployeeNameTxt(currentEmployee.getContactInfo().getFullName());
                 shiftPanelMatrix[i][j].setEmployee(currentEmployee);
                 shiftPanelMatrix[i][j].invalidate();
+
+                employeeListAssigned.add(currentEmployee);
+                employeeListForAssignment.remove(currentEmployee);
+
+                if (employeeListForAssignment.size() == 0) {
+                    employeeListForAssignment.addAll(employeeListAssigned);
+                    employeeListAssigned.clear();
+                }
 
             }
         }

@@ -257,12 +257,10 @@ public class RegisterFrame extends JFrame implements ActionListener{
             this.mangerPositionJRad.setSelected(true);
             this.employeeSelectJPanel.setVisible(true);
 
+
             employeeCBox.addItemListener(event -> {
                 if(event.getStateChange() == ItemEvent.SELECTED){
                     String title = Objects.requireNonNull(employeeCBox.getSelectedItem()).toString();
-                    if(title.equals("")){
-                        selectedEmployee = new Employee(e);
-                    }else{
                         String[] data = title.split(":");
                         int id = Integer.parseInt(data[0]);
                         if(!(e.getLogin().getId() == id)){
@@ -270,7 +268,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
                         }else{
                             selectedEmployee = new Employee(e);
                         }
-                    }
                     setValue(selectedEmployee);
                 }
             });
@@ -384,7 +381,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
 
 
     public void setEmployeeToCBox(){
-        this.employeeCBox.addItem("");
         for(Employee employee:employeeList){
             String employeeTitleSelect = employee.getLogin().getId()+": "+employee.getContactInfo().getFullName();
             this.employeeCBox.addItem(employeeTitleSelect);

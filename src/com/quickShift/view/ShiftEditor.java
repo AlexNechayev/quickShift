@@ -25,7 +25,7 @@ public class ShiftEditor extends JFrame {
         super("Shift Editor");
         setLocation(getWidth(), getHeight());
         setMinimumSize(new Dimension(200, 100));
-        setPreferredSize(new Dimension(200, 200));
+        setPreferredSize(new Dimension(300, 200));
         ImageIcon icon = new ImageIcon(getClass().getResource("/com/quickShift/view/images/icon.png"));
         setIconImage(icon.getImage());
         setLayout(new GridBagLayout());
@@ -36,32 +36,37 @@ public class ShiftEditor extends JFrame {
         String[] employees = employeeToString();
         JComboBox<String> nameComBox = new JComboBox<String>(employees);
         nameComBox.setSelectedIndex(Arrays.asList(employees).indexOf(shift.getEmployeeNameTxt()));
-        nameComBox.setPreferredSize(new Dimension(100, 20));
+        nameComBox.setPreferredSize(new Dimension(150, 20));
         nameComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                shift.setEmployeeNameTxt(employees[nameComBox.getSelectedIndex()]);
+
+                String[] data = employees[nameComBox.getSelectedIndex()].split(":");
+                shift.setEmployee(loginController.pullEmployeeById(Integer.parseInt(data[0])));
+                shift.setEmployeeNameTxt(data[1]);
                 loginController.saveShiftsTableDB(ShiftCalenderPanel.shiftPanelMatrix);
             }
         });
 
         JComboBox<String> shiftStartComBox = new JComboBox<>(startHours);
         shiftStartComBox.setSelectedIndex(Arrays.asList(startHours).indexOf(shift.getShiftStartTimeTxt()));
-        shiftStartComBox.setPreferredSize(new Dimension(100, 20));
+        shiftStartComBox.setPreferredSize(new Dimension(150, 20));
         shiftStartComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 shift.setShiftStartTimeTxt("Start: " + startHours[shiftStartComBox.getSelectedIndex()]);
+                loginController.saveShiftsTableDB(ShiftCalenderPanel.shiftPanelMatrix);
             }
         });
 
         JComboBox<String> shiftEndComBox = new JComboBox<>(endHours);
         shiftEndComBox.setSelectedIndex(Arrays.asList(endHours).indexOf(shift.getShiftEndTimeTxt()));
-        shiftEndComBox.setPreferredSize(new Dimension(100, 20));
+        shiftEndComBox.setPreferredSize(new Dimension(150, 20));
         shiftEndComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 shift.setShiftEndTimeTxt("End: " + endHours[shiftEndComBox.getSelectedIndex()]);
+                loginController.saveShiftsTableDB(ShiftCalenderPanel.shiftPanelMatrix);
             }
         });
 
@@ -93,12 +98,10 @@ public class ShiftEditor extends JFrame {
 
     public String[] employeeToString() {
         String[] employeeStringList = new String[employeeList.size()];
-
         for (int i = 0; i < employeeList.size(); i++)
         {
-            employeeStringList[i] = employeeList.get(i).getContactInfo().getFullName();
+            employeeStringList[i] = employeeList.get(i).getLogin().getId()+": "+employeeList.get(i).getContactInfo().getFullName();
         }
-
         return employeeStringList;
     }
 }
